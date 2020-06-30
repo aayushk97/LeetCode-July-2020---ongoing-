@@ -1,0 +1,25 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        
+        //Case when there is no node or one node
+        if(!head || !head->next)
+            return head;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        //Case when there are Two or more Nodes
+        while(fast ->next != NULL && fast -> next -> next != NULL){
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+        
+        if(fast -> next != NULL){
+            slow = slow -> next;
+            fast = fast -> next;
+        }
+        
+        return slow;
+    }
+};
