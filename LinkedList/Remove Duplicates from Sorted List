@@ -1,0 +1,24 @@
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* temp = head;
+        //If zero or more than one elements
+        if(!head || !head -> next) return head;
+        
+        //For Two elements and both match
+        if(!head-> next -> next && head -> next -> val == head -> val ){
+            head -> next = NULL;
+        }
+            
+        
+        //For 3 nodes and above, we dont require temp -> next -> next in while loop as even if its null we set the previous non repeating nodes next to it i.e to null.
+        while(temp -> next){
+            if(temp -> next -> val == temp -> val)
+                temp -> next = temp -> next -> next;
+            else
+                temp = temp -> next;
+        }
+        
+        return head;
+    }
+};
