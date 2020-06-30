@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        ListNode* temp = head;
+        int decimal = 0;
+        
+        while(temp){
+            decimal = decimal * 2 + temp -> val;
+            temp = temp -> next;
+        }
+        
+        return decimal;
+    }
+};
