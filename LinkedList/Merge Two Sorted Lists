@@ -1,0 +1,46 @@
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(!l1) return l2;
+        if(!l2) return l1;
+        
+        ListNode* Temp1 = l1;
+        ListNode* Temp2 = l2;
+        ListNode* Temp3 = NULL;
+        ListNode* head = NULL;
+        
+        //Initialize the first Node
+        if(Temp1 -> val <= Temp2 -> val){
+            head = Temp1;
+            Temp3 = Temp1;
+            Temp1 = Temp1 -> next;
+        }else{
+            head = Temp2;
+            Temp3 = Temp2;
+            Temp2 = Temp2 -> next;
+        }
+        
+        //For others
+        while(Temp1 && Temp2){
+            if(Temp1 -> val <= Temp2 -> val){
+                Temp3 -> next = Temp1;
+                Temp1 = Temp1 -> next;
+            }else{
+                Temp3 -> next = Temp2;
+                Temp2 = Temp2 -> next;
+            }           
+            Temp3 = Temp3 -> next;
+        }
+        
+        //If either of the 2 lists remain non- empty
+        if(Temp1){
+            Temp3 -> next = Temp1;
+        }        
+        
+        if(Temp2){
+            Temp3 -> next = Temp2;
+        }
+        
+        return head;
+    }
+};
