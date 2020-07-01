@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        
+        // for Two or more nodes
+        ListNode* Temp1 = head;
+        ListNode* Temp2;
+        int i;
+        vector<int> max;
+        
+        while(Temp1){
+            Temp2 = Temp1 -> next;
+            i = Temp1 -> val;
+            while(Temp2){
+                if(Temp2 -> val > i){
+                    i = Temp2 -> val;
+                    break;
+                }
+                
+                Temp2 = Temp2 -> next;
+            }
+            //If the maximum value remains unchanged initialize it to zero
+            if(i == Temp1 -> val) i = 0;
+            max.push_back(i);
+            Temp1 = Temp1 -> next;
+        }
+        
+        return max;
+    }
+};
