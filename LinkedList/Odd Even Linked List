@@ -1,0 +1,30 @@
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        //if zero or one node
+        if(!head || !head -> next) return head;
+        
+        //For more than Two nodes
+        // Save head of even list, Head of odd list is already saved in head
+        ListNode* even = head -> next;
+        
+        ListNode* Temp1 = head;
+        ListNode* Temp2 = even;
+        
+        while(Temp1 && Temp2 && Temp1 -> next && Temp2 -> next){
+            //Connect to next odd node
+            Temp1 -> next = Temp2 -> next;
+            Temp1 = Temp1 -> next;
+            
+            //Connect to next even node
+            Temp2 -> next = Temp1 -> next;
+            Temp2 = Temp2 -> next;
+        }
+        
+        //Attach even node list to end of odd node list, the last node of odd list will be connected to last node of even list in case of even elements in Linked list, else will be null in case of odd number of elements in linked list.
+        Temp1 -> next = even;
+        
+        
+        return head;
+    }
+};
