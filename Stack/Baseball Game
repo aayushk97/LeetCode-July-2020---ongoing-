@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        stack<int> points;
+        int l = ops.size();
+        
+        for(int i = 0; i < l; i++){
+            if(ops[i]=="+"){
+                
+                int a = points.top();
+                points.pop();
+                int b = points.top();
+                points.push(a);
+                points.push(a+b);
+                
+            }else if(ops[i] == "D"){
+                
+                points.push(2*points.top());
+                
+            }else if(ops[i] == "C"){
+                points.pop();
+                
+            }else{
+                
+                //Push if it is an integer, "stoi" is used as ops[i] return a string
+                points.push(stoi(ops[i]));
+                
+            }
+        }
+        
+        //Sum all the points to get result
+        int sum = 0;
+        while(!points.empty()){
+            sum += points.top();
+            points.pop();
+        }
+        
+        return sum;
+    }
+};
