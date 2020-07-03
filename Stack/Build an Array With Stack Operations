@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<string> buildArray(vector<int>& target, int n) {
+        vector<string> output;
+        
+        //we are checking if the current i is same as targets value if not then push pop, if yesh then push. Also, we check condition that j doesnt exceed target size
+        for(int i = 1, j = 0; i<= n && j < target.size() ; i++){
+            if(i == target[j]){
+                output.push_back("Push");
+                j++;
+            }else{
+                output.push_back("Push");
+                output.push_back("Pop");
+            }
+        }
+        
+        return output;
+    }
+};
