@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string removeOuterParentheses(string S) {
+        int i, j;
+        int count = 0;
+        j = 0;
+        
+        //Replace outermost braces by -1
+        for(i = 0 ; i < S.length(); i++){    
+            if(S[i] =='('){
+                count += 1;
+            }else if( S[i] == ')'){
+                count -= 1;
+                if(count == 0){
+                    S[i] = 'D';
+                    S[j] = 'D';
+                    j = i + 1;
+                }
+            }
+        }
+        cout<<S;
+        //Remove -1's from array
+        j = 0;
+        for(int i = 1; i< S.length(); i++){
+            if(S[j] == 'D' && S[i] != 'D'){
+                S[j] = S[i];
+                j++;
+            }else if(S[j] != 'D' && S[i] != 'D'){
+                S[j] = S[i];
+                j++;
+            }else if(S[i] =='D'){
+                continue;
+            }
+            
+        }
+        
+        return S.substr(0,j);
+    }
+};
