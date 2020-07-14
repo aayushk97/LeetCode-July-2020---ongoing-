@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isUnivalTree(TreeNode* root) {
+        if(!root) return true;
+      
+        if(root -> left && root -> val != root -> left -> val) return false;
+      
+        if(root -> right && root -> val != root -> right -> val) return false;
+        //Check Subtrees
+        bool left = isUnivalTree(root -> left);
+        bool right = isUnivalTree(root -> right);
+        
+        return left && right;
+    }
+};
