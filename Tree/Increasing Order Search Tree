@@ -1,0 +1,37 @@
+class Solution {
+public:
+    TreeNode* increasingBST(TreeNode* root) {
+        if(!root) return NULL;
+        stack<TreeNode*> inOrder;
+        vector<int> result;
+        
+        while(true){
+            while(root){
+                inOrder.push(root);
+                root = root -> left;
+            }
+            if(inOrder.empty()) break;
+            
+            root = inOrder.top();
+            result.push_back(root->val);
+            inOrder.pop();
+            root = root -> right;
+            
+        }
+        cout<<"size: "<<result.size();
+        //Create a tree
+        TreeNode* finalTree = createTree(result, finalTree, 0, result.size());
+        
+        return finalTree;
+    }
+    
+    TreeNode* createTree(vector<int> tree, TreeNode* root, int i, int n ){
+        if(i<n){
+            TreeNode* temp = new TreeNode(tree[i]);
+            root = temp;
+            root -> left = NULL;
+            root -> right = createTree(tree, root -> right, i+1, n);
+        }
+        return root;
+    }
+};
