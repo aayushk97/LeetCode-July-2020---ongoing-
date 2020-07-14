@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        
+        vector<TreeNode*> level;
+        vector<TreeNode*> levelNext;
+        vector<double> average;
+        if(!root) return average;
+        
+        level.push_back(root);
+        average.push_back(averageOfNodes(level));
+        
+        while(true){
+            while(!level.empty()){
+                TreeNode* temp = level.back();
+                level.pop_back();
+                if(temp ->left) levelNext.push_back(temp -> left);
+                if(temp ->right) levelNext.push_back(temp -> right);
+            }
+            
+            if(!levelNext.empty()){
+                average.push_back(averageOfNodes(levelNext));
+            }
+            
+            while(!levelNext.empty()){
+                TreeNode* temp = levelNext.back();
+                levelNext.pop_back();
+                if(temp ->left) level.push_back(temp -> left);
+                if(temp ->right) level.push_back(temp -> right);
+            }
+            
+            if(!level.empty()){
+                average.push_back(averageOfNodes(level));
+            }
+            
+            if(level.empty() && levelNext.empty()){
+                break;
+            }
+            
+        }
+        
+        return average;
+    }
+    
+    double averageOfNodes(vector<TreeNode*>& values){
+        double avg, sum=0;
+        for(int i = 0; i< values.size(); i++){
+            sum += values[i] -> val;
+        }
+        return sum/values.size();
+    }
+};
