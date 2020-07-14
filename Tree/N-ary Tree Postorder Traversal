@@ -1,0 +1,28 @@
+class Solution {
+public:
+    
+    vector<int> postorder(Node* root) {
+        stack<Node*> nodes;
+        vector<int> result;
+        if(!root) return result;
+        nodes.push(root);
+        
+        while(!nodes.empty()){
+            Node* curr = nodes.top();
+            nodes.pop();
+            result.push_back(curr -> val);
+            for(int j = 0; j < curr -> children.size(); j++){
+                nodes.push(curr -> children[j]);
+            }
+        }
+        int j = result.size() - 1;
+        int i = 0;
+        while( i < result.size()/2){
+            int temp = result[j];
+            result[j] = result[i];
+            result[i] = temp;
+            i++; j--;
+        }
+        return result;
+    }
+};
