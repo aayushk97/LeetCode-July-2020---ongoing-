@@ -1,0 +1,33 @@
+class Solution {
+public:
+   
+    string tree2str(TreeNode* t) {
+        if(!t) return "";
+        
+        string preOrd ="";
+        preOrd += to_string(t -> val);
+        
+        if(t -> left){
+            preOrd += "(";
+            preOrd += tree2str(t->left);
+            preOrd += ")";
+        }else if( t -> right){
+            preOrd += "(";
+            
+            preOrd += ")";
+        }
+        
+        if(t -> right){
+            preOrd += "(";
+            preOrd += tree2str(t -> right);
+            preOrd += ")";
+        }
+       
+        
+        return preOrd;
+        
+    }
+    
+   
+    
+};
