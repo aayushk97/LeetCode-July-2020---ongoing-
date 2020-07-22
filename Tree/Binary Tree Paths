@@ -1,0 +1,38 @@
+class Solution {
+//PreOrder Traversal and add leaf add the path to vector by traversing the pushed values of nodes.
+
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> path;
+        vector<int> values;
+        
+        path = binaryPaths(root, path, values);
+        return path;
+    }
+    vector<string> binaryPaths(TreeNode* root,vector<string>& path,vector<int>& values ){
+        if(!root) return path;
+        if(!root -> left && !root -> right){
+            string pathString = "";
+            values.push_back(root -> val);
+            pathString += to_string(values[0]);
+            for(int j = 1; j<values.size(); j++){
+                pathString +="->";   
+                pathString += to_string(values[j]);
+            }
+            path.push_back(pathString);
+            
+        }else{
+            values.push_back(root -> val);
+            
+            if(root -> left){
+                binaryPaths(root -> left, path,values);
+            }
+            
+            if(root -> right){
+                binaryPaths(root -> right, path,values);
+            }
+        }
+        values.pop_back();
+        return path;
+    }
+};
