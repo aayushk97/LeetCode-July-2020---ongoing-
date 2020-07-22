@@ -1,0 +1,25 @@
+//Find the left leaf at each parent node and add its value.
+class Solution {
+public:
+    int sumOfLeftLeaves(TreeNode* root) {
+        int sum = 0;
+        sum = leftLeavesSum(root, sum);
+        return sum;
+    }
+    
+    int leftLeavesSum(TreeNode* root, int sum){
+        if(!root) return 0;
+        
+        if(root -> left){
+            if(!root -> left -> left && !root -> left -> right) sum += root -> left -> val;
+            else
+                sum = leftLeavesSum(root -> left, sum);
+        }
+        
+        if(root -> right){
+            sum = leftLeavesSum(root -> right, sum);
+        }
+        
+        return sum;
+    }
+};
