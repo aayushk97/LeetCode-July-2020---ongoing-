@@ -1,0 +1,31 @@
+//Find Inorder then find minimum difference.
+
+class Solution {
+public:
+    int minDiffInBST(TreeNode* root) {
+        vector<int> inOrder;
+        
+        inOrder = inOrderTraversal(root, inOrder);
+        
+        int minValue = inOrder[1] - inOrder[0];
+        int value = -1;
+        
+        for(int i = 2; i < inOrder.size(); i++){
+            value = inOrder[i] - inOrder[i-1];
+            
+            if(value<minValue) minValue = value;
+        }
+        
+        return minValue;
+        
+    }
+    
+    vector<int> inOrderTraversal(TreeNode* root, vector<int>& inOrder){
+        if(!root) return inOrder;
+        if(root -> left) inOrderTraversal(root -> left, inOrder);
+        inOrder.push_back(root -> val);
+        if(root -> right) inOrderTraversal(root -> right, inOrder);
+        
+        return inOrder;
+    }
+};
