@@ -1,0 +1,57 @@
+//Find depths. If depth equal find parents of node.
+
+class Solution {
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        int depthx = 0;
+        depthx = findDepth(root, x, depthx);
+        int depthy = 0;
+        depthy = findDepth(root, y, depthy);
+        
+        if(depthx != depthy) return false; 
+        
+        TreeNode* leftParent = findParent(root, x);
+        TreeNode* rightParent = findParent(root, y);
+        
+        if(leftParent != rightParent) return true;
+        
+        return false;
+    }
+    
+    TreeNode* findParent(TreeNode* root, int x){
+        if(!root || root -> val == x) return NULL;
+        TreeNode* temp;
+        
+        if(root -> left){
+            if(root -> left -> val == x){
+                return root;
+            }else{
+                temp = findParent(root -> left, x);
+            }
+        }
+        if(temp) return temp;
+        
+        if(root -> right){
+            if(root -> right -> val == x){
+                return root;
+            }else{
+                temp = findParent(root -> right, x);
+            }
+        }
+        if(temp) return temp;
+        return NULL;
+    }
+    
+    int findDepth(TreeNode* root, int x, int depthx){
+        if(!root) return 0;
+        
+        if(root -> val == x) return depthx;
+        
+        int downLevel = findDepth(root -> left, x, 1 + depthx);
+        
+        if(downLevel != 0) return downLevel;
+        
+        downLevel = findDepth(root -> right, x, 1 + depthx);
+        return downLevel;
+    }
+};
