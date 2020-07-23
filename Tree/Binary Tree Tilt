@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int findTilt(TreeNode* root) {
+        if(!root || !root -> left && !root -> right) return 0;
+        
+        int leftTilt = findTilt(root -> left);
+        int rightTilt = findTilt(root -> right);
+        
+        int leftSubtreeSum = findSumofSubtree(root -> left);
+        int rightSubtreeSum = findSumofSubtree(root -> right);
+        
+        int tilt = (leftSubtreeSum > rightSubtreeSum? leftSubtreeSum - rightSubtreeSum : rightSubtreeSum - leftSubtreeSum);
+        
+        return tilt + leftTilt + rightTilt;
+    }
+    
+    int findSumofSubtree(TreeNode* root){
+        if(!root) return 0;
+        
+        
+        int a = findSumofSubtree(root -> left);
+        int b = findSumofSubtree(root -> right);
+        
+        return root -> val + a + b;
+    }
+};
