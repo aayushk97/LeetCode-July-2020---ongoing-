@@ -1,0 +1,24 @@
+
+class Solution {
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        int ptr = 0;
+        
+        diameterOfTree(root, &ptr);
+        
+        return ptr;
+    }
+    
+    int diameterOfTree(TreeNode* root, int *ptr){
+        if(!root) return 0;
+        int left = diameterOfTree(root ->left, ptr);
+        int right = diameterOfTree(root ->right, ptr);
+        
+        if(left + right > *ptr){
+            *ptr = left + right;
+        }
+        int max = (left > right? left : right) + 1;
+        
+        return max;
+    }
+};
