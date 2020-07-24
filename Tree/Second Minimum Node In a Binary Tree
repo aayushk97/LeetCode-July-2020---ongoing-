@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findSecondMinimumValue(TreeNode* root) {
+        
+        vector<int> leaves;
+        leaves = findLeaves(root, leaves,root -> val);
+        int min, index;
+        if(leaves.size() == 0) return -1;
+        min = leaves[0];
+        for(int i = 1; i < leaves.size(); i++){
+            if(leaves[i] < min) min = leaves[i];
+        }
+        
+        return min;
+    }
+    
+    vector<int> findLeaves(TreeNode* root, vector<int> leaves, int a){
+        
+        if(!root) return leaves;
+        if(!root -> left && !root -> right){
+          if(root -> val != a){
+              leaves.push_back(root -> val);
+          }  
+        }else{
+            leaves = findLeaves(root -> left, leaves, a);
+            leaves = findLeaves(root -> right, leaves, a);
+        }
+        return leaves;
+    }
+};
