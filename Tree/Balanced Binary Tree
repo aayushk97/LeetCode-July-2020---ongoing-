@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if(!root) return true;
+        
+        int heightLST = calculateHeight(root -> left);
+        int heightRST = calculateHeight(root -> right);
+        
+        int diff = (heightLST > heightRST? heightLST - heightRST : heightRST - heightLST);
+        bool balance = false;
+        if(diff <= 1){
+            balance = isBalanced(root -> left) && isBalanced(root -> right);
+        }
+        return balance;
+    }
+    
+    int calculateHeight(TreeNode* root){
+        if(!root) return 0;
+        int heightL = calculateHeight(root -> left);
+        int heightR = calculateHeight(root -> right);
+        
+        return heightL>heightR? 1 + heightL: 1 + heightR; 
+    }
+};
