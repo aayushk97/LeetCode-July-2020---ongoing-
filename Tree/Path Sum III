@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int paths = 0;
+    
+    int pathSum(TreeNode* root, int sum) {
+        if(root){
+            DFS(root, sum);
+            pathSum(root -> left, sum);
+            pathSum(root -> right, sum);
+        }
+        return paths;
+    }
+    
+    
+    void DFS(TreeNode* root, int sum){
+        if(!root) return;
+        if(root -> val == sum) paths++;  
+        
+        DFS(root -> left, sum - root -> val);  
+        DFS(root -> right, sum - root -> val);  
+       
+    }
+};
