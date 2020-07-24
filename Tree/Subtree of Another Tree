@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        TreeNode* headS = findHead(s, t -> val);
+        
+        bool subTree = isSame(headS, t);
+        
+        if(!subTree && s -> left) subTree = isSubtree(s -> left, t);
+        if(!subTree && s -> right) subTree = isSubtree(s -> right, t);
+        
+        return subTree;
+    }
+    
+    TreeNode* findHead(TreeNode* s, int a){
+        TreeNode* temp = NULL;
+        if(!s) return NULL;
+        
+        if(s -> val == a){
+            temp = s;
+        }else{
+            
+            temp = findHead(s -> left, a);
+            if(!temp) temp = findHead(s -> right, a);
+        }
+        return temp;
+    }
+    
+    bool isSame(TreeNode* headS, TreeNode* t){
+        if(!headS && !t) return true;
+        if(!headS || !t) return false;
+        if(headS-> val == t -> val)
+            return isSame(headS -> left, t -> left) && isSame(headS -> right, t -> right);
+        
+        return false;
+    }
+};
