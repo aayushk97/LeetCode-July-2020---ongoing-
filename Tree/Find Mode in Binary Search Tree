@@ -1,0 +1,32 @@
+class Solution {
+    int maxfreq = 0, freq = 0, precursor = INT_MIN;
+    vector<int> modes;
+public:
+    vector<int> findMode(TreeNode* root) {
+        
+        inOrderTraversal(root);
+        return modes;
+        
+    }
+    
+    void inOrderTraversal(TreeNode* root){
+        
+        if(!root) return;
+        inOrderTraversal(root -> left);
+        
+        if(precursor == root -> val){
+            freq++;
+        }else{
+            freq = 1;
+        }
+        if(freq > maxfreq){
+            modes.clear();
+            maxfreq = freq;
+            modes.push_back(root -> val);
+        }else if(freq == maxfreq){
+            modes.push_back(root -> val);
+        }
+        precursor = root -> val;
+        inOrderTraversal(root -> right);
+    }
+};
