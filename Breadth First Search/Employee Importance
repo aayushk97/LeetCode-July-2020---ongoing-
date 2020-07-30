@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        Employee* temp =NULL;
+        unordered_map<int, Employee*> employeeMap;
+        int importance = 0;
+        
+        for(int i = 0; i < employees.size(); i++)
+            employeeMap[employees[i] -> id] = employees[i];
+        
+        queue<Employee*> q;
+        q.push(employeeMap[id]);
+        
+        while(!q.empty()){
+            temp = q.front();
+            q.pop();
+            
+            if(temp -> subordinates.size() > 0){
+                for(int i = 0; i < temp -> subordinates.size(); i++){
+                    q.push(employeeMap[temp -> subordinates[i]]);
+                }
+            }
+            
+            importance += temp -> importance;
+        }
+        
+        return importance;
+    }
+};
