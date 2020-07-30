@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findNumbers(vector<int>& nums) {
+        int evenNos, currNumber, count;
+        for(int i = 0; i < nums.size(); i++){
+            count = 0;
+            currNumber = nums[i];
+            while(currNumber > 0){
+                currNumber /= 10;
+                count++;
+            }
+            if(count % 2 == 0 ) evenNos += 1;
+        }
+        
+        return evenNos;
+    }
+};
