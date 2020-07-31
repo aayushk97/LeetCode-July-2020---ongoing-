@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {
+        
+        return binarySearch(A, 0, A.size()-1);
+    }
+    
+    int binarySearch(vector<int>& A, int l, int r){
+        int peak = INT_MIN;
+        int mid = l+(r-l)/2;
+        
+        if(A[mid] > A[mid+1] && A[mid] > A[mid-1]) 
+            peak = mid;
+        else if(A[mid] > A[mid-1] && A[mid] < A[mid+1])
+            peak = binarySearch(A, mid+1,r);
+        else
+            peak = binarySearch(A,l, mid -1);
+        
+        return peak;
+    }
+};
