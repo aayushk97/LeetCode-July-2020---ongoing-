@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int busyStudent(vector<int>& startTime, vector<int>& endTime, int queryTime) {
+        
+        int minTime = startTime[0];
+        int maxTime = endTime[0];
+        
+        for(int i = 1; i < startTime.size(); i++){
+            if(minTime > startTime[i]) minTime = startTime[i];
+            if(maxTime < endTime[i]) maxTime = endTime[i];
+        }
+        
+        int array[maxTime+1];
+        for(int i = 0; i< maxTime+1; i++) array[i] = 0;
+        
+        for(int i = 0; i < startTime.size(); i++){
+            int x = startTime[i];
+            int y = endTime[i];
+            
+            for(int j = x; j <= y; j++){
+                array[j] += 1;
+                cout<<"a";
+            }
+        }
+        
+        if(queryTime < minTime || queryTime > maxTime) return 0;
+        else return array[queryTime];
+    }
+};
