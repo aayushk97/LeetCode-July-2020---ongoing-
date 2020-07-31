@@ -1,0 +1,27 @@
+//Start from right and start counting
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int count = 0;
+        
+        int x = grid[0].size();
+        int y = grid.size();
+        int k = 0;
+        
+        while(k < y){
+           
+            int i = x-1;
+           
+           
+            while(i >= 0 && grid[k][i] < 0){
+               
+                count++; i--;
+               
+            }
+          
+            k++;
+        }
+       
+        return count;
+    }
+};
