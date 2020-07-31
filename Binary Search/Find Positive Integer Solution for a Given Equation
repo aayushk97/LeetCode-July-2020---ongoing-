@@ -1,14 +1,17 @@
+//Beats 100 percent time and 90.48 percent space
+
 class Solution {
 public:
     vector<vector<int>> findSolution(CustomFunction& customfunction, int z) {
        vector<vector<int>> pairs; 
+        vector<int> newv;
         for(int x = 1; x < 1000; x++){
             for(int y = 1; y < 1000; y++){
                 if(customfunction.f(x,y) == z){
-                    vector<int> newv;
                     newv.push_back(x);
                     newv.push_back(y);
                     pairs.push_back(newv);
+                    newv.clear();
                 }else if(customfunction.f(x,y) > z){
                     break;
                 } 
