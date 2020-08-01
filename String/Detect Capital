@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        int a = word[0];
+        //first letter letter and other letter big
+        if(word.length() >= 2){
+        if(a >= 65 && a <= 90){
+            a = word[1];
+            //if second letter is big then all letters big
+            if(a >= 65 && a <= 90 ){
+                for(int i = 2; i < word.length(); i++){
+                    a = word[i];
+                    if(a < 65 || a > 90) return false;
+                }    
+            }else if(a >= 97 && a <= 122){//If second letter is small the all letter should be small
+                for(int i = 2; i < word.length(); i++){
+                    a = word[i];
+                    if(a < 97 || a > 122) return false;
+                }
+            }
+            
+        }
+        
+        //if first letter small then other letter should be small
+        if(a >= 97 && a <= 122){
+            for(int i = 1; i < word.length(); i++){
+                a = word[i];
+                if(a < 97 || a > 122) return false;
+            }
+        }    
+    }
+        
+     return true;   
+        
+    }
+};
