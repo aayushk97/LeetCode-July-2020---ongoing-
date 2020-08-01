@@ -1,0 +1,31 @@
+//Eliminating duplicates in one array and finding if the element exists in other array. If yes add to solution.
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> nnums1;
+        
+        for(int i = 0 ; i < nums1.size(); i++){
+            bool flag = false;
+            if(nnums1.empty()) nnums1.push_back(nums1[i]);
+            else{
+                for(int j = 0; j < nnums1.size(); j++){
+                    if(nnums1[j] == nums1[i]){
+                        flag = true;
+                    } 
+                }
+                if(!flag) nnums1.push_back(nums1[i]);
+            }
+        }
+        vector<int> answer;
+        
+        for(int i = 0 ; i < nnums1.size(); i++){
+            bool flag = false;
+            for(int j = 0; j < nums2.size(); j++){
+                if(nnums1[i] == nums2[j]) flag = true; 
+            }
+            if(flag)answer.push_back(nnums1[i]);
+        }
+        
+        return answer;
+    }
+};
