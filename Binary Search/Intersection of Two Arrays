@@ -1,3 +1,4 @@
+//Can be done using unordered set in a better way
 //Eliminating duplicates in one array and finding if the element exists in other array. If yes add to solution.
 class Solution {
 public:
