@@ -1,0 +1,25 @@
+//Compare left and right most element whichever has greatest modulus value square will be added to end of the new array. Then respectively move the pointer in both arrays.
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& A) {
+        vector<int> result(A.size());
+        int l = 0, r = A.size()-1;
+        int end = A.size()-1;
+        
+        while(l<=r){
+            int left = abs(A[l]);
+            int right = abs(A[r]);
+            
+            if(left > right){
+                result[end] = (A[l]*A[l]);
+                l++;
+            }else{
+                result[end] = (A[r]*A[r]);
+                r--;
+            }
+            end--;
+        }
+        
+        return result;
+    }
+};
