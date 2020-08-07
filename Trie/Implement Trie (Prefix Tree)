@@ -1,4 +1,4 @@
-//Implementation is mix of iterative(add) and recursive(search) try to do either one.
+//Almost similar to one of geeksforgeeks.
 
 class Trie {
 public:
