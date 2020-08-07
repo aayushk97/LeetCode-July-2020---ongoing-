@@ -1,0 +1,88 @@
+//Solution is mix of iterative(add) and recursive(search) try for only one way.
+class WordDictionary {
+public:
+    /** Initialize your data structure here. */
+    
+    struct TrieNode{
+        bool isEndOfString;
+        struct TrieNode* children[26];
+    };
+    struct TrieNode* root;
+    struct TrieNode* getNode(void){
+        
+        struct TrieNode* pNode = new TrieNode;
+        
+        pNode -> isEndOfString = false;
+        
+        for(int i = 0; i < 26; i++) pNode -> children[i] = NULL;
+    return pNode;
+        
+    }
+    
+    WordDictionary() {
+        root = getNode();
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            if(!temp -> children[index]) temp -> children[index] = getNode();
+            
+            temp = temp -> children[index];
+        }
+        
+        temp -> isEndOfString = true;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        return searchR(root, word);
+    }
+    
+    bool searchR(struct TrieNode* root, string word){
+        TrieNode* temp = root;
+        bool exists = false;
+       // cout<<word<<word.length();
+        //Base condition
+        if(word.length() == 1){
+           // cout<<"end Condition";
+            int index = word[0] - 'a'; 
+            if(word[0] != '.' && root -> children[index]){
+                cout<<"Here1";
+                if(root -> children[index] -> isEndOfString) return true;
+            }else if(word[0] == '.'){
+                cout<<"Here2";
+                for(int i = 0 ; i < 26; i++){
+                    if(root -> children[i] && root ->children[i] -> isEndOfString) return true;
+                }
+            }    
+        }
+        if(word.length()>1){
+            
+            if(word[0] == '.'){
+            for(int i = 0; i < 26; i++){
+                if(temp -> children[i]) exists = searchR(root -> children[i],word.substr(1,word.length() - 1));          
+                if(exists) return true;
+            }    
+        }else{
+               // cout<<"Ab";
+            int index = word[0] - 'a';
+            
+            if(temp -> children[index]){
+               //cout<<"aa";
+              exists = searchR(root -> children[index],word.substr(1,word.length()-1));  
+            } 
+            
+            return exists;
+            }    
+        }
+        
+        
+        return exists;
+
+    }
+};
+
