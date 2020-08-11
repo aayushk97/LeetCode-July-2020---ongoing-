@@ -1,0 +1,11 @@
+//Beats 100 percent in time
+class Solution {
+public:
+    int titleToNumber(string s) {
+        int val = 0;
+        for(int i = 0; i < s.length(); i++){
+            val = val*26 + (s[i]-64);
+        }
+        return val;
+    }
+};
