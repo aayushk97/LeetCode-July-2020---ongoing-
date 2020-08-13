@@ -1,0 +1,42 @@
+//Can also be done with factorial using NCr = (NCr - 1 * (N - r + 1)) / r
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+       vector<int> prevRow;
+        vector<int> row;
+        row.push_back(1);
+        
+        
+        
+        if(rowIndex < 1) return row;
+        
+        row.clear();
+        row.push_back(1); row.push_back(1);
+        prevRow.assign(row.begin(),row.end());
+        
+        if(rowIndex == 1) return row;
+        row.clear();
+        
+        for( int i = 2 ; i < rowIndex + 1; i++){
+            cout<<"aa";
+            for(int j = 0; j < i + 1; j++){
+               
+                if(j == 0 || j == i){
+                    row.push_back(1);
+                    cout<<row[j];
+                }else{
+                    row.push_back(prevRow[j-1]+prevRow[j]); 
+                    cout<<row[j];
+                } 
+                
+                // cout<<triangle[i-1][j-1]<<triangle[i-1][j];
+            }
+            prevRow.clear();
+            prevRow.assign(row.begin(),row.end());
+            row.clear();
+        }
+       
+        return prevRow;
+    }
+};
