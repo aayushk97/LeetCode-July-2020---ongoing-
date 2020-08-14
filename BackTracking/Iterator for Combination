@@ -1,0 +1,72 @@
+class CombinationIterator {
+    string characters;
+    int combinationLength;
+    int i, j;
+     vector<string> mask;
+    vector<string> finalMask;
+public:
+    
+    void printTheArray(string num, int n) { 
+        cout<<num<<endl;
+        
+        mask.push_back(num);
+     
+    } 
+    
+     void generateAllBinaryStrings(int n, string number, int i) { 
+        if (i == n) { 
+            printTheArray(number, n); 
+            return; 
+        } 
+  
+        number[i] = '0'; 
+        generateAllBinaryStrings(n, number, i + 1); 
+    
+        number[i] = '1'; 
+        generateAllBinaryStrings(n, number, i + 1); 
+    } 
+
+
+    CombinationIterator(string characters, int combinationLength) {
+        this -> characters = characters;
+        this -> combinationLength = combinationLength;
+        
+       
+        string number ="";
+        for(int i = 0; i < characters.size(); i++) number += to_string(0);
+        generateAllBinaryStrings(characters.length(),number, 0);
+        cout<<"yeah";
+        
+        for(int i = 0; i < mask.size(); i++){
+            int count = 0;
+            string num = mask[i];
+            for(int j = 0; j < characters.size(); j++){
+                if(num[j] == '1') count++;
+            }
+            
+            if(count == combinationLength){
+                cout<<num;
+                finalMask.push_back(num);
+              
+            } 
+        }
+       
+    }
+    
+    string next() {
+        string num = finalMask.back();
+        finalMask.pop_back();
+        
+        string ret = "";
+        
+        for(int i = 0; i < num.length(); i++ ){
+            if(num[i] == '1') ret+= characters[i];
+        }
+        
+        return ret;
+    }
+    
+    bool hasNext() {
+      return !finalMask.empty(); 
+    }
+};
