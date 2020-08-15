@@ -1,3 +1,14 @@
+//One of the solutions. From the string we are subtracting each char that appears odd no of times once. and add one of the odd character
+int longestPalindrome(string s) {
+    vector<int> count(256);
+    for (char c : s)
+        ++count[c];
+    int odds = 0;
+    for (int c : count)
+        odds += c & 1;
+    return s.size() - odds + (odds > 0);
+}
+//2nd solution. By me.
 class Solution {
 public:
     int longestPalindrome(string s) {
@@ -20,6 +31,7 @@ public:
                     characters[i] = 1;
                     
                 }
+                //Add one of the odd characters if present
                 if(flag) {
                         count++;
                         flag = false;
