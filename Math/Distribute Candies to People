@@ -1,3 +1,15 @@
+//Best solution found is to iterate how many every times and keep increasing the candies and assigning candies by mod of iteration number O(sqrt(n))
+//Mine is similar complexity but larger code at below
+vector<int> distributeCandies(int candies, int n) {
+        vector<int> res(n);
+        for (int i = 0; candies > 0; ++i) {
+            res[i % n] += min(candies, i + 1);
+            candies -= i + 1;
+        }
+        return res;
+    }
+    
+//My solution    
 class Solution {
 public:
     vector<int> distributeCandies(int candies, int num_people) {
