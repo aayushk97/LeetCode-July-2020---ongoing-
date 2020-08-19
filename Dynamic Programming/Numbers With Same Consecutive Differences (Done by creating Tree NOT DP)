@@ -1,0 +1,98 @@
+//Created a tree and traversed preorder to add the values. Can be done by DFS and adding of nums at same time. Shown at end (JAVA).
+
+class Solution {
+public:
+     struct TreeNode{
+        int val;
+        struct TreeNode* left;
+        struct TreeNode* right;
+    };
+    
+    vector<int> numsSameConsecDiff(int N, int K) {
+        vector<int> nums;
+        if(N == 1) nums.push_back(0);
+        for(int i = 1; i <= 9; i++){
+           
+            TreeNode* root = createTree(root,0,i,K,N);
+            printTree(root, N, 0,nums);
+            free(root);
+        }
+        return nums;
+    }
+    
+    TreeNode* createTree(TreeNode* root, int currLength, int val, int K, int length ){
+        if(currLength >= length) return NULL;
+        
+        root = (TreeNode*)malloc(sizeof(TreeNode));
+        root -> val = val;
+        root -> left = NULL; root -> right = NULL;
+        
+        currLength++;
+        
+        int leftVal = root -> val - K;
+        int rightVal = root -> val + K;
+        if(leftVal == rightVal){
+            root -> left = createTree(root -> left,currLength, val - K, K,length);
+        }else{
+            if(root -> val - K >= 0 ){
+            
+          root -> left = createTree(root -> left,currLength, val - K, K,length);
+  
+            } 
+            if(root -> val + K <= 9 ){
+                
+            root -> right = createTree(root -> right,currLength, val + K, K,length);
+          
+            }    
+        }
+         
+        return root;
+    }
+    
+    void printTree(TreeNode* root,int length, int num, vector<int>& nums){
+        
+        if(!root) return;
+        num = num*10 + root -> val;
+        length--;
+        
+        if(!root-> left && !root -> right && length == 0) nums.push_back(num);
+        printTree(root -> left, length, num, nums);
+        printTree(root -> right, length, num, nums);
+    }
+};
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+
+    public int[] numsSameConsecDiff(int N, int K) {
+        if (N == 1)
+            return new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+        List<Integer> results = new ArrayList<Integer>();
+        for (int num = 1; num < 10; ++num)
+            this.DFS(N - 1, num, K, results);
+
+        // convert the ArrayList to int[]
+        return results.stream().mapToInt(i->i).toArray();
+    }
+
+    protected void DFS(int N, int num, int K, List<Integer> results) {
+        if (N == 0) {
+            results.add(num);
+            return;
+        }
+        List<Integer> nextDigits = new ArrayList<>();
+
+        Integer tailDigit = num % 10;
+        nextDigits.add(tailDigit + K);
+        if (K != 0)
+            nextDigits.add(tailDigit - K);
+        for (Integer nextDigit : nextDigits) {
+            if (0 <= nextDigit && nextDigit < 10) {
+                Integer newNum = num * 10 + nextDigit;
+                this.DFS(N - 1, newNum, K, results);
+            }
+        }
+    }
+}
