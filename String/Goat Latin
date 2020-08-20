@@ -1,0 +1,34 @@
+//code can be more efficient 
+
+class Solution {
+public:
+    string toGoatLatin(string S) {
+        string result = "";
+        string word = "";
+        int count = 0;
+        for(int i = 0; i <= S.length(); i++){
+            if(S[i] == ' ' || i == S.length()){
+                count ++;
+                if(word.length() > 0){
+                    if(word[0] == 'a' || word[0] == 'e' || word[0] == 'i' || word[0] == 'o' || word[0] == 'u' || word[0] == 'A' || word[0] == 'E' || word[0] == 'I' ||word[0] == 'O' || word[0] == 'U'){
+                        word += "ma";
+                        for(int i = 0; i < count; i++) word += "a";
+                    }else{
+                        char a = word[0];
+                        word = word.substr(1,word.length()-1);
+                        word += a;
+                        word += "ma";
+                        for(int i = 0; i < count; i++) word += "a";
+                    }
+                }
+                result += word;
+                if(i != S.length()) result += " ";
+                word = "";
+            }else{
+               word += S[i]; 
+            }
+        }
+        
+        return result;
+    }
+};
