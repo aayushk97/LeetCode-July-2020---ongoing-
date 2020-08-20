@@ -1,4 +1,4 @@
-//code can be more efficient 
+//code can be more efficient. A string of 'a' can be maintained and added at end of word which will be increemented instead of a loop.
 
 class Solution {
 public:
