@@ -1,0 +1,36 @@
+//Faster than 99.85%
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(!head || !head -> next || !head -> next -> next) return ;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast -> next && fast -> next -> next){
+            slow = slow -> next;
+            fast = fast -> next -> next;
+            
+        }
+        
+        slow = slow -> next;
+        
+        stack<ListNode*> nodes;
+        while(slow){
+            nodes.push(slow);
+            slow = slow -> next;
+        }
+        ListNode* tempHead = head;
+        ListNode* popped = NULL;
+        
+        while(!nodes.empty()){
+            popped = nodes.top();
+            nodes.pop();
+            popped -> next = tempHead -> next;
+            tempHead -> next = popped;
+            tempHead = popped -> next;
+        }
+        
+        tempHead -> next = NULL;
+    }
+};
