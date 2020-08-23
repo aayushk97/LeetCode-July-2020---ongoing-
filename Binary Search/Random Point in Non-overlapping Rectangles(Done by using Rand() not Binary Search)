@@ -1,0 +1,41 @@
+//Here we can't just pick a rectangle randomly and the pick a point in it as it would not be uniform.
+//Example if we have a rectangle of area 200 and one of 4 the each has a 50 percent chance of being chosen and  point in it
+//will not have a uniform change as points inside smaller rect will be chosen more frequently which in not uniform.
+//So we calculate the area and store it in an array. 
+//Then we find a random area between 0 and max total area which 200 + 4 = 204. We pick an area in this range then chance of the larger rectagle
+//being chosen is greater. The we find the rectangle with upper limit of sum of area that Rand() func has chosen from array(which is uniform).
+//Then find an x coordinates and y coordinates in its range.
+//rand()%10 finds rand no between 0 to 9.
+
+class Solution {
+    vector<vector<int>> rectangles;
+    vector<int> area;
+public:
+    Solution(vector<vector<int>>& rects) {
+        this -> rectangles = rects;
+        
+        int totalArea = 0;
+        
+        for(int i = 0; i < rects.size(); i++){
+            totalArea += (rects[i][2] - rects[i][0] + 1)*(rects[i][3] - rects[i][1] + 1);
+            area.push_back(totalArea);
+        }
+        
+    }
+    
+    vector<int> pick() {
+        
+        //Find an Random area uptil total Area
+        int randArea = rand() % area.back();
+        
+        //Find upper bound of area randArea in area vector 
+        int index = upper_bound(area.begin(), area.end(), randArea) - area.begin();
+        
+        vector<int> rect = rectangles[index];
+        
+        int x = rand() % (rect[2] - rect[0] + 1) + rect[0];
+        int y = rand() % (rect[3] - rect[1] + 1) + rect[1];
+        
+        return {x,y};
+    }
+};
