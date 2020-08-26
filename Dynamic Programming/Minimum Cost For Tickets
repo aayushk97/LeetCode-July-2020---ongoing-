@@ -1,0 +1,30 @@
+//Maintain an array of 365 days, then for each day we assign 2 individually. Then we start scanning and if the days the person is travelling
+//we assign the minimum of either the cost of 1 day pass of cost of 7 days pass to cost of travelling 7 days before or cost of 30 days pass
+//and travelling 30 days before. We choose minimum of them as answer.
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        vector<int> minCost(366,0);
+        
+        for(int i = 0; i < days.size(); i++) minCost[days[i]] = costs[0];
+        
+        for(int i = 1; i <= days[days.size()-1]; i++){
+            if(minCost[i] == 0) minCost[i] = minCost[i-1];
+            
+            else{
+                minCost[i] = minCost[i-1] + costs[0];
+                
+                int indexOne = max(0, i - 7);
+                
+                minCost[i] = min(minCost[i], minCost[indexOne]+costs[1]);
+                
+                int indexTwo = max(0, i - 30);
+                
+                minCost[i] = min(minCost[i], minCost[indexTwo] + costs[2]);
+            }
+            cout<<minCost[i];
+        }
+        cout<<days[days.size()-1];
+        return minCost[days[days.size()-1]];
+    }
+};
