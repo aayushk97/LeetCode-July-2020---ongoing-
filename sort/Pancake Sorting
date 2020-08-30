@@ -1,3 +1,8 @@
+//We find the max value that is not in its index and we flip it so it becomes first element then flip it so it it gets back to its position in order.
+//For 1 elements 2 flips kind of like bubble sort. [My solution is same as standard solution provided by leetcode Time 69 percent]
+
+
+
 class Solution {
 public:
     bool IsSorted(vector<int>& A, int limit){
