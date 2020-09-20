@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        unordered_map<char,char> occurence;
+        
+        for(int i = 0; i < S.size(); i++){
+            occurence[S[i]]++;
+        }
+        int count = 0;
+        for(int j = 0; j < J.size(); j++){
+            if(occurence.find(J[j]) != occurence.end()) count += occurence[J[j]];
+        }
+        
+        return count;
+    }
+};
