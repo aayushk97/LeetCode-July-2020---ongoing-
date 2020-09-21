@@ -1,0 +1,45 @@
+//Finds the number first then accordingly traverses from rhs and if . is present all string to right of it is assigned the number in map
+
+class Solution {
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+       unordered_map<string, int> result;
+        int n = cpdomains.size();
+        for(int i = 0; i < cpdomains.size(); i++){
+            string curr = cpdomains[i];
+            string subCurr = "";
+            int num = 0;
+            
+            for(int j = 0; j < curr.length(); j++){
+               
+                if(curr[j] == ' '){
+                    num = stoi(curr.substr(0,j));
+                    break;
+                } 
+            }
+            cout<<num;
+            for(int j = curr.length() - 1; j >= 0; j--){
+                
+                if(curr[j] == ' ' || curr[j] =='.'){
+                    reverse(subCurr.begin(), subCurr.end());
+                    result[subCurr] += num;
+                     cout<<"it.first : "<<subCurr<<" it.second: "<<num<<endl;
+                    reverse(subCurr.begin(), subCurr.end());
+                    if(curr[j] =='.') subCurr+=".";
+                   
+                }else{
+                    subCurr+= curr[j];
+                    
+                }
+                cout<<subCurr<<endl;
+            }
+        }
+        vector<string> output;
+        for(auto it: result){
+            string resCurr = to_string(it.second)+ " " +it.first;
+            output.push_back(resCurr);
+        }
+        
+        return output;
+    }
+};
