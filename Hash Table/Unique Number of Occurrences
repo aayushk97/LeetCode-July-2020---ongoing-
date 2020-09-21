@@ -1,0 +1,43 @@
+//2 Methods using array and set.
+//Using boolean array if count is set then return false
+
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        vector<bool> count(1000,0);
+        
+        unordered_map<int, int> numbers;
+        
+        for(int i = 0; i < arr.size(); i++){
+            numbers[arr[i]]++;
+        }
+        
+        for(auto it : numbers){
+            if(count[it.second] == true) return false;
+            count[it.second] = true;
+        }
+        
+        return true;
+    }
+};
+
+//Insert elements into map and then their respective counts in set if count is present in set then return false else return true.
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+     unordered_map<int, int> all_counts;
+     unordered_set<int> distinct_counts;
+	 
+        for(int num: arr){
+            all_counts[num]++;
+        }
+        
+        for(auto elem: all_counts){
+            if(distinct_counts.find(elem.second) == distinct_counts.end()){
+                distinct_counts.insert(elem.second);
+            }else return false;
+        }
+        
+        return true;
+    }
+};
