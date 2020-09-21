@@ -1,3 +1,4 @@
+//There are N + 1 unique elements in array of size 2N then repeated elements are N and unique are N so even if we find one with count > 1 we can return it.
 class Solution {
 public:
     int repeatedNTimes(vector<int>& A) {
