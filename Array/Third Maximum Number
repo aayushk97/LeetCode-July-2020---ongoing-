@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        //find max
+        int maxOne = nums[0];
+        int n = nums.size();
+        for(int i = 0; i < n; i++){
+            if(nums[i] > maxOne) maxOne = nums[i]; 
+        }
+        
+        int maxTwo = INT_MIN;
+        for(int i = 0; i < n ; i++){
+            if(nums[i] > maxTwo && nums[i] != maxOne ) maxTwo = nums[i];
+        }
+        
+        int maxThree = INT_MIN;
+        bool hasMaxThree = false;
+        for(int i = 0; i < n; i++){
+            if(nums[i] >= maxThree && nums[i] != maxOne && nums[i] != maxTwo){
+                maxThree = nums[i];
+                hasMaxThree = true;
+            } 
+        }
+        if(!hasMaxThree) return maxOne;
+        
+        return maxThree;
+    }
+};
