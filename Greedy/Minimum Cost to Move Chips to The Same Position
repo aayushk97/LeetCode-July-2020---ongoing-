@@ -1,0 +1,27 @@
+//Since to move from odd position to another odd  and even to even it takes 0 cost but odd to even and even to odd takes 1 cost. So, we can make 2 stacks
+//with odd and even coins and which ever is greater we have to move other coins to that stack incurring 1 cost.
+
+class Solution {
+public:
+    int minCostToMoveChips(vector<int>& position) {
+        int cost = 0;
+        //To move all chips in same position
+        //find max
+        //count number of odd
+        int countOdd = 0;
+        int countEven = 0;
+        
+        for( int i = 0; i < position.size(); i++){
+            if(position[i]%2 != 0) countOdd += 1;     
+        }
+        for( int i = 0; i < position.size(); i++){
+            if(position[i]%2 == 0) countEven += 1;     
+        }
+        bool count;
+        if(countEven > countOdd) return countOdd;
+        else return countEven;
+        
+        
+        //return cost;
+    }
+};
