@@ -1,0 +1,26 @@
+//The subsequenec may not be continuous and since output is not desired in order we can sort it or use max heap to get max elements 
+//untill the sum of popped elements is greater than half of sum of all elemnts.
+
+class Solution {
+public:
+    vector<int> minSubsequence(vector<int>& nums) {
+        //Find sum of all elements
+        int sum = 0;
+        for(int i = 0; i < nums.size(); i++){
+            sum += nums[i];
+        }
+        
+        priority_queue<int> pq(begin(nums), end(nums));
+        int partialSum = 0;
+        vector<int> partial;
+        
+        while(partialSum <= sum/2){
+            int a = pq.top();
+            partialSum += a;
+            partial.push_back(a);
+            pq.pop();
+        }
+        
+        return partial;
+    }
+};
