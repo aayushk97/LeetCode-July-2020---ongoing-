@@ -1,0 +1,21 @@
+//For each column find if the order is in descending order then include it in removing list.
+
+class Solution {
+public:
+    int minDeletionSize(vector<string>& A) {
+        int length = A[0].length();
+        int count = 0;
+        for(int i = 0; i < length; i++){
+            for(int j = 0; j < A.size() - 1; j++){
+                if(A[j][i] > A[j+1][i]){
+                    count++;
+                    
+                    break;
+                }
+            }    
+        }
+        
+        return count;
+        
+    }
+};
