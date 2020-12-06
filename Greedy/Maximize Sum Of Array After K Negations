@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int largestSumAfterKNegations(vector<int>& A, int K) {
+        //Sort the array
+        sort(A.begin(), A.end());
+        
+        //After sorting check the minimum number
+        if(A[0] >= 0) A[0] = -A[0];
+        else{
+        //If the number of elements is odd
+        int i = 0, j = 0;
+        while(K > 0){
+            if(A[i] <= 0) {
+                A[i] = -A[i];
+                i++;
+                K--;
+                j = i - 1;
+            }else{
+                if(A[j]*A[j] > A[i]*A[i]) j = i;
+                A[j] = -A[j];
+                K--;
+            }
+            
+        }
+        }
+        int sum = 0;
+        //caluclate sum
+        for(int i = 0; i < A.size(); i++){
+            sum += A[i];
+        }
+        return sum;
+    }
+};
