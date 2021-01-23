@@ -1,0 +1,30 @@
+//Tips to solve DP: make the recursive tree and remove any overlapping sub structure
+
+class Solution {
+public:
+    vector<int> mincost;
+    
+    int minCostClimbingStairs(vector<int>& cost) {
+       vector<int> mincost(cost.size()+1);
+       
+       return dp(cost, mincost, cost.size(), cost.size());
+    }
+    
+    int dp(vector<int>&cost, vector<int>&mincost, int i, int n){
+        if(cost.size()==2) {
+            if(cost[0]>cost[1]) return cost[0];
+            else return cost[1];
+        }
+        cout<<i;
+        if(i == 0 ) return mincost[0];
+        if(i == 1 ) return mincost[1];
+        
+        if(mincost[i-1] == 0) mincost[i-1] = dp(cost, mincost, i-1, n);
+        
+        if(mincost[i-2] == 0) mincost[i-2] = dp(cost, mincost, i-2, n);
+      
+        mincost[i] = min(mincost[i-1] + cost[i-1], mincost[i-2] + cost[i-2]);
+        
+        return mincost[i];
+    }
+};
