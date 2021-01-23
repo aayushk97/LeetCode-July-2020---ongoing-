@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int smallestRepunitDivByK(int K) {
+         int N = 1;
+        int length = 1;
+        if(K % 2 == 0 || K % 5 == 0 ) return -1;
+        
+        while(N % K){
+            N = (N*10 + 1)%K;
+            length++;
+            if(length >K ) return -1;
+        }
+        
+        return length;
+    }
+};
