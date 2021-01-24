@@ -1,0 +1,28 @@
+//We use an array to store the sums and return query output in constant time. - O(1).
+
+class NumArray {
+public:
+   vector<int> numsOne;
+    
+    NumArray(vector<int>& nums):numsOne(nums.size()+1,0) {
+        
+        if(nums.size() > 0) numsOne[0] = nums[0];
+        for(int i = 1; i < nums.size(); i++){
+            numsOne[i] += numsOne[i-1]+nums[i];
+        }
+            
+    }
+    
+    int sumRange(int i, int j) {
+        int leftsum;
+        if(i == 0) leftsum = 0;
+        else leftsum = numsOne[i-1];
+        int sum = numsOne[j]-leftsum;
+        return sum; }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(i,j);
+ */
