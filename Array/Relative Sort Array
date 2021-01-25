@@ -1,0 +1,28 @@
+//We place the elements present in array 1 in order from array 2. Then we sort the remaining elements and put them in array 2.
+
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        vector<int> result;
+        
+        for(int i = 0; i < arr2.size(); i++){
+            for(int j = 0; j < arr1.size(); j++){
+                if(arr2[i] == arr1[j]){
+                  result.push_back(arr1[j]);
+                    arr1[j] = -1;
+                } 
+            }
+        }
+        if(result.size() != arr1.size()) {
+            
+            int k = result.size();
+            sort(arr1.begin()+k, arr1.end());
+        
+            for(int i = 0; i < arr1.size(); i++){
+                    if(arr1[i]!= -1)result.push_back(arr1[i]);
+                }    
+            
+        }
+        return result;
+    }
+};
