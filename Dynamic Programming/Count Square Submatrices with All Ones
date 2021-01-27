@@ -1,0 +1,25 @@
+// We find the minimum size of square(check for [0, 1, 1, 1; 1, 1, 2, 2; 1, 0, 1, x] x why we take min) till that and add it if its 1 else 0. 
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        vector<vector<int>> result(matrix.size(), vector<int>(matrix[0].size(),0));
+        int sum = 0;
+        for(int i = 0; i < matrix.size(); i++){
+            for(int j = 0; j < matrix[0].size(); j++){
+                if(i==0 || j==0) result[i][j] = matrix[i][j];
+                else{
+                    if(matrix[i][j]) result[i][j] = min(result[i-1][j-1], min(result[i-1][j], result[i][j-1]))+1;
+                    else result[i][j] = matrix[i][j];
+                }
+                sum+= result[i][j];   
+            }
+        }
+        
+    return sum;
+    }
+    
+    int min(int a, int b){
+        return (a < b)? a:b; 
+         
+    }
+};
