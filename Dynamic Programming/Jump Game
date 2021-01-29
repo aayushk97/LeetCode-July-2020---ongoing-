@@ -1,0 +1,23 @@
+class Solution {
+public:
+    
+    bool canJump(vector<int>& nums) {
+        if(nums.size() == 1) return true;
+        vector<bool> res(nums.size());
+        
+        for(int i = nums.size()-1; i >= 0; i--){
+            if(i == nums.size()-1) res[i] = 1;
+            if(res[i] == false){
+                for(int k = min(i+nums[i], nums.size()-1); k > i; k--){
+                      if(res[k] == true) res[i] = true; // If we can reach final pos from k then we can reach k from i then final from i.
+                }
+            }
+        }
+        
+        return res[0];
+    }
+    
+    int min(int a, int b){
+        return (a > b)? b: a;
+    }
+};
