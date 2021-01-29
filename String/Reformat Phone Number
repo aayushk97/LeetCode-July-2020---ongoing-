@@ -1,0 +1,45 @@
+//Do as the problem says
+class Solution {
+public:
+    string reformatNumber(string number) {
+        int i = -1, j = i+1;
+        
+        while(j < number.length()){
+            if(number[j] == ' '|| number[j] == '-') j++;
+            else{
+                i++;
+                number[i] = number[j];
+                j++;
+            }
+        }
+        string res = "";
+        int k = 3;
+        int l;
+        cout<<i;
+        if(i == 3){
+           res = res + number[i-3]; res = res + number[i-2]; res = res + '-'; res = res + number[i-1]; res = res + number[i]; return res;
+        } 
+        
+        for(l = 0; l <= i; l++){
+            res = res + number[l];
+            k--;
+            if(k == 0 && i-l > 4){
+                res = res+'-';
+                k = 3;
+            }else if(k== 0 && i-l <= 4) break;
+            
+        }
+        
+        if(i-l == 2){
+            res = res + '-'; res = res + number[l+1]; res = res + number[l+2];
+            
+        }else if(i-l == 3){
+            res = res + '-'; res = res + number[l+1]; res = res + number[l+2]; res = res + number[l+3];
+        }else if(i-l == 4){
+            res = res + '-'; res = res + number[l+1]; res = res + number[l+2]; res = res + '-'; res = res + number[l+3]; res = res + number[l+4];
+            
+        } 
+       
+        return res;
+    }
+};
