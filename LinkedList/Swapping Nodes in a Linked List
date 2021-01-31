@@ -1,0 +1,33 @@
+// In one scan we find the kth element fromt start then after finding we set the new temp pointer to head and move both of them. When intitial pointer reaches the end 
+// we get the kth element pointer from the end. Then we swap both of these values.
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        if(head -> next == NULL) return head;
+        ListNode* temp1=NULL;
+        ListNode* temp2=NULL;
+        
+        ListNode* temp = head;
+        int p = 1;
+        
+        while(temp){
+            
+            if(p == k) {
+                temp1 = temp;
+                temp2 = head;
+            }
+            cout<<temp -> val;
+            temp = temp -> next;
+            if(temp && temp2) temp2 = temp2 -> next;
+            p++;
+            
+        }
+        
+        cout<< temp1 -> val;
+        int tempv = temp1 -> val;
+        temp1 -> val = temp2 -> val;
+        temp2 -> val = tempv;
+        
+        return head;
+    }
+};
