@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        vector<int> charset(26,0);
+        
+        for(int i = 0; i < chars.size(); i++){
+            charset[chars[i]-'a'] += 1;
+        }
+       
+        
+        int lengthofall = 0;
+        for(int i= 0; i < words.size(); i++){
+            bool allf = true;
+            vector<int> charsetcpy;
+            charsetcpy = charset;
+            for(int j = 0; j < words[i].length(); j++){
+                if(charsetcpy[words[i][j]-'a'] <= 0){
+                    allf = false;
+                    break;
+                } 
+                charsetcpy[words[i][j]-'a'] -= 1;
+            }
+            
+            if(allf) lengthofall += words[i].length(); 
+        }
+        
+        return lengthofall;
+    }
+};
