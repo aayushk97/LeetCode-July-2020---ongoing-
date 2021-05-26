@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        vector<int> positions;
+        //get position of balls
+        for(int i = 0; i < boxes.size(); i++){
+            
+            if(boxes[i] == '1')positions.push_back(i);
+        }
+        
+        vector<int> result;
+        
+        for(int j = 0; j < boxes.length(); j++){
+            int count = 0;
+            for(int i = 0; i < positions.size(); i++){
+                count += abs(positions[i]-j);
+                
+            }
+            result.push_back(count);
+            
+        }
+        
+        return result;
+    }
+};
