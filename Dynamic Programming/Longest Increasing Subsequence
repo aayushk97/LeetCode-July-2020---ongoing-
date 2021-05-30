@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> length(nums.size(), 1);
+        
+        findMaxLIS(nums, 0, nums.length(), length);
+        
+    }
+    
+    findMaxLIS(vector<int>& nums, int i, int j, vector<int>& length){
+        
+        if(i==j) return 1;
+        
+        for(int k = i; k < j; k++){
+            if(nums[k] < nums[])
+        }
+        
+    }
+};
