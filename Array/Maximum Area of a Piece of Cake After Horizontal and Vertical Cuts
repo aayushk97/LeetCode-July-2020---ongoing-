@@ -1,0 +1,35 @@
+//we first find the max height and then max width then return the area obtained by it. sorting is done initially to arrange cut position in increasing order. 
+//The boundaries are also taken as cuts
+
+class Solution {
+public:
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
+        
+        horizontalCuts.push_back(0);
+        horizontalCuts.push_back(h);
+        
+        verticalCuts.push_back(0);
+        verticalCuts.push_back(w);
+        
+        sort(horizontalCuts.begin(), horizontalCuts.end());
+        sort(verticalCuts.begin(), verticalCuts.end());
+        
+        int maxH = 0, height = 0;
+        int maxW = 0, width = 0;
+        
+        for(int i = 0; i < horizontalCuts.size()-1; i++){
+            height = horizontalCuts[i+1] - horizontalCuts[i];
+            
+            if(height > maxH) maxH = height;
+        }
+        
+        for(int j = 0; j < verticalCuts.size()-1; j++){
+                
+            width = verticalCuts[j+1] - verticalCuts[j];
+            
+            if(width > maxW) maxW = width;
+        }
+        
+        return ((unsigned long long)(maxH % 1000000007) * (maxW % 1000000007)) % 1000000007;
+    }
+};
