@@ -1,0 +1,63 @@
+// we travel bfs from "0000" to target and avoid paths that have deadends
+class Solution {
+public:
+    int openLock(vector<string>& deadends, string target) {
+        
+        vector<int> dist(10000, 0);
+        
+        int possible = DFSLock(deadends, target, dist, "0000");
+        
+        if(possible == -1) return -1;
+        else return dist[stoi(target)];
+        
+    }
+    
+    int DFSLock(vector<string>& deadends, string target, vector<int>& dist, string start){
+        
+        vector<int> visited(10000, 0);
+        
+        queue<string> q;
+        q.push(start);
+        
+        while(!q.empty()){
+            
+            string curr = q.front();
+            q.pop();
+            
+            if(visited[stoi(curr)]) continue;
+            
+            visited[stoi(curr)] = true;
+            
+            if(checkIfDeadend(curr, deadends)) continue;
+            
+            if(curr == target) return 1;
+            
+            for(int i = 0; i < 4; i++){
+                
+                string temp = curr;
+                if(temp[i] == '9') temp[i] = '0';
+                else temp[i] = (int)temp[i] + 1;
+                
+                dist[stoi(temp)] = dist[stoi(curr)] + 1;
+                q.push(temp);
+                
+                
+                temp = curr;
+                if(temp[i] == '0') temp[i] = '9';
+                else temp[i] = (int)temp[i] - 1;
+                
+                dist[stoi(temp)] = dist[stoi(curr)] + 1;
+                q.push(temp);
+            }
+        }
+        
+        return -1;
+    }
+    
+    bool checkIfDeadend(string curr, vector<string>& deadends){
+        for(int i = 0; i < deadends.size(); i++) {
+            if(deadends[i] == curr) return true;
+        }
+        return false;
+    }
+};
