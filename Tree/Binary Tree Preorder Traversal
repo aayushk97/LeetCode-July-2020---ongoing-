@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> p;
+        preorder(root, p);
+        
+        return p;
+    }
+    
+    void preorder(TreeNode* root, vector<int>& p){
+        
+        if(!root) return;
+        
+        p.push_back(root -> val);
+        preorder(root -> left, p);
+        preorder(root -> right, p);
+    }
+};
