@@ -1,0 +1,33 @@
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+         if(inorder.size() == 0 || postorder.size() == 0) return NULL;
+        
+        TreeNode* root = new TreeNode(postorder[postorder.size()-1]);
+        
+        vector<int> inorderLeft;
+        vector<int> inorderRight;
+        vector<int> postorderLeft;
+        vector<int> postorderRight;
+        
+        int i = 0;
+        
+        while(inorder[i] != postorder[postorder.size()-1]){
+            inorderLeft.push_back(inorder[i]);
+            i++;  
+        }
+        
+        for(int j = i+1; j < inorder.size(); j++) inorderRight.push_back(inorder[j]);
+        
+        for(int i = 0; i < postorder.size()-1; i++){
+            if(i < inorderLeft.size()) postorderLeft.push_back(postorder[i]);
+            else postorderRight.push_back(postorder[i]);
+        }
+        
+        
+        root -> left = buildTree(inorderLeft, postorderLeft);
+        root -> right = buildTree(inorderRight, postorderRight);
+        
+        return root;
+    }
+};
