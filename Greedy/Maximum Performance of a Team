@@ -2,36 +2,39 @@ class Solution {
 public:
     int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
         
+        //we first create a vector of pair so we can sort in decreasing order of efficeincy
         vector<pair<int, int>> SE;
         
-        for(int i = 0; i < speed.size();i++) SE.push_back({efficiency[i], speed[i]});
+        for(int i = 0; i < speed.size(); i++) SE.push_back({efficiency[i], speed[i]});
         
-        //sort in decreasing order
         sort(SE.rbegin(), SE.rend());
         
+        //maintain a max PQ to get the minimum speed that was added to sum and remove it.
         priority_queue<int> minSpeed;
         
-        //long is used as we want the mod of 10^9+7 value
-        long result = 0;
-        long finalVal = 0;
-        //for(int i = 0; i < SE.size(); i++) cout<<"speed: "<<SE[i].second<<" efficeincy: "<<SE[i].first<<endl;
+        long result = 0, speedSum = 0;
+        
         for(int i = 0; i < SE.size(); i++){
+            bool popped = false;
             int speed = SE[i].second;
-            
             minSpeed.push(-speed);
             
-            if(minSpeed.size() <= k) result += speed;
-            else{
-                //pop the minimum from the bag and subtract it from earlier added result
-                result += speed + minSpeed.top();
+            speedSum += speed;
+            
+            if(minSpeed.size() > k) {
+                //remove the minspeed and subtract it from speedSum
+                speedSum += minSpeed.top();
+                if(minSpeed.top() == SE[i].first) popped = true;
                 
                 minSpeed.pop();
                 
+                
             }
             
-            finalVal = max(finalVal , result * SE[i].first ) ;
+            if(!popped) result = max(result, speedSum * SE[i].first);
+            
         }
         
-        return finalVal % 1000000007;
+        return result % 1000000007;
     }
 };
