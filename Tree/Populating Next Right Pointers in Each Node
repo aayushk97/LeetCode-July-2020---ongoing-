@@ -1,0 +1,32 @@
+//can be done without using queue check leetcode. Here we push level order traverse and every node next is made to point the node next in queue.
+class Solution {
+public:
+    Node* connect(Node* root) {
+        
+        if(!root) return NULL;
+        
+        queue<Node*> q;
+        q.push(root);
+        q.push(NULL);
+        
+        while(q.size() > 1){
+            
+            Node* curr = q.front();
+            q.pop();
+            
+            if(!curr){
+                q.push(NULL);
+                
+            }else{
+                curr -> next = q.front();
+                if(curr -> left) q.push(curr -> left);
+                if(curr -> right) q.push(curr -> right);
+            }
+            
+        }
+        
+        return root;
+        
+        
+    }
+};
