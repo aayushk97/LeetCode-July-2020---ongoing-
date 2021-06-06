@@ -1,0 +1,29 @@
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        
+        TreeNode* temp = new TreeNode();
+        
+        return lca(root, p, q);
+        
+        //return temp;
+    }
+    
+    TreeNode* lca(TreeNode* root, TreeNode* p, TreeNode* q){
+        
+        //cout<<"curr: "<<root -> val;
+        if(!root) return NULL;
+        
+        if(root -> val == p -> val || root -> val == q -> val){
+            return root;
+            
+        }
+        TreeNode* left = lca(root -> left, p, q);
+        TreeNode* right = lca(root -> right, p, q);
+        
+        if(left && right) return root;
+        else if(left) return left;
+        else if(right) return right;
+        else return NULL;
+    }
+};
