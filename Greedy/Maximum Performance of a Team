@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+        
+        vector<pair<int, int>> SE;
+        
+        for(int i = 0; i < speed.size();i++) SE.push_back({efficiency[i], speed[i]});
+        
+        //sort in decreasing order
+        sort(SE.rbegin(), SE.rend());
+        
+        priority_queue<int> minSpeed;
+        
+        //long is used as we want the mod of 10^9+7 value
+        long result = 0;
+        long finalVal = 0;
+        //for(int i = 0; i < SE.size(); i++) cout<<"speed: "<<SE[i].second<<" efficeincy: "<<SE[i].first<<endl;
+        for(int i = 0; i < SE.size(); i++){
+            int speed = SE[i].second;
+            
+            minSpeed.push(-speed);
+            
+            if(minSpeed.size() <= k) result += speed;
+            else{
+                //pop the minimum from the bag and subtract it from earlier added result
+                result += speed + minSpeed.top();
+                
+                minSpeed.pop();
+                
+            }
+            
+            finalVal = max(finalVal , result * SE[i].first ) ;
+        }
+        
+        return finalVal % 1000000007;
+    }
+};
