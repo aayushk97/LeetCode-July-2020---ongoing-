@@ -1,0 +1,31 @@
+//we check if the prev node visited in inorder has less than current node value. We dont set prev as NULL when there is no node as if we return prev upper node will
+//set to NULL and not the prev inorder number
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        TreeNode* prev = NULL;
+        return validBST(root, prev);
+        
+    }
+    
+    bool validBST(TreeNode* root , TreeNode* &prev){
+        if(!root) {
+            return true;
+        }
+        
+        bool left = validBST(root -> left, prev);
+        
+        if(!left) return false;
+        
+        if(prev && prev -> val >= root -> val) return false;
+        
+        prev = root;
+        
+        bool right = validBST(root -> right, prev);
+        if(!right) return false;
+        
+        return true;
+        
+    }
+};
