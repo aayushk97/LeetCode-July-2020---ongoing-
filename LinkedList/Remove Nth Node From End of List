@@ -1,0 +1,40 @@
+//In one scan we find the nth node from beginning and then initialize another pointer to head and begin moving both. Here the trick is to initialize second pointer
+// at n+1th node so when this pointer reaches the end other pointer points to previous of nth node. We can then just increment pointer to delete it.
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        
+        ListNode* firstp = head;
+        ListNode* secondp = head;
+        
+        int i = 1;
+        while(firstp -> next){
+            
+            if(i > n) {
+                secondp = secondp -> next;
+                firstp = firstp -> next;
+                i++;
+            }else{
+                firstp = firstp -> next;
+                i++;    
+            }
+            
+            
+        }
+        
+        if(i == n){
+            head = head -> next;
+        }else{
+            ListNode* temp = secondp -> next;
+            
+            secondp -> next = secondp -> next -> next;
+            
+        }
+        
+        delete temp;
+        
+        return head;
+        
+    }
+};
