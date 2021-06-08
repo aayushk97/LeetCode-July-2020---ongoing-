@@ -20,3 +20,24 @@ public:
         return preOrder;
     }
 };
+
+
+//Recursive
+
+class Solution {
+public:
+    vector<int> preorder(Node* root) {
+        vector<int> p;
+        
+        preorderNT(root, p);
+        return p;
+    }
+    
+    void preorderNT(Node* root, vector<int>& p){
+        if(!root) return;
+        
+        p.push_back(root -> val);
+        
+        for(int i = 0; i < root -> children.size(); i++) preorderNT(root -> children[i], p);
+    }
+};
