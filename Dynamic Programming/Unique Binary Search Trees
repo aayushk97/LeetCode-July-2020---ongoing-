@@ -1,0 +1,32 @@
+//Find the no of BST in left sub tree then in right subtree then multiply them both.
+
+class Solution {
+public:
+    
+    
+    int numTrees(int n) {
+        vector<int> numT(20, 0);
+        numT[0] = 1;
+        
+       
+        return totalTrees(n, numT);
+    }
+    
+    int totalTrees( int n, vector<int>& numT){
+        
+        int count = 0;
+        
+        
+        for(int i = 1; i <= n; i++){
+            
+            for(int j = 1; j <= i; j++){
+                    
+                numT[i] += numT[j-1] * numT[i - j];
+            }
+           
+        }
+        
+        return numT[n];
+    }
+    
+};
