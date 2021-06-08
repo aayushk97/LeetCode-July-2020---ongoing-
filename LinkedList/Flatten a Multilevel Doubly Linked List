@@ -1,0 +1,39 @@
+class Solution {
+public:
+    Node* flatten(Node* head) {
+         flattenLL(head, NULL);
+        
+        Node* temp = head;
+        
+        
+        return head;
+    }
+    
+   Node* flattenLL(Node* head, Node* next){
+       if(!head) return NULL;
+       if(!next && !head -> next && !head -> child) return head;
+      // cout<<"curr node: "<< head -> val<<endl;
+       
+       if(!head -> next && !head -> child){
+        //   cout<<"new next has val: "<<next -> val<<endl;
+           head -> next = next;
+           next -> prev = head;
+           
+           return head;
+       }
+       
+       if(head -> child){
+            
+            head -> next = flattenLL(head -> child, head -> next);
+            head -> child = NULL; 
+            head -> next -> prev = head;
+            
+        }
+       
+       
+       
+       if(head -> next) flattenLL(head -> next, next);
+       
+       return head;
+    }
+};
