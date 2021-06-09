@@ -1,0 +1,36 @@
+// without hash table it can also be done by manually check if the element belogs to row column or box
+//with hash table we check if the rentry is present in row, column or box;
+
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        
+        vector<vector<int>> containsRow(9, vector<int>(9, 0));
+        vector<vector<int>> containsCols(9, vector<int>(9, 0));
+        vector<vector<int>> containsBox(9, vector<int>(9, 0));
+        
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board[i][j] =='.') continue;
+                
+                //maps a number 1-9 to 0-8
+                int num = board[i][j] - '0' - 1;
+                
+                //maps a box to a row
+                int k = i/3 * 3 + j/3;
+                
+                if(containsRow[i][num] || containsCols[j][num] || containsBox[k][num]){
+                                  
+                    return false;  
+                } 
+                
+                containsRow[i][num] = containsCols[j][num] = containsBox[k][num] = 1;
+            }
+        }
+        
+        return true;
+        
+    }
+    
+  
+};
