@@ -1,0 +1,127 @@
+//My solution:
+
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> positions;
+        vector<vector<int>> underAttack(n, vector<int>(n, 0));
+        vector<string> linePos(n, "");
+        
+        placeQueen(-1, -1, n, underAttack, positions, linePos);
+        
+        return positions;
+    }
+    
+    void placeQueen(int i, int j, int n, vector<vector<int>> underAttack, vector<vector<string>>& positions, vector<string> linePos){
+        //cout<<"Here2"<<endl;
+        
+        
+        if(i != -1 && j != -1){
+            string place = "";
+            
+            for(int k = 0; k < n; k++) place += '.';
+            place[j] = 'Q';
+            //cout<<"before attack";
+            attack(i, j, n, underAttack);
+            
+            //cout<<"after attack:";
+            linePos[i] = place;
+            
+            
+            //cout<<"current Node:" << i<<" "<<j<<endl;
+            
+        }
+        
+        if(i == n-1) {
+            positions.push_back(linePos);
+            return ;
+        }
+        
+        for(int k = 0; k < n; k++){
+            if(!underAttack[i+1][k]){
+                //cout<<"called place queen at: "<<i+ 1<< k<<endl;
+                placeQueen(i+1, k, n, underAttack, positions, linePos);
+                
+            }
+        }
+        
+    }
+    
+    void attack(int i, int j, int n, vector<vector<int>>& underAttack){
+        if(i > n) return;
+        if(j > n) return;
+        //cout<<"i: "<<i<<" j: "<<j<<endl;
+        if(underAttack[i][j] == 0){
+            underAttack[i][j] = 1;
+            int tempx = i+1;
+            int tempy = j;
+            
+            while(tempx < n){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx++;
+            }
+            //cout<<"attacked right";
+            tempx = i-1;
+            while(tempx >= 0){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx--;
+            }
+            //cout<<"attacked left";
+            tempx = i;
+            tempy = j-1;
+            
+            while(tempy >= 0){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempy--;
+            }
+            //cout<<"attacked top";
+            tempy = j+1;
+            while(tempy < n){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempy++;
+            }
+            //cout<<"attacked bottom"<<i<<j;
+            tempx = i-1;
+            tempy = j-1;
+            
+            while(tempx >= 0 && tempy >= 0){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx--;
+                tempy--;
+            }
+            // cout<<"attacked left top";
+            tempx = i+1;
+            tempy = j+1;
+           
+            while(tempx < n && tempy < n){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx++;
+                tempy++;
+            }
+            //cout<<"attacked right bottom";
+            tempx = i-1;
+            tempy = j+1;
+            
+            
+            while(tempx >= 0 && tempy < n){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx--;
+                tempy++;
+            }
+            
+            //cout<<"attacked top right";
+            tempx = i+1;
+            tempy = j-1;
+            
+            
+            while(tempx < n && tempy >= 0){
+                if(!underAttack[tempx][tempy])underAttack[tempx][tempy] = 1;
+                tempx++;
+                tempy--;
+            }
+            
+            //cout<<"attacked bottom left";
+        }
+        
+    }
+};
