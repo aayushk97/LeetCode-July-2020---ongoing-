@@ -1,0 +1,65 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        
+        vector<string> letterComb;
+        
+        if(digits.size() == 0) return letterComb;
+        
+        unordered_map<int, vector<char>> dToL;
+        
+        vector<char> numChars2;
+        numChars2.push_back('a'); numChars2.push_back('b'); numChars2.push_back('c');
+        
+        vector<char> numChars3;
+        numChars3.push_back('d'); numChars3.push_back('e'); numChars3.push_back('f');
+        
+        vector<char> numChars4;
+        numChars4.push_back('g'); numChars4.push_back('h'); numChars4.push_back('i');
+        
+        vector<char> numChars5;
+        numChars5.push_back('j'); numChars5.push_back('k'); numChars5.push_back('l');
+        
+        vector<char> numChars6;
+        numChars6.push_back('m'); numChars6.push_back('n'); numChars6.push_back('o'); 
+        
+        vector<char> numChars7;
+        numChars7.push_back('r'); numChars7.push_back('p'); numChars7.push_back('q'); numChars7.push_back('s');
+        
+        vector<char> numChars8;
+        numChars8.push_back('t'); numChars8.push_back('u'); numChars8.push_back('v');
+        
+        vector<char> numChars9;
+        numChars9.push_back('w'); numChars9.push_back('x'); numChars9.push_back('y'); numChars9.push_back('z');
+        
+        dToL[2] = numChars2;
+        dToL[3] = numChars3;
+        dToL[4] = numChars4;
+        dToL[5] = numChars5;
+        dToL[6] = numChars6;
+        dToL[7] = numChars7;
+        dToL[8] = numChars8;
+        dToL[9] = numChars9;
+        
+        
+        
+        letterC(digits, 0, digits.size()-1, dToL,"", letterComb);
+        
+        return letterComb;
+       
+    }
+    
+    void letterC(string digits, int i, int j, unordered_map<int, vector<char>>& dToL, string curr, vector<string>& letterComb){
+        if(i > j){
+            letterComb.push_back(curr);
+            return;
+        }
+        //cout<<"current num:"<<digits[i]<<endl;
+        vector<char> correspondingL = dToL[digits[i] - '0'];
+        
+        for(int k = 0; k < correspondingL.size(); k++){
+            //cout<<"current letter: "<<correspondingL[k]<<endl;
+            letterC(digits, i+1, j, dToL, curr+correspondingL[k], letterComb);
+        }
+    }
+};
