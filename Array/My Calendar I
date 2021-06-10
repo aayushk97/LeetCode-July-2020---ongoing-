@@ -1,0 +1,20 @@
+//If they will intersect then obviously the max of time of start of both will be less than min of end of both. If not intersecting then they will have 
+// max of start time < min of end time.
+
+class MyCalendar {
+public:
+    MyCalendar() {
+        
+    }
+    vector<pair<int,int>> m_vEvents;
+    bool book(int start, int end) {
+        for (auto it : m_vEvents) {
+            int intersectStart = max(it.first, start);
+            int intersectEnd = min(it.second, end);
+            if (intersectStart < intersectEnd)
+                return false;
+        }
+        m_vEvents.push_back({start, end});
+        return true;
+    }
+};
