@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        int curr = 0;
+        int kthSmallest = inorderBST(root, k, &curr);
+        return kthSmallest;
+    }
+    
+    int inorderBST(TreeNode* root, int k, int* curr){
+        
+        if(!root) return -1;
+       
+        int valLeft = inorderBST(root -> left, k, curr);
+        if(valLeft != -1) return valLeft;
+        
+        (*curr)++;
+        if(k == *curr){
+            
+            return root -> val;  
+        } 
+        
+        int valRight = inorderBST(root -> right, k, curr);
+        if(valRight != -1) return valRight;
+        
+        return -1;
+    } 
+};
