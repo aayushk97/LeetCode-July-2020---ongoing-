@@ -1,0 +1,22 @@
+public:
+    vector> groupAnagrams(vector& strs) {
+        unordered_map> anagram;
+        vector> result;
+        
+        for(int i = 0; i < strs.size(); i++){
+            string count = "00000000000000000000000000";
+            
+            for(int j = 0; j < strs[i].size(); j++){
+                count[strs[i][j] - 'a'] += 1;
+            }
+            
+            anagram[count].push_back(strs[i]);
+        }
+        
+        for(auto x: anagram){
+            result.push_back(x.second);
+        }
+        
+        return result;
+    }
+};
