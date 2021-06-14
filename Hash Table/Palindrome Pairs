@@ -1,0 +1,70 @@
+//3 cases: if one is empty string and other is a palindrome then combination is palindrome.
+// If ones reverse is also present in array then add it as it would be an even palindrome.
+// If a prefix is a palindrome and reverse of rest of it can be found in array then add this.
+// If a suffix is a palindrome and reverse of rest of it can be found in array then add this.
+
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+       vector<vector<int>> allPairs;
+       unordered_map<string, int> indexes;
+        
+        for(int i = 0; i < words.size(); i++) indexes[words[i]] = i;
+        
+        for(int i = 0; i < words.size(); i++){
+            cout<<allPairs.size();
+            if(words[i] == ""){
+                for(int j = 0; j < words.size(); j++){
+                    if(j != i && checkIfPalindrome(words[j])){
+                        allPairs.push_back({i, j});
+                        allPairs.push_back({j, i});
+                    } 
+                }
+            }
+            //string a = words[i];
+            reverse(words[i].begin(), words[i].end());
+            
+            if(indexes.find(words[i]) != indexes.end() && indexes[words[i]] != i ){
+                allPairs.push_back({ i, indexes[words[i]]});
+                //allPairs.push_back({i, indexes[words[i]]});
+            } 
+                
+            //cout<<allPairs.size();
+            //cout<<endl;
+            for(int j = 1; j < words[i].length(); j++){
+                string temp = words[i].substr(0, j);
+                string temp2 = words[i].substr(j, words[i].length()-j);
+                
+                //cout<<temp<<" "<<temp2<<endl;
+                if(checkIfPalindrome(temp) && indexes.find(temp2) != indexes.end()){
+                   // cout<<"1. temp: "<<temp<<" "<<j<<" temp2: "<<temp2<<" "<<endl;
+                    allPairs.push_back({i, indexes[temp2]});
+                }
+                
+                if(checkIfPalindrome(temp2) && indexes.find(temp) != indexes.end()){
+                    allPairs.push_back({indexes[temp], i});
+                    //cout<<"2. temp: "<<temp<<" "<<j<<" temp2: "<<temp2<<" "<<endl;
+                }
+            }
+            
+            
+            
+            //cout<<allPairs.size()<<endl;
+            
+        }
+            
+        
+        
+        return allPairs;
+    }
+    
+    bool checkIfPalindrome(string a){
+        
+        
+        for(int i = 0; i < a.length()/2; i++){
+            if(a[i] != a[a.length()-i-1]) return false;
+        }
+        cout<<"Palindome"<<endl;
+        return true;
+    }
+};
