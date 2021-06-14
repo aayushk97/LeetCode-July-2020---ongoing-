@@ -1,0 +1,17 @@
+//we can use selection algorithm to get O(N) time in average case and O(N^2) in worst case.
+//Below is O(NlogN) ? or O(N^2) in worst case.
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        
+       priority_queue<int> minHeap;
+        
+        for(int i = 0; i < nums.size(); i++){
+             minHeap.push(-nums[i]);
+             if(minHeap.size() > k) minHeap.pop();
+        }
+        
+        return -minHeap.top();
+    }
+};
