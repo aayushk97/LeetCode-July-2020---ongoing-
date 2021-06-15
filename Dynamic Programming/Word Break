@@ -1,0 +1,51 @@
+//find the first word and check if the rest of string contains other words. Here we use memorization on strings from index i to n-1 so when we encounter it 
+//again we can get its value from table.
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        
+        unordered_set<string> words;
+        vector<int> valid(s.length(), -1);
+        
+        for(int i = 0; i < wordDict.size(); i++) words.insert(wordDict[i]);
+        
+        if(words.find(s) != words.end()) return true;
+        
+        return searchWordBreak(s, words, 0, s.length(), valid);
+        
+        
+    }
+    
+    bool searchWordBreak(string s, unordered_set<string>& words, int i, int j, vector<int>& valid){
+        
+        
+        if(valid[i] != -1) return valid[i];
+        //cout<<"Here";
+        for(int k = i+1; k <= j; k++){
+            string partString = s.substr(i, k-i);
+            //cout<<partString<<i<<k<<j<<endl;
+            bool isPresent = false;            
+            bool isPresentRest = false;
+            
+            if(words.find(partString) != words.end()) isPresent = true;
+            
+            //condition when last substring is a word and rest is empty string we return true otherwise break the rest of it further.
+            if(isPresent && k == j) return true;
+            
+            else if(isPresent){
+                isPresentRest = searchWordBreak(s, words, k, j, valid);
+                if(isPresentRest){
+                    valid[i] = true;
+                    return valid[i];    
+                }
+                
+            } 
+            
+        }
+        
+        valid[i] = false;
+        return valid[i];
+        
+    }
+};
