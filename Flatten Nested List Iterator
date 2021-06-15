@@ -1,0 +1,34 @@
+class NestedIterator {
+public:
+    queue<int> elements;
+    
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        
+        addToQueue(nestedList);
+        
+        
+    }
+    
+    void addToQueue(vector<NestedInteger> nestedList){
+        
+        for(int i = 0; i < nestedList.size(); i++){
+           
+            if(nestedList[i].isInteger()) elements.push(nestedList[i].getInteger());
+            else addToQueue(nestedList[i].getList());
+            
+        }
+    }
+    
+    int next() {
+        int val = -1;
+        if(elements.size() > 0){
+            val = elements.front();
+            elements.pop();
+        }  
+        return val;
+    }
+    
+    bool hasNext() {
+        return elements.size() > 0? true: false;
+    }
+};
