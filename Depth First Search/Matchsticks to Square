@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool makesquare(vector<int>& matchsticks) {
+        
+        sort(matchsticks.begin(), matchsticks.end(), greater<int>());
+        //vector<vector<int>> side(4);
+        int sum = 0; 
+        for(int i = 0; i < matchsticks.size(); i++) sum+= matchsticks[i];
+        
+        if(sum % 4 != 0) return false;
+        
+        return isPossible(matchsticks, 0, 0, 0, 0, 0, sum/4);
+        
+        
+    }
+    
+    bool isPossible(vector<int>& matchsticks, int i, int leftSide, int rightSide, int topSide, int bottomSide, int sum){
+        //cout<<i<<endl;
+        if(i == matchsticks.size()){
+            cout<<leftSide<<" "<<rightSide<<" "<<topSide<<" "<<bottomSide<<endl;
+            if(sum == leftSide && leftSide == rightSide && leftSide == bottomSide) return true;
+            
+            //cout<<"Not returned true"<<endl;
+            return false;
+            
+        }
+        
+        bool addOnSide = false;
+        
+        if(leftSide + matchsticks[i] <= sum)
+        addOnSide = isPossible(matchsticks, i+1, leftSide+matchsticks[i], rightSide, topSide, bottomSide, sum);
+            
+        if(addOnSide) return true;
+        
+        if(rightSide + matchsticks[i] <= sum)
+        addOnSide = isPossible(matchsticks, i+1, leftSide, rightSide+matchsticks[i], topSide, bottomSide, sum);
+        
+        if(addOnSide) return true;
+        
+        if( topSide+matchsticks[i] <= sum)
+        addOnSide = isPossible(matchsticks, i+1, leftSide, rightSide, topSide+matchsticks[i], bottomSide, sum);
+        
+        if(addOnSide) return true;
+        
+        if(bottomSide+matchsticks[i] <= sum)
+        addOnSide = isPossible(matchsticks, i+1, leftSide, rightSide, topSide, bottomSide+matchsticks[i], sum);
+        
+        if(addOnSide) return true;
+            
+        
+        return false;
+        
+        
+    }
+    
+};
