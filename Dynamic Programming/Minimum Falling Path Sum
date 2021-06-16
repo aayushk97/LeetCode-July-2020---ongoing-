@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        vector<vector<int>> minSum(matrix.size(), vector<int>(matrix[0].size(), INT_MAX));
+        
+        for(int i = 0; i < matrix[0].size(); i++) minSum[matrix.size()-1][i] = matrix[matrix.size()-1][i]; 
+        
+        int minVal = INT_MAX;
+        
+        for(int i = 0; i < matrix[0].size(); i++)
+            minVal = min(minVal, findTheMin(matrix, minSum, 0, i));
+        
+        return minVal;
+    }
+    
+    int findTheMin(vector<vector<int>>& matrix, vector<vector<int>>& minSum, int i, int j){
+        
+        if(minSum[i][j] != INT_MAX) return minSum[i][j];
+        
+        
+        if(i+1 < matrix.size() && j - 1 >= 0) minSum[i][j] = min(minSum[i][j], matrix[i][j] + findTheMin(matrix, minSum, i+1, j-1));
+        
+        if(i+1 < matrix.size()) minSum[i][j] = min(minSum[i][j], matrix[i][j] + findTheMin(matrix, minSum, i+1, j));
+        
+        if(i+1 < matrix.size() && j+1 < matrix[0].size()) minSum[i][j] = min(minSum[i][j], matrix[i][j] + findTheMin(matrix, minSum, i+1, j+1));
+        
+       
+        
+        return minSum[i][j];
+        
+    }
+};
