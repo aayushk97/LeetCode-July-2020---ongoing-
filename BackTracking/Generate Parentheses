@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        if(n == 1) return {"()"};
+        vector<string> parenthesisComb;
+        
+        genParen(parenthesisComb, n, 0, 0, "");
+        
+        return parenthesisComb;
+    }
+    
+    void genParen(vector<string>& parenthesisComb, int n, int left, int right, string curr){
+        if(left - right < 0) return ;
+        if(left > n || right > n) return ;
+        
+        if(left == n && right == n){
+            parenthesisComb.push_back(curr);
+            return;
+        }
+        
+        genParen(parenthesisComb, n, left+1, right, curr+"(");
+        genParen(parenthesisComb, n, left, right+1, curr+")");
+    }
+    
+   
+};
