@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        
+        vector<vector<int>> minPath(triangle.size(), vector<int>(triangle.size(), INT_MAX));
+        
+        return minPathRoute(triangle, 0, 0, minPath);
+    }
+    
+    int minPathRoute(vector<vector<int>>& triangle, int level, int branch, vector<vector<int>>& minPath){
+        
+        if(level >= triangle.size()) return 0;
+        
+        if(minPath[level][branch] != INT_MAX) return minPath[level][branch];
+        
+        int minStep = INT_MAX;
+        
+        minStep = min(minStep, triangle[level][branch] + minPathRoute(triangle, level+1, branch, minPath));
+        minStep = min(minStep, triangle[level][branch] + minPathRoute(triangle, level+1, branch+1, minPath));
+        
+        return minPath[level][branch] = minStep;
+        
+    }
+};
