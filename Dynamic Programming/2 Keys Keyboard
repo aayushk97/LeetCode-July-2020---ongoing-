@@ -1,0 +1,52 @@
+//Here for calculating the no of operation for n we find the factors to which we can copy and paste to double and triple its value. 
+//If n = 99 we can find the no of opeartions to get 33 then in +3 operations(1 copy and 2 paste) we get 99. To get 33 we can find the no of opeations to get to 11
+//which is 11 then +3 operations we get to 33.
+
+//Here instead of finding factors we can find the primes till root 1000 and use those. i.e, 11 is a prime so no of operations to get that is 11 and from there
+// we can use i(prime no) + n/i to get total opearitons to reach 33.
+//recursive eqution will be if(n % i == 0) i + minsteps(n/i); here is a prime no from 1 ro root(1000).
+
+
+class Solution {
+public:
+    int minSteps(int n) {
+        if(n == 1) return 0;
+        
+        vector<int> operations(n+1, INT_MAX);
+        operations[0] = -1;
+        operations[1] = 0;
+        
+        minStepsForNA(n, operations);
+        
+        return operations[n];
+        
+    }
+    
+    int minStepsForNA(int n, vector<int>& operations){
+        
+        if(operations[n] != INT_MAX) return operations[n];
+        
+        vector<int> factors;
+        findFactorsOfNo(n, factors);
+        int val = INT_MAX;
+        
+        for(int i = 0; i < factors.size(); i++){
+            if(factors[i] == n) continue;
+            val = min(val, (n/factors[i])+minStepsForNA(factors[i], operations));   
+        }
+         
+        return operations[n] = val;
+        
+    }
+    
+    void findFactorsOfNo(int n, vector<int>& factors){
+        for(int i = 1; i <= sqrt(n); i++){
+            if(n % i == 0){
+                if(n / i != i){
+                    factors.push_back(i);
+                    factors.push_back(n/i);
+                }else factors.push_back(i);
+            }
+        }
+    }
+};
