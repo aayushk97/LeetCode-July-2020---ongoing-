@@ -1,3 +1,8 @@
+//For a number n we find the min no of possible nos to form n - k where k is a perfect square sqrt(n) >= k (otherwise we would get a negative no) ex.
+//if no is 12 and sqrt(12) = 3.xx so if we take 4 instead of 3 we get 12-14 = -2 so 4 going till perfect sqaure of 4 is not necessary.
+// Here we store the min perfect cube to form a number as here repeating subproblems is : 12 - 1 -1 -1 -1  or 12 - 4 both equal to 8 so we now find min no of step
+// to create 8. If it was stored earlier we need no compute it again in 12-4.
+
 class Solution {
 public:
     int numSquares(int n) {
