@@ -1,0 +1,27 @@
+//for every number we include that is less than right can be used to create a new sub array. And for evey seq of number lower than left we dont create a subarray,
+//i.e, subtract it.
+
+class Solution {
+public:
+    int numSubarrayBoundedMax(vector<int>& nums, int left, int right) {
+        
+        int low = 0, high = 0, maxSubArrays = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] > right) high = 0;
+            else high ++;
+            
+            maxSubArrays+= high;
+            
+            if(nums[i] < left) low ++;
+            else low = 0;
+            
+            maxSubArrays-= low;
+            
+            
+        }
+        
+        
+        return maxSubArrays;
+    }
+};
