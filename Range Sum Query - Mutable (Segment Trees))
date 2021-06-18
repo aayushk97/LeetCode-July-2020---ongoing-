@@ -1,0 +1,77 @@
+class NumArray {
+public:
+    
+    int* segmentTree;
+    int sizeST;
+    vector<int> copyNums;
+    
+    NumArray(vector<int>& nums) {
+        
+        
+        sizeST = 2*pow(2,ceil(log2(nums.size())))-1;
+                       
+        segmentTree = new int[sizeST];
+        constructSegmentTree(segmentTree, nums, 0, nums.size()-1, 0);
+        
+        for(int i = 0; i < nums.size(); i++) copyNums.push_back(nums[i]);
+    }
+    
+    int constructSegmentTree(int* segementTee, vector<int>& nums, int i, int j, int curr){
+        
+        if(i == j){
+            segmentTree[curr] = nums[i];
+            return nums[i];
+        }
+        
+        int mid = i - ((i - j)/2);
+        segmentTree[curr] = constructSegmentTree(segmentTree, nums, i, mid, 2*curr+1) + constructSegmentTree(segmentTree, nums, mid+1, j, 2*curr+2);
+        
+        return segmentTree[curr];
+        
+    }
+    
+    void updateSegmentTreeVal(int i, int j,int index, int curr, int diff){
+        //If index value lies outside the range of segment
+        if(index < i || index > j) return ;
+        
+        segmentTree[curr] = segmentTree[curr]+diff;
+        
+        if(i != j){
+            int mid = i - ((i-j)/2);
+            updateSegmentTreeVal(i, mid, index, 2*curr+1, diff);
+            updateSegmentTreeVal(mid+1, j, index, 2*curr+2, diff);
+        }
+    }
+    
+    void update(int index, int val) {
+        if(index < 0 || index > copyNums.size()) return ;
+        
+        int diff = val - copyNums[index];
+        copyNums[index] = val;
+        updateSegmentTreeVal(0, copyNums.size()-1, index, 0, diff);
+    }
+    
+    int getSumInRange(int i, int j, int left, int right, int curr){
+        if(left <= i && right >= j) return segmentTree[curr];
+        
+        if(left > j || right < i) return 0;
+        //cout<<"sum: "<<i<<j<<endl;
+        int mid = i - (i-j)/2;
+        
+        return getSumInRange(i, mid, left, right, 2*curr+1) + getSumInRange(mid+1, j, left, right, 2*curr+2);
+    }
+    
+    int sumRange(int left, int right) {
+        
+        return getSumInRange(0, copyNums.size()-1, left, right, 0);
+    }
+    
+    
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
