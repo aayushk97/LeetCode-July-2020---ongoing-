@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        
+        vector<vector<int>> maxSubMatrix(matrix.size(), vector<int>(matrix[0].size(), 0));
+        
+        int maxSize = 0;
+        
+        for(int j = 0; j < matrix[0].size(); j++){
+            maxSubMatrix[0][j] = matrix[0][j]-'0';
+            if(maxSubMatrix[0][j] == 1) maxSize = 1;
+        }
+        
+        for(int i = 0; i < matrix.size(); i++){
+            maxSubMatrix[i][0] = matrix[i][0] - '0';
+            if(maxSubMatrix[i][0] == 1) maxSize = 1;
+        }
+        
+        
+        
+        for(int i = 1; i < matrix.size(); i++){
+            for(int j = 1; j < matrix[0].size(); j++){
+                
+                if(matrix[i][j] == '1'){
+                    maxSubMatrix[i][j] = 1+min(maxSubMatrix[i][j-1], min(maxSubMatrix[i-1][j], maxSubMatrix[i-1][j-1]));
+                    maxSize = max(maxSize, maxSubMatrix[i][j]);
+                }else maxSubMatrix[i][j] = 0;
+            }
+            
+            
+               
+        }
+        
+        
+        
+        return maxSize*maxSize;
+    }
+};
