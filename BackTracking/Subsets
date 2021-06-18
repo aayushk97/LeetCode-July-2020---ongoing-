@@ -5,6 +5,9 @@ public:
         vector<vector<int>> subsetOfSets;
         vector<int> subset;
         
+        //insert an empty subset
+        subsetOfSets.push_back({});
+        
         findSubsets(nums, 0, subset, subsetOfSets);
         
         return subsetOfSets;
@@ -12,18 +15,18 @@ public:
     
     void findSubsets(vector<int>& nums, int k, vector<int>& subset, vector<vector<int>>& subsetOfSets){
         
-        subsetOfSets.push_back(subset);
         
         if(k == nums.size()) return;
             
-        for(int i = k; i < nums.size(); i++){
-            
-            subset.push_back(nums[i]);
-            findSubsets(nums, i+1, subset, subsetOfSets);
-            
-            subset.pop_back();
-            
-        }
+        //insert an element into the subset and create a subset of it.    
+        subset.push_back(nums[k]);
+        findSubsets(nums, k+1, subset, subsetOfSets);
+        subsetOfSets.push_back(subset);
+        subset.pop_back();
+        
+        //create a subset without this element
+        findSubsets(nums, k+1, subset, subsetOfSets);
+        
         
     }
     
