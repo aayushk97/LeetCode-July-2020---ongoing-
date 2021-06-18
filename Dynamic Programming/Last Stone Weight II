@@ -1,0 +1,42 @@
+//Breaks down to finding 2 subsets whose sum diff is minimum. So we find what sums are possible from 1 to totalSumOfStones/2. As if totalSumOfStones/2 is possible
+//then the result will be 0.
+
+class Solution {
+public:
+    int lastStoneWeightII(vector<int>& stones) {
+        
+        int sumOfStones = 0;
+        int maxSubsetSum = 0;
+        for(int i = 0; i < stones.size(); i++) sumOfStones+= stones[i];
+        
+        vector<vector<bool>> sumPoss((sumOfStones/2)+1, vector<bool>(stones.size()+1, false));
+        
+        //sum of zero possible with i stones
+        for(int i = 0; i <= stones.size(); i++){
+            sumPoss[0][i] = true;
+        }
+        //cout<<stones.size()<<" "<<sumPoss.size()<<endl;
+        
+        //now find what sums are possible with given stones upto S/2;
+        for(int i = 1; i <= stones.size(); i++){
+            for(int sum = 1; sum < sumPoss.size(); sum++){
+                //cout<<i<<" "<<sum<<" "<<endl;
+                //if the sum is possible from prev i-1 stones or sum is greater than stones[i-1] so we add this stone size to set.
+                if(sumPoss[sum][i-1] || (sum >= stones[i-1] && sumPoss[sum-stones[i-1]][i-1])){
+                    sumPoss[sum][i] = true;
+                    //cout<<"true";
+                    //set the max subset sum possible
+                    maxSubsetSum = max(maxSubsetSum, sum);
+                }
+            }
+        }
+        //cout<<maxSubsetSum<<endl;
+        
+        //s1+s2 = sumOfStones and s1-s2= minDiff which is size of resultant set
+        return sumOfStones - 2*maxSubsetSum;
+        
+        
+    }
+    
+    
+};
