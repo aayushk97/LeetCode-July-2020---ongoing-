@@ -1,0 +1,55 @@
+//Here we first preprocess the no of 1s and 0s then just like knapsac instead of weight here we have a combination of m and n. To keep track of elements in 
+//sack we assign an additional dimension 'k' to it. So we get 2 dimensions m and n corresponding to knapsac W and 1 dimension k corresposnding to Knapsac n.
+
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> numZandO;
+        vector<vector<vector<int>>> maxSize(m+1, vector<vector<int>>(n+1, vector<int>(strs.size()+1, -1)));
+        
+        // count the number of 1s and 0s in each string.
+        for(int i = 0; i < strs.size(); i++){
+            int countZ = 0, countO = 0;
+            for(int j = 0; j < strs[i].size(); j++){
+                if(strs[i][j] == '1') countO += 1;
+                else countZ += 1;
+            }
+            
+            numZandO.push_back({countZ, countO});
+        }
+        
+        //set all elements required to make m = 0 and n = 0 i.e, maxSize[0][0][k] = true;
+        
+        for(int i = 0; i <= strs.size(); i++) maxSize[0][0][i] = i;
+        
+        //reset set all elements required to make m = x and n = y with 0 elements (done by defualt in initialization of maxSize)
+        for(int i = 0; i <= m; i++){
+            for(int j = 0; j <=n; j++) maxSize[i][j][0] = 0;
+        }
+        
+        return findMax(m, n, strs, numZandO, strs.size(), maxSize);
+        
+    }
+    
+    int findMax(int m, int n, vector<string>& strs, vector<vector<int>>& numZandO, int k, vector<vector<vector<int>>>& maxSize){
+        
+        
+        //if there are no elements in subset or we dont have m and n left we return 0
+        if(k == 0|| (m == 0 && n == 0)) return 0;
+        
+        //If it was previously calculated then check then we return it.
+         if(maxSize[m][n][k] != -1) return maxSize[m][n][k]; 
+        
+        //form all combinations of subsets if element can be added to set or not.
+         
+        if(numZandO[k-1][0] <= m && numZandO[k-1][1] <= n){
+           
+              maxSize[m][n][k] = max(findMax(m, n, strs, numZandO, k-1, maxSize), 1+findMax(m-numZandO[k-1][0], n-numZandO[k-1][1], strs, numZandO, k-1, maxSize));    
+            
+        }else maxSize[m][n][k] = findMax(m, n, strs, numZandO, k-1, maxSize);
+        
+        
+        return maxSize[m][n][k];
+        
+    }
+};
