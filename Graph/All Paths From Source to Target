@@ -1,0 +1,36 @@
+//We use DFS for this purpose here. But topological sort can be used.
+
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        
+        vector<vector<int>> allPaths;
+        vector<int> paths;
+        
+        paths.push_back(0);
+        findAllPaths(graph, 0, graph.size()-1, allPaths, paths);
+        
+        return allPaths;
+    }
+    
+    void findAllPaths(vector<vector<int>>& graph, int u, int target, vector<vector<int>>& allPaths, vector<int>& paths){
+        
+        if(u == target){
+            //paths.push_back(target);
+            allPaths.push_back(paths);
+            //paths.pop_back();
+        }
+        
+        
+        for(int i = 0; i < graph[u].size(); i++){
+            
+            paths.push_back(graph[u][i]);
+            findAllPaths(graph, graph[u][i], target, allPaths, paths);
+            paths.pop_back();
+            
+        }
+        
+    }
+    
+    
+};
