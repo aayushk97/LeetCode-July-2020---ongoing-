@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+       
+        unordered_set<int> visitedNums;
+        
+        return checkIsHappy(n, visitedNums);
+        
+        
+        
+    }
+    
+    bool checkIsHappy(int n, unordered_set<int>& visitedNums){
+        if(visitedNums.count(n) > 0) return false;
+        //cout<<n<<endl;
+        visitedNums.insert(n);
+        int sum = 0, temp = n;
+        
+        int res = 0;
+        
+        while(temp > 0){
+            res = temp % 10;
+            
+            temp /= 10;
+            sum += res*res;
+        }
+        
+        if(sum == 1) return true;
+        
+        return checkIsHappy(sum, visitedNums);
+        
+    }
+};
