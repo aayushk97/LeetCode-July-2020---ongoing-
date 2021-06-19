@@ -1,0 +1,26 @@
+// In the most obvious solution we count the no of edges each vertices is connected to ans store it in a map. If there are n-1 such vertices then it is the
+//vertex. 
+
+//A one liner will be to compare edges[0][0] == edges[1][0] || edges[0][0] == edges[0][1] ? edges[0][0] : edges[0][1]; as every edge contains the common node.
+
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        
+        unordered_map<int, int> adjacent;
+        
+        for(int i = 0; i < edges.size(); i++){
+            
+            adjacent[edges[i][0]]++;
+            adjacent[edges[i][1]]++;
+            
+        }
+        
+        for(auto iter = adjacent.begin(); iter != adjacent.end(); iter++){
+            //cout<<iter -> first<<" "<<iter -> second<<endl;
+            if(iter -> second == edges.size()) return iter ->first;
+        }
+        
+        return -1;
+    }
+};
