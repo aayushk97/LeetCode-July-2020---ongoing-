@@ -1,0 +1,35 @@
+//For every number in range we find the power then sort it in ascending order and return the ith min.
+//DP is used for numbers in range of 0-3001 to increase speed (greater than half was increased) as most numbers will be less than 3002 so no 
+//postitives to use a greater array for DP.
+
+class Solution {
+public:
+    int getKth(int lo, int hi, int k) {
+        vector<int> dp(3002, -1);
+        vector<vector<int>> powerOfNum(hi-lo+1, vector<int>(2, 0));
+        
+        for(int i = lo; i <= hi; i++){
+           
+            int power = findPower(i, dp);
+            powerOfNum[i-lo][0] = power;
+            powerOfNum[i-lo][1] = i;
+        }
+        
+        sort(powerOfNum.begin(), powerOfNum.end());
+        
+        return powerOfNum[k-1][1];
+    }
+    
+    int findPower(int num, vector<int>& dp){
+        //cout<<num<<endl;
+        if(num < 3002 && dp[num] != -1) return dp[num];
+        
+        if(num == 1) return dp[1] = 0;
+        
+        if(num%2 == 0 && num < 3002) return dp[num] = 1+findPower(num/2, dp);
+        else if( num < 3002) return dp[num] = 1+findPower(3*num+1, dp);
+        
+        if(num%2 == 0) return 1+findPower(num/2, dp);
+        else return 1+findPower(3*num+1, dp);
+    }
+};
