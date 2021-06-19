@@ -1,0 +1,22 @@
+// We find all nodes with in degrees = 0 as if a node has indegree > 0 it can be reached via some node. Therefore adding it will not create a minimal set.
+
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        unordered_map<int, int> indegrees;
+        
+        for(int i = 0; i < n; i++) indegrees[i] = 0;
+        
+        for(int i = 0 ; i < edges.size(); i++){
+            indegrees[edges[i][1]]++;
+        }
+        
+        vector<int> nodes;
+        for(auto it = indegrees.begin(); it != indegrees.end(); it++){
+            
+            if(it -> second == 0) nodes.push_back(it -> first);
+        }
+        
+        return nodes;
+    }
+};
