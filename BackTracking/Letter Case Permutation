@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<string> letterCasePermutation(string s) {
+        
+        vector<string> combinations;
+        combinations.push_back(s);
+        findPerm(combinations, 0, s, s);
+        
+        return combinations;
+    }
+    
+    void findPerm(vector<string>& combinations, int i, string s, string curr){
+        
+        if(i >= s.length()) return;
+        //cout<<i<<" "<<s<<" "<<curr<<endl;
+        
+        
+        if(s[i] >= 'a' && s[i] <= 'z'){
+            
+            //curr = s;
+            char temp = curr[i] - 'a' + 'A';
+            curr[i] = temp;
+            combinations.push_back(curr);
+            //cout<<"change char"<<endl;
+            findPerm(combinations, i+1, s, curr);
+            
+            curr[i] = s[i];
+            
+             
+        }else if(s[i] >= 'A' && s[i] <= 'Z'){
+            char temp = curr[i] - 'A' + 'a';
+            curr[i] = temp;
+            combinations.push_back(curr);
+            //cout<<"change char"<<endl;
+            findPerm(combinations, i+1, s, curr);
+            
+            curr[i] = s[i];
+            
+            
+        }
+        
+         findPerm(combinations, i+1, s, curr);  
+        
+        
+        
+    }
+};
