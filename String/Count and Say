@@ -1,0 +1,28 @@
+//count the number of consecutive nos and attach the number itself after.
+
+class Solution {
+public:
+    string countAndSay(int n) {
+        
+        if(n == 1) return "1";
+        
+        string val = countAndSay(n-1);
+        
+        string res = "";
+        int count = 1;
+        //cout<<"Here"<<val[0]-'0'<<endl;
+        for(int i = 1; i < val.size(); i++){
+            
+            //cout<<"Loop"<<endl;
+            if(val[i] != val[i-1]){
+                res+= to_string(count) + val[i-1];
+                count = 1;
+            }else count ++;
+        }
+        //cout<<"val: "<<count[val[val.size()-1] - '0']<<endl;
+        res+= to_string(count) + val[val.size()-1];
+        //cout<<"Result: "<<res<<endl;
+        return res;
+        
+    }
+};
