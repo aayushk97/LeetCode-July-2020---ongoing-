@@ -1,5 +1,8 @@
 //used quick sort.
 //O(n) : we can maintain 2 pointers and whenever we encounter a 0 we put it to left and when 2 then put it to right.
+//note the order of while loop inside for loop as changing order gives wrong answer.
+https://leetcode.com/problems/sort-colors/discuss/26472/Share-my-at-most-two-pass-constant-space-10-line-solution
+
 
 class Solution {
 public:
