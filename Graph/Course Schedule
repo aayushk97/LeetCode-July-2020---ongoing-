@@ -1,0 +1,50 @@
+//We first create a graph then find the indegrees of all nodes. 
+//Then use topological sort. If topological sort has all nodes then it is possible that the course structure can exist.
+
+class Solution {
+    
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        vector<vector<int>> graph(numCourses);
+        //create a graph
+        for(int i = 0; i < prerequisites.size(); i++){
+            graph[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        
+        
+        //calculate all indegrees
+        vector<int> indegrees(numCourses, 0);
+        for(int i = 0; i < graph.size(); i++){
+            for(int j = 0; j < graph[i].size(); j++){
+                indegrees[graph[i][j]] += 1;
+            }
+        }
+        
+        //now find topological sort
+        queue<int> q;
+        int counter = 0;
+        
+        for(int i = 0; i < indegrees.size(); i++){
+            if(indegrees[i] == 0) q.push(i);
+        }
+        
+        while(q.size() > 0){
+            int curr = q.front();
+            q.pop();
+            
+            counter++;
+            
+            for(int i = 0; i < graph[curr].size(); i++){
+                indegrees[graph[curr][i]] -= 1;
+                if(indegrees[graph[curr][i]] == 0) q.push(graph[curr][i]);
+            }
+            
+        }
+        
+        if(counter == numCourses) return true;
+        else return false;
+        
+        
+    }
+};
