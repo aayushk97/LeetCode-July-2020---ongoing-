@@ -1,0 +1,47 @@
+//we use 2 stacks and push the even level nodes in left to right order and in odd levels in right to left order.
+
+//other method is to push 2 consecutive even and odd levels in same loop :
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/discuss/33904/JAVA-Double-Stack-Solution
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> zigZagOrder;
+        vector<int> level;
+        if(!root) return zigZagOrder;
+        stack<TreeNode*> st1;
+        stack<TreeNode*> st2;
+        
+        st1.push(root);
+        int i = 0;
+        
+        while(st1.size() > 0 || st2.size() > 0){
+            TreeNode* curr = NULL;
+            if(i  == 0){
+                curr = st1.top();
+                st1.pop();
+                
+                if(curr -> left) st2.push(curr -> left);
+                if(curr -> right) st2.push(curr -> right);
+            }else{
+                curr = st2.top();
+                st2.pop();
+                
+                if(curr -> right) st1.push(curr -> right);
+                if(curr -> left) st1.push(curr -> left);
+            }
+            
+            level.push_back(curr -> val);
+            
+            if((i == 0 && st1.size() == 0) || ( i == 1 && st2.size() == 0)){
+                i = 1 - i;
+                zigZagOrder.push_back(level);
+                level.clear();
+            }
+            
+            
+        }
+        
+        return zigZagOrder;
+    }
+};
