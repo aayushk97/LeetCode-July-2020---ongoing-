@@ -1,0 +1,34 @@
+//BFS when we visit a room next room to visit is the one whose keys are present in this room. May have cycles so not tree.
+
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        
+        vector<bool> visited(rooms.size(), false);
+        
+        queue<int> room;
+        room.push(0);
+        
+        while(!room.empty()){
+            
+            int curr = room.front();
+            room.pop();
+            
+            if(visited[curr]) continue;
+            
+            visited[curr] = true;
+            
+            for(int i = 0; i < rooms[curr].size(); i++){
+                room.push(rooms[curr][i]);
+            }
+            
+            
+        }
+        
+        for(int i = 0; i < visited.size(); i++){
+            if(visited[i] == false) return false;
+        }
+        
+        return true;
+    }
+};
