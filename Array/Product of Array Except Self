@@ -1,0 +1,39 @@
+//Here keep track of zeros if more than one then whole result array will be zero. If only one zero then all elements in result will have 0 
+// and the element which has zero has product of non zeros. If no zeros then simply divide the total product to get final anser.
+
+//Another solution would be to find the product of suffix and product of prefix then if a product of a number i is asked it is product of suffix * product of prefix.
+//ex. [2 ,3, 4, 5] prefix array will be [1, 2, 2*3, 2*3*4] and product of suffix array is [2*3*4*5, 3*4*5, 4*5, 5, 1] So res[i] = prefix[i]*suffix[i];
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+     
+        int product = 1;
+        int containsZero = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] == 0){
+                containsZero++;
+            }else{
+                product *= nums[i];
+            }
+        }
+        
+        if(!containsZero){
+            for(int i = 0; i < nums.size(); i++){
+                nums[i] = product/nums[i];
+            }
+        }else if(containsZero == 1){
+            for(int i = 0; i < nums.size(); i++){
+                if(nums[i] == 0) nums[i] = product;
+                else nums[i] = 0;
+            }
+        }else{
+            for(int i = 0; i < nums.size(); i++){
+                nums[i] = 0;
+            }
+        }
+        
+        return nums;
+    }
+};
