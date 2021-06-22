@@ -1,0 +1,54 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+void dfs(vector<vector<int>>& graph, vector<bool>& visited, int start){
+
+    visited[start] = true;
+
+    for(int i = 0; i < graph[start].size(); i++){
+        if(!visited[graph[start][i]])dfs(graph, visited, graph[start][i]);
+    }
+
+}
+
+int main(){
+    int n, e;
+    //cout<<"Enter n and e"<<endl;
+    cin>>n;
+    cin>>e;
+
+    vector<vector<int>> graph(n);
+    
+    int u, v;
+    //cout<<"Enter the vertices"<<endl;
+    for(int i = 0; i < e; i++){
+        cin >> u;
+        cin>> v;
+        
+        graph[u-1].push_back(v-1);
+        graph[v-1].push_back(u-1);
+    }
+        
+    //now we traverse using dfs
+    vector<bool> visited(n, false);
+    int count = 0;
+    
+    for(int i = 0; i < n; i++){
+        if(!visited[i]){
+            count++;
+            dfs(graph, visited, i);
+        }
+    }
+
+    cout<<count;
+    return 0;
+}
+
+
+
+
+
+
+
