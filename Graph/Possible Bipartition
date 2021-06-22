@@ -1,0 +1,75 @@
+//We first vreate a graph of all nodes and people who dislike each other are connected by an edge.
+//we call bfs for each non viisted node (graph may be disconnected) and assign a group to each node.
+//If a node is already visited and we are visiting it for 2nd time then we check what is the group it will be inserted in this time.
+//If it is different group then it means that the people that the person hates was added to his group. In this case we return false;
+
+//We can even check before adding to queue if a neighbour is visited and its group is same as our group then we return false;
+
+class Solution {
+public:
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        
+        //create graph
+        vector<vector<int>> graph(n);
+        
+        for(int i = 0; i < dislikes.size(); i++){
+            graph[dislikes[i][0] -1].push_back(dislikes[i][1]-1);
+            graph[dislikes[i][1] -1].push_back(dislikes[i][0] -1);
+        }
+        
+        
+        vector<int> groups(n, -1);
+        vector<bool> visited(n, false);
+        
+        bool possible = false;
+        for(int i = 0; i < n; i++){
+            if(!visited[i]) possible = bfs(visited, groups, graph, i);
+            
+            if(!possible) return false;
+        }
+        
+        return true;
+        
+        
+    }
+    
+    bool bfs(vector<bool>& visited, vector<int>& groups, vector<vector<int>>& graph, int start){
+        int i = 0;
+        
+        queue<int> q;
+        q.push(start);
+        q.push(-1);
+        
+        while(q.size() > 1){
+            
+            int curr = q.front();
+            q.pop();
+            //cout<<curr<<endl;
+            if(curr == -1){
+                i = 1-i; 
+                q.push(-1);
+            }
+            
+            if(curr == -1) continue;
+            if(visited[curr]){
+                if(groups[curr] != i) return false; 
+            }
+            if(visited[curr]) continue;
+            visited[curr] = true;
+            groups[curr] = i;
+            
+            for(int i = 0; i < graph[curr].size(); i++){
+                
+                q.push(graph[curr][i]);
+                
+                
+            }
+            
+            
+            
+        }
+        
+        return true;
+        
+    }
+};
