@@ -1,6 +1,8 @@
 // We create a set and add the nodes of an edge to the set and if both the nodes of an edges already belong to same set ehn there is a cycle.
 //Here since we are going through the array one by one the array an loop if it exists after adding an edge will be last edge added to loop from array.
 
+//Try the implementation with rank.
+
 class Solution {
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
