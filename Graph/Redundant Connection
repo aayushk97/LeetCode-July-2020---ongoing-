@@ -1,0 +1,41 @@
+// We create a set and add the nodes of an edge to the set and if both the nodes of an edges already belong to same set ehn there is a cycle.
+//Here since we are going through the array one by one the array an loop if it exists after adding an edge will be last edge added to loop from array.
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        
+        vector<int> sets(edges.size()+1, -1);
+        
+        for(int i = 0; i < sets.size(); i++) sets[i] = i;
+        
+        for(int i = 0; i < edges.size(); i++){
+            int x = find(sets, edges[i][0]);
+            int y = find(sets, edges[i][1]);
+            
+            if(x == y) return edges[i];
+            
+            unionSets(sets, x, y);
+        }
+        
+        return {-1};
+    }
+    
+    int find(vector<int>& sets, int x){
+        if( x > sets.size()) return -1;
+        
+        if(sets[x] == x) return x;
+        
+        else return find(sets, sets[x]);
+        
+    }
+    
+    void unionSets(vector<int>& sets, int root1, int root2){
+        
+        if(find(sets, root1) == find(sets, root2)) return; 
+        
+        sets[root1] = root2;
+        
+    }
+    
+};
