@@ -1,0 +1,71 @@
+//The concept is that whatever is the graph the node producing the min height will be one in center (i.e same dist from all leaves)
+//there will be atmost only 2 nodes as roots which give min height tree.
+
+//We start with one node and start plucking the leaf nodes and remove their edges from only connected neighbour.
+//Then do the same for new leaf nodes untill there are at most 2 nodes left.
+
+class Solution {
+public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        
+        //create graph
+        vector<vector<int>> graph(n);
+        
+        if(n == 1) return {0};
+        
+        for(int i = 0; i < edges.size(); i++){
+            graph[edges[i][0]].push_back(edges[i][1]);
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+        
+        
+        vector<int> leaves;
+        for(int i = 0; i < n; i++){
+            if(graph[i].size() == 1) leaves.push_back(i);
+        }
+        
+       
+        //cout<<"Here";
+        //there can only be a root or at most 2 root for which min height can be obtained.
+        while(n > 2){
+            //cout<<"Leaves size: "<<leaves.size()<<endl;
+            //we update the number of nodes in graph after these leaves are removed
+            n = n - leaves.size();
+            
+            vector<int> newLeaves;
+            
+            for(int i = 0; i < leaves.size(); i++){
+                //cout<<"leaf node: "<<leaves[i]<<"and size: "<<graph[leaves[i]].size()<<endl;
+                //get the neighbour of this leaf
+                int node = graph[leaves[i]][0];
+                
+                for(int j = 0; j < graph[node].size(); j++){
+                    //cout<<"neighbour: "<<graph[node][j]<<" "<<leaves[i]<<endl;
+                    if(graph[node][j] == leaves[i]){
+                        graph[node].erase(graph[node].begin()+j);
+                        break;
+                    } 
+                        
+                    
+                    //cout<<"size new: "<<graph[node].size()<<endl;
+                }
+                
+                
+                if(graph[node].size() == 1) newLeaves.push_back(node);
+                //cout<<"Done "<<newLeaves.size()<<" "<<graph[node].size()<<endl;
+            }
+            
+            //now after removing the older leaves we get a new set of leaves to operate on
+            leaves.clear();
+            for(int i = 0; i < newLeaves.size(); i++){
+                leaves.push_back(newLeaves[i]);
+            }
+            
+        }
+      
+        return leaves;
+        
+    }
+    
+   
+};
