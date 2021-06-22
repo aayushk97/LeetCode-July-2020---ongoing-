@@ -1,0 +1,30 @@
+//we preprocess the no of servers in each row and column
+//then in next loop we find if a place has a server we check if the count of that col is > 1 or count of row > 1 then we increment count.
+
+class Solution {
+public:
+    int countServers(vector<vector<int>>& grid) {
+        
+        vector<int> rowsCount(grid.size(), 0);
+        vector<int> colsCount(grid[0].size(), 0);
+        
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                if(grid[i][j]){
+                    rowsCount[i]++;
+                    colsCount[j]++;
+                }
+            }
+        }
+        int count = 0;
+        //if there is a server in a location we check if there is another in same col or row
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                if(grid[i][j] && (rowsCount[i] > 1 || colsCount[j] > 1)) count++;
+            }
+        }
+        
+        return count;
+    }
+    
+};
