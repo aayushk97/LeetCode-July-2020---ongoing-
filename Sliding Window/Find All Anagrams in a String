@@ -1,0 +1,48 @@
+//We first find the count of all chars in our p string.
+//Then we start our sliding window protocol and keep on increamenting j one by one and incrementing i only when the window size is greater than length of p
+//Now, we j in on an element of s we decrement the char count of that element in array. If it was present in p then its count after decrementing will be greater
+//than 0. otherwise it will be negative. 
+//So if it is greater than 0 we decremrent diff which handles the number of chars to match in given window with p.
+//now as we slide the window if the element going out of left boundary is its char count is incremented. If it was present in anagram than after incrementing
+//its char count should be > 0 otherwise since it was earlier decremrented if it was not present in array it would have been negative and after incerementing
+//will be 0 so it is not part of anagram and diff is not incremented otherwise if it was part of anagram it is incremented.
+
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        
+        vector<int> chars(26, 0);
+        
+        for(int i = 0; i < p.length(); i++){
+            chars[p[i] - 'a'] += 1;
+        }
+        
+        vector<int> result;
+        int diff = p.length();
+        for(int j = 0, i = 0; j < s.length(); j++){
+            
+            if(j-i>= p.length()){
+                chars[s[i]-'a'] += 1;
+               
+                if(chars[s[i]-'a'] > 0) diff++;
+                //cout<<"delete: "<<s[i]<<" "<<chars[s[i]-'a']<<diff<<endl;
+                 i++;
+            }   
+                chars[s[j]-'a']--;
+                
+                if(chars[s[j]-'a'] >= 0) diff--;
+                //cout<<s[j]<<" "<<chars[s[j]-'a']<<diff<<endl;
+                
+            if(diff == 0) result.push_back(i);
+            
+            
+            
+        }
+        
+        return result;
+        
+    }
+    
+    
+};
