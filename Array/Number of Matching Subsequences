@@ -1,0 +1,38 @@
+//Concept is to stroe the indices of characters os s. Since a character in string like 'book' has 2 o's in it. It's index to be stored is 1 and 2.
+//So we need a 2D matrix to store indexes.
+
+//Now to find if a word is subsequence of s. We find the pos of 1st char of words[i] in s then find next char in s such that its index is greater than first char
+//If all indexes of words[i] can be found in s then words[i] is subsequence of s.
+
+class Solution {
+public:
+    int numMatchingSubseq(string s, vector<string>& words) {
+        
+        int count = 0;
+        
+        //we first create a map of the char and the indexes it appears in
+        vector<vector<int>> map(26);
+        
+        for(int i = 0; i < s.length(); i++){
+            map[s[i]-'a'].push_back(i);
+        }
+        
+        //now we check for each string if it is a subsequence of s
+        for(int i = 0; i < words.size(); i++){
+            bool found = true;
+            for(int j = 0, prev = -1; j < words[i].length(); j++){
+                //find if the next letter in word has a greater index in s than the one of last char of word
+                auto it = upper_bound(map[words[i][j] - 'a'].begin(), map[words[i][j] - 'a'].end(), prev);
+                
+                if(it == map[words[i][j] - 'a'].end()) found = false;
+                else prev = *it;
+                
+            }
+            
+            if(found) count++;
+        }
+        
+        return count;
+        
+    }
+};
