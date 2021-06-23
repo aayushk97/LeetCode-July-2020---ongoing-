@@ -1,0 +1,55 @@
+//Find the topological ordering
+
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        vector<int> orderOfCourses;
+        
+        vector<vector<int>> graph(numCourses);
+        
+        for(int i = 0; i < prerequisites.size(); i++){
+            graph[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        
+        
+        //now we create an indegree vector
+        vector<int> indegree(numCourses, 0);
+        
+        for(int i = 0; i < graph.size(); i++){
+            for(int j = 0; j < graph[i].size(); j++){
+                indegree[graph[i][j]]+= 1;
+            }
+        }
+        
+        // now we start finding the order of courses
+        queue<int> q;
+        for(int i = 0; i < indegree.size(); i++){
+            //cout<<"indegree of i: "<<i<<" "<<indegree[i]<<endl;
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        
+        
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            //cout<<curr<<endl;
+            orderOfCourses.push_back(curr);
+            
+            for(int i = 0; i < graph[curr].size(); i++){
+                indegree[graph[curr][i]] -= 1;
+                //cout<<"indegree is : "<<indegree[graph[curr][i]]<<endl;
+                if(indegree[graph[curr][i]] == 0) q.push(graph[curr][i]);
+            }
+        }
+        //cout<<orderOfCourses.size()<<endl;
+        if(orderOfCourses.size() == numCourses) return orderOfCourses;
+        else{
+            orderOfCourses.clear();
+            return orderOfCourses;
+        }
+        
+    }
+};
