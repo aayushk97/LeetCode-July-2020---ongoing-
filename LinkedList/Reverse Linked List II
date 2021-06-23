@@ -1,0 +1,46 @@
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(head && !head -> next) return head;
+        
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        
+        int i = 1;
+        while(i < left){
+            prev = curr;
+            curr = curr -> next;
+            i++;
+        }
+        cout<<"aa";
+        
+        ListNode* before = prev;
+        ListNode* before2 = curr;
+        ListNode* fwd = curr -> next;
+        cout<<"curr: "<<curr -> val;
+        //cout<<"before: "<<before -> val<<" before 2: "<< before2 -> val<<" prev: "<<prev -> val<<" curr: "<<curr -> val<<" fwd: "<< fwd -> val<<endl;
+        
+        while(i < right){
+            prev = curr;
+            curr = fwd;
+            fwd = fwd -> next;
+            curr -> next = prev;
+            //cout<<"before: "<<before -> val<<" before 2: "<< before2 -> val<<" prev: "<<prev -> val<<" curr: "<<curr -> val<<" fwd: "<<endl;
+            
+            i++;
+            cout<<i<<endl;
+        }
+        cout<<"ye";
+        if(!before){
+            head = curr;
+            before2 -> next = fwd;
+            
+        }else{
+            before -> next = curr;
+            before2 -> next = fwd;
+        }
+        
+        return head;
+        
+    }
+};
