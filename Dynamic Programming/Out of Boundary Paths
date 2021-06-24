@@ -1,0 +1,34 @@
+//We use a dp matrix where dp[i][j][maxMove] will denote the number of ways to take the ball out-of-bounds from cell (i,j)
+//with maxMove number of moves atmost. Everytime we calculate the result for a given cell with some number of moves remaining, 
+//we will store this state in our matrix and directly return this whenever required in the future.
+
+class Solution {
+public:
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        
+        vector<vector<vector<long>>> dp(m+1, vector<vector<long>>(n+1, vector<long>(maxMove+1, -1)));
+        
+        
+        return findNumPaths(m, n, maxMove, maxMove, startRow, startColumn, dp);
+    }
+    
+    int findNumPaths(int m, int n, int maxMove, int move, int startRow, int startColumn, vector<vector<vector<long>>>& dp){
+        
+        
+        if(move < 0) return 0;
+        
+        if(startRow < 0 || startColumn < 0 || startRow >= m || startColumn >= n) return 1;
+        if(dp[startRow][startColumn][move] != -1) return dp[startRow][startColumn][move]%1000000007;
+        
+        long left = 0, right = 0, up = 0, down = 0;
+        
+        left = findNumPaths(m, n, maxMove, move-1, startRow+1, startColumn, dp)%1000000007;
+        right = findNumPaths(m, n, maxMove, move-1, startRow, startColumn+1, dp)%1000000007;
+        up = findNumPaths(m, n, maxMove, move-1, startRow-1, startColumn, dp)%1000000007;
+        down = findNumPaths(m, n, maxMove, move-1, startRow, startColumn-1, dp)%1000000007;
+            
+         return dp[startRow][startColumn][move] = (left + up + down + right)%1000000007;
+            
+        
+    }
+};
