@@ -1,0 +1,48 @@
+//for wach num in nums we go 2 ways either increment it or subtract it from sum.
+//Now here we dont use a vector for memorization as sum can be negative so for same thing wwe use vector to store the level or index at which the sum was present.
+//And corresponding hashmap is used to store the sum and corresponding no of ways to achieve that sum.
+//Here repetition is :   for ex [1, 1, ,1, 1, 1] target =3
+           0
+        /     \
+       1      -1
+     /   \   /   \
+    2     0 -2    0 Here 0's appear at same level so the same subtree will be of both.
+
+class Solution {
+public:
+    int exprNum = 0;
+    int findTargetSumWays(vector<int>& nums, int target) {
+        
+        vector<unordered_map<int, int>> numWays(nums.size());
+        
+        
+        return numExpressions(nums, 0, target, 0, numWays);
+        
+        
+    }
+    
+    int numExpressions(vector<int>& nums, int sum, int target, int i, vector<unordered_map<int, int>>& numWays){
+        
+        if(i > nums.size()) return 0;
+        //cout<<i<<" "<<sum<<endl;
+        if(i == nums.size() && sum == target){
+            //cout<<"yeah?"<<endl;
+            
+            return 1;
+        }
+        if(i == nums.size()) return 0;
+        
+        auto it = numWays[i].find(sum);
+        
+        if(it != numWays[i].end()) return it -> second;
+        
+        return numWays[i][sum] = 
+        numExpressions(nums, sum+nums[i], target, i+1, numWays) +
+        numExpressions(nums, sum-nums[i], target, i+1, numWays);
+        
+        
+        
+        
+        
+    }
+};
