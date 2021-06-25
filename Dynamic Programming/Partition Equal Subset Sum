@@ -1,0 +1,36 @@
+// we just find if subset is possible for sum/2.
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            sum += nums[i];
+        }
+        
+        if(sum % 2 != 0) return false;
+        
+        int halfSum = sum/2;
+        //use dp to get sum of sum/2
+        
+        vector<vector<int>> sumPoss(nums.size()+1, vector<int>(halfSum+1, 0));
+        
+        //sum of 0 is possible with every num combination
+        for(int i = 0; i <= nums.size(); i++){
+            sumPoss[i][0] = true;
+        }
+        //cout<<"Jere";
+        //for(int i = 0; i <= halfSum; i++) sumPoss[0][i] = false;
+        //cout<<"aa";
+        for(int i = 1; i <= nums.size(); i++){
+            for(int j = 1; j <= halfSum; j++){
+                //cout<<i<<j<<endl;
+                if(j-nums[i-1] >= 0) sumPoss[i][j] = sumPoss[i-1][j-nums[i-1]] || sumPoss[i-1][j];
+                else sumPoss[i][j] = sumPoss[i-1][j];
+            }
+        }
+        
+        return sumPoss[nums.size()][halfSum];
+        
+    }
+};
