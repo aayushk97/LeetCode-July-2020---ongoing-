@@ -1,3 +1,6 @@
+//since the numbers can be repeated again many times and out of order so it is better to include a number in a step and then call the same thing again
+//Here we store the number of ways to create a sum in an array as we can have a for target 4 we can go from 1 + 1 + 1 + 1, 1 + 1 + 2 then some
+//other branch 2 + numwaystocreate(2) which is already stored in array as sumPoss[2] = 2;
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
