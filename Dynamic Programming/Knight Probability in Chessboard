@@ -1,0 +1,41 @@
+//We create a 3d table to save the no of pos out of a particular square a knight can move in 'move' jumps so that
+//it is out of th grid. Now for each step we divide the no of paths in which it was out by 8 to get the total probability.
+//The total probability is: (no of ways in which it was out)/ (total ways = 8^k, where k is no of moves);
+
+class Solution {
+public:
+    double knightProbability(int n, int k, int row, int column) {
+        vector<vector<vector<double>>> dp(n+1, vector<vector<double>>(n+1, vector<double>(k+1, -1)));
+        
+        double num = numMovesOut(n, k, k, row, column,dp);
+        double total = pow(8, k);
+        
+        //cout<<num<<" "<<total<<endl;
+        
+        return num;
+    }
+    
+    double numMovesOut(int n , int k, int move, int row, int column, vector<vector<vector<double>>>& dp){
+        
+        if(move == 0 && row >= 0 && column >= 0 && row <n && column < n) return 1;
+        else if(move <= 0)return 0;
+        
+        if(row < 0 || column < 0 || row >= n || column >= n) return 0;
+        
+        
+        if(dp[row][column][move] != -1) return dp[row][column][move];
+        
+        double left1 = numMovesOut(n, k, move -1, row-2, column-1, dp);
+        double left2 = numMovesOut(n, k, move-1, row-1, column-2, dp);
+        double left3 = numMovesOut(n, k, move-1, row+1, column-2, dp);
+        double left4 = numMovesOut(n, k, move-1, row+2, column-1, dp);
+        
+        double right1 = numMovesOut(n, k, move-1, row-2, column+1, dp);
+        double right2 = numMovesOut(n, k, move-1, row-1, column+2, dp);
+        double right3 = numMovesOut(n, k, move-1, row+1, column+2, dp);
+        double right4 = numMovesOut(n, k, move-1, row+2, column+1, dp);
+        
+        return dp[row][column][move] = ((double)left1 + (double)left2 + (double)left3 + (double)left4 + (double)right1 + (double)right2 + (double)right3 + (double)right4)/(double)8;
+        
+    }
+};
