@@ -1,0 +1,32 @@
+//Here we apply dp on the prob that A will be empty first given that the value of soup in A is m and value of soup in B in n.
+//After applying the above dp we still get TLE. To avoid that since we have a precision of 10^-6 it stays at 1 after some point with some minor changes 
+//after that. So we can return 1 in that case.
+
+class Solution {
+public:
+    double soupServings(int n) {
+        //return the prob at 1 if n >= 5000
+         if(n >= 5000) return 1;
+        vector<vector<double>> soupServes(n+1, vector<double>(n+1, -1));
+        
+       
+        
+        return probSoupServes(n, n, soupServes);
+        
+    }
+    
+    double probSoupServes(int m, int n, vector<vector<double>>& soupServes){
+        if(m<= 0 && n<= 0) return 0.5;
+        if(m <= 0) return 1;
+        if(n <= 0) return 0;
+        
+        if(soupServes[m][n] != -1) return soupServes[m][n];
+        
+        double routeOne = probSoupServes(m-100, n-0, soupServes);
+        double routeTwo = probSoupServes(m-75, n - 25, soupServes);
+        double routeThree = probSoupServes(m-50, n-50, soupServes);
+        double routeFour = probSoupServes(m-25, n-75, soupServes);
+        
+        return soupServes[m][n] = 0.25*(routeOne+routeTwo+routeThree+routeFour);
+    }
+};
