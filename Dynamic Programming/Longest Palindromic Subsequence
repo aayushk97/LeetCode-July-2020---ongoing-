@@ -1,0 +1,54 @@
+//same as longest palindromic substring with extra condition that we take max of if there is a palindromic subsequence that was found in shorter substring.
+
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        
+        vector<vector<int>> lps(s.length(), vector<int>(s.length(), 0));
+        
+        for(int i = 0; i < s.length(); i++) lps[i][i] = 1;
+        
+        for(int k = 2; k <= s.length(); k++){
+            for(int i = 0, j = i + k - 1; i < s.length()-k+1; i++, j++){
+                
+                if(s[i] == s[j] && k == 2){
+                    lps[i][j] = 2;
+                }else if(s[i] == s[j]){
+                    lps[i][j] = lps[i+1][j-1] +2;
+                }else{
+                    lps[i][j] = max(lps[i][j-1], lps[i+1][j]);
+                }
+                
+            }
+        }
+        
+        return lps[0][s.length()-1];
+        
+    }
+};
+
+
+//Just reverse and use LCS
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        
+        vector<vector<int>> lps(s.length()+1, vector<int>(s.length()+1, 0));
+        
+        string rev = s;
+        reverse(rev.begin(), rev.end());
+        
+        for(int i = 1; i <= s.length(); i++){
+            for(int j = 1; j <= s.length(); j++){
+                if(rev[i-1] == s[j-1]){
+                    lps[i][j] = lps[i-1][j-1] + 1;
+                }else{
+                    lps[i][j] = max(lps[i-1][j], lps[i][j-1]);
+                }
+            }
+        }
+        
+        return lps[s.length()][s.length()];
+        
+    }
+};
