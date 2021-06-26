@@ -1,0 +1,21 @@
+//To do this find ways to make f(n) from previous then try to write it in an expression.
+
+class Solution {
+public:
+    int numTilings(int n) {
+        vector<long> numWays(n+1, -1);
+        
+        numWays[0] = 0;
+        numWays[1] = 1;
+        if(n == 1) return 1;
+        numWays[2] = 2;
+        if(n == 2) return 2;
+        numWays[3] = 5;
+        if(n == 3) return 5;
+    
+        for(int i = 4; i <= n; i++){
+            numWays[i] = (numWays[i-1]%1000000007 + numWays[i-1]%1000000007 + numWays[i-3]%1000000007)%1000000007;
+        }
+        return numWays[n];
+    }
+};
