@@ -1,0 +1,35 @@
+//Here first of all there are many combinations which cannot be possible as input because no matter how you swap them there is no chance that they will form
+//an increasing sequence so if there are 2 elements in both arrays: a1 a2 ; b1 b2 then a1 < a2 & b1 < b2; a1 < a2 & b1 > b2; a1 > a2 & b1 < b2 ; a1 > a2 & b1 > b2.
+//From above case only case 1 and case 3 is possible on condition that a1 < b2 & b1 < a2.
+
+//Now we make an array which stores the min no of swaps, required if element at i is swapped and not swappedt to make the sequence increasing.
+class Solution {
+public:
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        vector<vector<int>> swaps(nums1.size(), vector<int>(2, INT_MAX));
+        
+        return findMinSwaps(nums1, nums2, 0, 0, swaps);
+    }
+    
+    int findMinSwaps(vector<int>& nums1, vector<int>& nums2, int i, int doSwap, vector<vector<int>>& swaps){
+        
+        if(i == nums1.size()) return 0;
+        
+        if(swaps[i][doSwap] != INT_MAX) return swaps[i][doSwap];
+        
+        if(i == 0 || nums1[i] > nums1[i-1] && nums2[i] > nums2[i-1]){
+            //There is no problem untill now
+            swaps[i][doSwap] = findMinSwaps(nums1, nums2, i+1, 0, swaps);
+        }
+        
+        if(i == 0 || nums1[i] > nums2[i-1] && nums2[i] > nums1[i-1]){
+            swap(nums1[i], nums2[i]);
+            swaps[i][doSwap] = min(swaps[i][doSwap], 1 + findMinSwaps(nums1, nums2, i+1, 1, swaps));
+            swap(nums1[i], nums2[i]);
+        }
+        
+        
+        return swaps[i][doSwap];
+        
+    }
+};
