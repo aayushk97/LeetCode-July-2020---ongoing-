@@ -1,0 +1,48 @@
+//Time complexity is O(n^2)
+//Here we take a 2D array to store the maxlength and the count of length of this max seq.
+//So, there are 2 possiblities: 1. There may be more than one seq ending on same number having maxlength. This case is covered by line 23.
+//2. There can be other sequences that end with max length. Covered by line 32.
+//So on each number we go left and find all possible numbers less than curr number and if the number is less than curr number we check the seq length
+//if adding this number the max seq length increasses then we save this max seq length and at line 34 we compare if it is max.
+// Additionally we also save the number of occurances of this max length.
+
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        
+        vector<vector<int>> numLongestSeq(nums.size(), vector<int>(2, 1));
+        
+        int maxLength = 0, count = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            
+            int j = i-1;
+            while(j >= 0){
+                if(nums[j] < nums[i]){
+                    
+                    if(numLongestSeq[i][0] < 1+numLongestSeq[j][0]){
+                        numLongestSeq[i][0] = 1+numLongestSeq[j][0];
+                        numLongestSeq[i][1] = numLongestSeq[j][1];
+                       
+                    } 
+                    else if(numLongestSeq[i][0] == 1 + numLongestSeq[j][0]){
+                        numLongestSeq[i][1] += numLongestSeq[j][1];
+                        
+                    }
+                }
+                j--;
+            }
+            
+            if(maxLength == numLongestSeq[i][0]) count+= numLongestSeq[i][1];
+            else if(maxLength < numLongestSeq[i][0]){
+                maxLength = numLongestSeq[i][0];
+                count = numLongestSeq[i][1];
+            }
+        }
+        
+        
+      
+        return count;
+        
+    }
+};
