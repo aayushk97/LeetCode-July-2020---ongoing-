@@ -1,0 +1,31 @@
+//We first check if the char is matching or a '.'. Then we check if the next char is a '*'. If yes then we can either ignore these 2 chars in pattern of we can 
+//match the next letter of string with same char of pattern as pattern can have more than one appearance due to '*'.
+//If the next char is not a '*' then we see if the char matched if it didn;t we return false else compare the next string.
+//If we have s= 'ab' and p = 'a*ab' then we have to ignore even if char matches. So we check for char matching when ignoring as even if char matches it can be ignord.
+
+
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        vector<vector<int>> dp(s.length()+1, vector<int>(p.length()+1, -1));
+        
+        return matchPattern(s, p, 0, 0, dp);
+    }
+    
+    bool matchPattern(string s, string p, int i, int j, vector<vector<int>>& dp){
+        
+        if(i > s.length() || j > p.length()) return false;
+        if(i == s.length() && j == p.length()) return true;
+        //cout<<i<<j<<endl;
+        if(dp[i][j] != -1) return dp[i][j];
+        bool firstMatch = (i < s.length() && s[i] == p[j] || p[j] == '.');
+        
+        if(j+1 < p.length() && p[j+1] == '*'){
+            return dp[i][j] = matchPattern(s, p, i, j+2, dp) || (firstMatch && matchPattern(s, p, i+1, j, dp));
+        }else{
+            if(firstMatch){
+                return dp[i][j] = matchPattern(s, p, i+1, j+1, dp);
+            }else return false;
+        }
+    }
+};
