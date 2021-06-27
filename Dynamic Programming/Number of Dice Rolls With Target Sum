@@ -1,0 +1,31 @@
+//We keep track of the sum num of ways to acieve a sum using k dice rolls. ie. if in one path we have 5 - 2 path then in some other tree we have 2 - 5, 3-4, 4-3 path 
+//whose sum is same so the result can be cached. 
+
+class Solution {
+public:
+    int numRollsToTarget(int d, int f, int target) {
+        vector<vector<long>> sumtarget(target+1, vector<long>(d+1, -1));
+        
+        return numRolls(d, f, target, sumtarget);
+    }
+    
+    long numRolls(int d, int f, int target, vector<vector<long>>& sumtarget){
+        //cout<<d<<" "<<f<<" "<<target<<endl;
+        if(target < 0 || d < 0) return 0;
+        
+        if(d == 0 && target == 0) return 1;
+        else if(d == 0) return 0;
+        
+        if(sumtarget[target][d] != -1) return sumtarget[target][d];
+        
+        long a = 0;
+        for(int i = 1; i <= f; i++){
+            
+            if(target-i >= 0){
+               a += numRolls(d-1, f, target-i, sumtarget)%1000000007;  
+            } 
+        }
+        
+        return sumtarget[target][d] = a%1000000007;
+    }
+};
