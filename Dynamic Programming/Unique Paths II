@@ -1,0 +1,29 @@
+//Just like Unique paths, here we just check a conditiion that there is no obstacle in current path. If there is then we return 0.
+//Here dp is applied to get num paths from a cell to last cell.
+
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        vector<vector<int>> numPaths(obstacleGrid.size(), vector<int>(obstacleGrid[0].size(), -1));
+        
+        return numUniquePaths(obstacleGrid, 0, 0, numPaths);
+    }
+    
+    
+    int numUniquePaths(vector<vector<int>>& obstacleGrid, int i, int j, vector<vector<int>>& numPaths){
+        
+        if(i == obstacleGrid.size()-1 && j == obstacleGrid[0].size()-1 && obstacleGrid[i][j] != 1) return 1;
+         
+        if(i >= obstacleGrid.size() || j >= obstacleGrid[0].size() || obstacleGrid[i][j] == 1) return 0;
+         
+        if(numPaths[i][j] != -1) return numPaths[i][j];
+        
+        int a = numUniquePaths(obstacleGrid, i+1, j, numPaths);
+         
+        int b = numUniquePaths(obstacleGrid, i, j+1, numPaths);
+         //cout<<a+b<<endl;
+        return numPaths[i][j] =  a + b;
+    }
+    
+    
+};
