@@ -1,0 +1,29 @@
+//So the problem asks to distibute candies in such a way that every candidate has atleast one candy and candidates with higher rating gets more 
+//candies than its neighbours. 
+//So we first start giving candies more than its left neighbour if its rating is higher.
+//then from right we give max of its prev count and if its ranking is greater than its right and adding a candy will increase the count then give it an extra candy 
+//otherwise what is given is fine.
+
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        
+        
+        vector<int> count(ratings.size(),1);
+        
+        for(int i = 1; i < ratings.size(); i++){
+            if(ratings[i] > ratings[i-1]) count[i] = count[i-1]+1; 
+        }
+        
+        for(int j = ratings.size()-2; j >= 0; j--){
+            if(ratings[j] > ratings[j+1]) count[j] = max(count[j], 1+count[j+1]);
+            
+            
+        }
+        int candiesNum = 0;
+        for(int i = 0; i < count.size(); i++) candiesNum+= count[i];
+        
+        return candiesNum;
+        
+    }
+};
