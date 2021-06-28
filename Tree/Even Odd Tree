@@ -1,0 +1,63 @@
+//level by level traverse to get all of the values in a 2d vector then perform the opertions that is asked for each level.
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) {
+        vector<vector<int>> tree;
+        vector<int> level;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+        
+        while(q.size() > 1){
+            TreeNode* curr = q.front();
+            q.pop();
+            
+            if(!curr){
+                tree.push_back(level);
+                
+                
+                level.clear();
+                q.push(NULL);
+                
+            }
+            
+            if(!curr) continue;
+            
+            level.push_back(curr-> val);
+            
+            if(curr -> left){
+                q.push(curr -> left);
+            }
+            if(curr -> right){
+                q.push(curr -> right);
+            }
+        }
+        
+        tree.push_back(level);
+        for(int i = 0; i < tree.size(); i++){
+            //cout<<"level: "<<i<<endl;
+            if(i % 2 == 0){
+                if(tree[i][0] % 2 == 0) return false;
+                for(int j = 1; j < tree[i].size(); j++){
+                    if(tree[i][j] % 2 == 0 || tree[i][j-1] >= tree[i][j]){
+                        //cout<<"returned false on: "<<i<<" "<<j<<tree[i][j-1]<<" "<<tree[i][j]<<endl;
+                        return false;  
+                    } 
+                }    
+            }else{
+                
+                if(tree[i][0] % 2 == 1) return false;
+                for(int j = 1; j < tree[i].size(); j++){
+                    if(tree[i][j] % 2 == 1 || tree[i][j-1] <= tree[i][j]){
+                        //cout<<"returned false on: "<<i<<" "<<j<<tree[i][j-1]<<" "<<tree[i][j]<<endl; 
+                        return false;
+                    } 
+                }
+            }
+            
+        }
+        
+        return true;
+    }
+};
