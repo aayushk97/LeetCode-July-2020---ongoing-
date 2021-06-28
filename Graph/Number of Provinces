@@ -1,0 +1,31 @@
+//do dfs to find the no of connected components. Here dfs is done on matrix instead of adjacency list.
+//Check care of condition in line 22. it will be i-1 k-1 as we are using i and j from 1 but they are stored in 0 index.
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        
+        vector<int> visited(isConnected.size()+1, 0);
+        int count = 0;
+        for(int i = 1; i <= isConnected.size(); i++){
+            if(!visited[i]){
+                dfs(isConnected, i, visited);
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    void dfs(vector<vector<int>>& isConnected, int i, vector<int>& visited){
+        //cout<<i<<endl;
+        for(int k = 1; k <= isConnected[0].size(); k++){
+            if(k != i && isConnected[i-1][k-1] && !visited[k]){
+                //cout<<"Here";
+                visited[k] = 1;
+                dfs(isConnected, k, visited);
+            }
+        }
+    }
+    
+    
+};
