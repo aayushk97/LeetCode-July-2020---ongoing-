@@ -3,6 +3,7 @@
 //So we first start giving candies more than its left neighbour if its rating is higher.
 //then from right we give max of its prev count and if its ranking is greater than its right and adding a candy will increase the count then give it an extra candy 
 //otherwise what is given is fine.
+//https://leetcode.com/problems/candy/solution/
 
 class Solution {
 public:
