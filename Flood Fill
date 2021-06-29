@@ -1,0 +1,26 @@
+//We dfs traverse to find all the neighbouring pixels with same value and change its color to newcolor.
+
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        vector<vector<int>> visited(image.size(), vector<int>(image[0].size()));
+        
+        dfs(image, sr, sc, newColor, visited, image[sr][sc]);
+        
+        return image;
+    }
+    
+    void dfs(vector<vector<int>>& image, int sr, int sc, int newColor, vector<vector<int>>& visited, int startPixel){
+        if(sr < 0 || sc < 0 || sr >= image.size() || sc >= image[0].size() || image[sr][sc] != startPixel) return ;
+        //cout<<sr<<sc<<endl;
+        if(visited[sr][sc]) return;
+        
+        visited[sr][sc] = 1;
+        image[sr][sc] = newColor;
+        
+        dfs(image, sr+1, sc, newColor, visited, startPixel);
+        dfs(image, sr-1, sc, newColor, visited, startPixel);
+        dfs(image, sr, sc-1, newColor, visited, startPixel);
+        dfs(image, sr, sc+1, newColor, visited, startPixel);
+    }
+};
