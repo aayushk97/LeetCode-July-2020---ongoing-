@@ -1,0 +1,59 @@
+//Here we use union find data structure to put all the nodes with same row or column in one set. 
+// Then since we remove all the stones one by one from this set only one will remain.
+//Therefore max no of stones to remove will be no of stones - no of connected components.
+//Union find is implemented using rank method.
+
+class Solution {
+public:
+    
+    int removeStones(vector<vector<int>>& stones) {
+        
+        vector<int> sets(stones.size(), -1);
+        vector<int> rank(stones.size(), 0);
+        int count = stones.size();
+        
+        for(int i = 0; i < sets.size(); i++) sets[i] = i;
+        
+        for(int i = 0; i < stones.size(); i++){
+            for(int j = i+1; j < stones.size(); j++){
+                if(stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]){
+                    unionSet(sets, i, j, &count, rank);
+                    
+                }
+            }
+        }
+        
+        
+       return stones.size() - count; 
+        
+       
+        
+        
+    }
+    
+    int find(vector<int>&sets, int i){
+        if(sets[i] == i) return i;
+        else return find(sets, sets[i]);
+    }
+    
+    void unionSet(vector<int>& sets, int x, int y, int* count, vector<int>& rank){
+        //cout<<*count<<endl;
+        
+        int rootx = find(sets, x);
+        int rooty = find(sets, y);
+        
+        if(rootx != rooty){
+            if(rank[rootx] > rank[rooty]){
+                sets[rooty] = rootx;
+            }else{
+                sets[rootx] = rooty;
+                if(rootx == rooty) rank[rooty] += 1;
+            }
+        
+            *count = *count - 1;
+            
+        }
+        
+        
+    }
+};
