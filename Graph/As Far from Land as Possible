@@ -1,0 +1,62 @@
+//Here we perform BFS from all land points and find the greatest dist water from all of them. 
+//BFS is used simulataneously from all these sources and when a source is added to queue its value is set to land so we dont enter it into queue from surrounding 
+//land in this round i.e, entered only once.
+//Then we return count -1 as we have to subtract the starting land.
+
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+     
+        queue<pair<int, int>> points;
+        int waterNum = 0;
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                if(grid[i][j] == 1) points.push({i, j});
+                if(grid[i][j] == 0) waterNum++;
+            }
+        }
+        cout<<points.size()<<" "<<waterNum<<endl;
+        if(points.size() == 0 || waterNum == 0) return -1;
+        int count = 0;
+        int k = 0;
+        vector<vector<int>> visited(grid.size(), vector<int>(grid[0].size()));
+        pair<int, int> init = points.front();
+        while(points.size() > 0){
+            int n = points.size();
+            count++;
+            
+            for(int i = 0; i < n; i++){
+                pair<int, int> curr = points.front();
+                points.pop();
+                
+                //if(visited[curr.first][curr.second]) continue;
+                //visited[curr.first][curr.second] = 1;
+                //grid[curr.first][curr.second] = 1;
+                
+                if(curr.first-1 >= 0 && grid[curr.first-1][curr.second] == 0){
+                    points.push({curr.first-1, curr.second});
+                    grid[curr.first-1][curr.second] = 1;
+                } 
+                if(curr.first+1 < grid.size() && grid[curr.first+1][curr.second] == 0){
+                    points.push({curr.first+1, curr.second});
+                    grid[curr.first+1][curr.second] = 1;
+                } 
+                if(curr.second-1 >= 0 && grid[curr.first][curr.second-1] == 0){
+                    points.push({curr.first, curr.second-1});
+                    grid[curr.first][curr.second-1] = 1;
+                } 
+                if(curr.second+1 < grid[0].size() && grid[curr.first][curr.second+1] == 0){
+                    points.push({curr.first, curr.second+1});
+                    grid[curr.first][curr.second+1] = 1;
+                } 
+                //cout<<"Here"<<k++<<endl;
+            }
+            cout<<points.size()<<endl;
+            //if(points.size() == 1) break;
+        }
+        
+        
+        
+        return count-1;
+    }
+};
