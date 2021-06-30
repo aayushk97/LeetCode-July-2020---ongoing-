@@ -1,0 +1,49 @@
+//We first make a graph with directed edges with a -> b has weight of a/b and b -> a has weight of b/a. Then for a query we perform dfs from numerator of query
+//to denominator of query multiplying each edge weight to get find division result. Ex: a -> b has weight of 2 and b -> c has weight 3 then a / c we multiply
+// edge weights of a -> b and b -> c.
+
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        vector<double> result;
+        
+        unordered_map<string, vector<pair<string, double>>> graph;
+        
+        for(int i = 0; i < equations.size(); i++){
+            graph[equations[i][0]].push_back({equations[i][1], values[i]});
+            graph[equations[i][1]].push_back({equations[i][0], 1/values[i]});
+        }
+        
+        for(int j = 0; j < queries.size(); j++){
+            unordered_set<string> visited; 
+          //  cout<<"query: "<<queries[j][0]<<" "<<queries[j][1]<<endl;
+            result.push_back(dfs(graph, queries[j][0], queries[j][1], visited));
+        }
+        
+        return result;
+        
+    }
+    
+    double dfs(unordered_map<string, vector<pair<string, double>>>& graph, string a, string b, unordered_set<string>& visited){
+       // cout<<a<<endl;
+        
+        
+        if(visited.find(a)!= visited.end()) return -1;
+        visited.insert(a);
+        if(graph.find(a) == graph.end()) return -1;
+        if(a == b) return 1;
+        
+        vector<pair<string, double>> neigh = graph[a];
+       // cout<<"size of neigh: "<<neigh.size()<<endl;
+        
+        if(neigh.size() == 0) return -1;
+        double val = 1;
+        
+        for(int i = 0; i < neigh.size(); i++){
+            val = dfs(graph, neigh[i].first, b, visited);
+            if(val != -1) return val = neigh[i].second * val;
+        }
+        
+        return -1;
+    }
+};
