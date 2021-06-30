@@ -1,0 +1,47 @@
+//we use dfs starting at land to see if it is connected to boundaies. If yes then we still fill all these 0's to 1's using '&' operator as it evaluates
+//all expression to deduce if the expression is true or false. If we use && opeartor it will deduce partial island and don't fill the remaining.
+//So if we reach the shore it is not closed and hence we return false. Otherwise we return true.
+//This is similar to no of Enclaves problem.
+
+class Solution {
+public:
+    
+    
+    int closedIsland(vector<vector<int>>& grid) {
+        
+        
+        vector<vector<int>> visited(grid.size(), vector<int>(grid[0].size(), 0));
+        
+        int closedLand = 0;
+        
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                if(grid[i][j] == 0){
+                    bool connected = isConnectedToWater(grid, i, j, visited);
+                    //cout<<connected<<" "<<i<<" "<<j<<endl;
+                    if(connected) closedLand++;
+                }
+            }
+        }
+        
+        return closedLand;
+        
+    }
+    
+    bool isConnectedToWater(vector<vector<int>>& grid, int i, int j, vector<vector<int>>& visited){
+        if(i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size()) return false;
+        
+        //if(visited[i][j]) return false;
+        
+        //visited[i][j] = true;
+        if(grid[i][j] == 1) return true;
+        
+        grid[i][j] = 1;
+        int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        //if(i == 0 || i == grid.size()-1 || j == 0 || j == grid[0].size()-1) return true;
+        bool res = true;
+        
+        return  isConnectedToWater(grid, i-1, j, visited) & isConnectedToWater(grid, i+1, j, visited) & isConnectedToWater(grid, i, j-1, visited) & isConnectedToWater(grid, i, j+1, visited);
+        
+    }
+};
