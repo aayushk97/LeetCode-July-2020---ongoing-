@@ -1,0 +1,25 @@
+//Here the result of money got by robbing houses starting from ith house is stored in table.
+//Then to get the max money that can be robbed, we either go to +2 house or ignore this house.
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        
+        vector<int> money(nums.size(), -1);
+        
+        return maxMoney(nums, 0, money);
+        
+    }
+    
+    int maxMoney(vector<int>& nums, int i, vector<int>& money){
+        if(i >= nums.size()) return 0;
+        
+        int sum = -1;
+        if(money[i] != -1) return money[i];
+        
+        sum = nums[i] + maxMoney(nums, i+2, money);
+        sum = max(sum, maxMoney(nums, i+1, money));
+        
+        return money[i] = sum;
+    }
+};
