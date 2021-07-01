@@ -1,0 +1,28 @@
+//We first sort the intervals so they are sorted by starting times.
+//Then we assign an starting and ending time for current interval, then we find if the next interval start before ending time of current considered interval.
+//If yes then we increase the interval depending updon if the ending time is more than current ending time otherwise one interval engulfs the other.
+//If they are not intersecting then we store the prev merged interval and start a new one eith currents starting and ending time.
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        
+        vector<vector<int>> mergedIntervals;
+        //vector<int> interval;
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+        for(int i = 1; i < intervals.size(); i++){
+            if(intervals[i][0] <= end){
+                if(intervals[i][1] > end) end = intervals[i][1];
+            }else{
+                 mergedIntervals.push_back({start, end});
+                 start = intervals[i][0];
+                 end = intervals[i][1];
+            }
+            
+        }
+        mergedIntervals.push_back({start, end});
+        return mergedIntervals;
+    }
+};
