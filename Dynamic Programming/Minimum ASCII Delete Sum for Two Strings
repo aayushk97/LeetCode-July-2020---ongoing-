@@ -1,0 +1,45 @@
+//We find if the chars are matching then we skip it.
+//Otherwise we add char at i then increment i or we add char at j and then increment j.
+//Since, there can be repeated subproblems i.e, i+1, j then i+1, j+1 and i, j+1, then i+1, j so we cache this.
+//return endsum is used when one string is empty then to get it equal to other we also need to empty the other string.
+
+class Solution {
+public:
+    int minimumDeleteSum(string s1, string s2) {
+        vector<vector<int>> dp(s1.length()+1, vector<int>(s2.length()+1, INT_MAX));
+        
+        return minDeleteSum(s1, s2, 0, 0, dp);
+    }
+    
+    int minDeleteSum(string &s1, string &s2, int i, int j, vector<vector<int>>& dp){
+       
+        if(i == s1.length() && j == s2.length()) return 0;
+        
+        if(i == s1.length() && j <= s2.length()-1) return sumEnd(s2, j);
+        if(j == s2.length() && i <= s1.length()-1) return sumEnd(s1, i);
+        
+        if(dp[i][j] != INT_MAX) return dp[i][j];
+        
+        int a = INT_MAX;
+        
+        if(s1[i] == s2[j]){
+            a = minDeleteSum(s1, s2, i+1, j+1, dp);
+        }else{
+           
+            
+            a = min( s1[i]+minDeleteSum(s1, s2, i+1, j, dp), s2[j]+minDeleteSum(s1, s2, i, j+1, dp));
+            
+                
+                
+        }
+        return dp[i][j] = a;
+        
+    }
+    
+    int sumEnd(string s, int i){
+        int sum = 0;
+        for(int k = i; k < s.length(); k++) sum += s[k];
+        return sum;
+    }
+    
+};
