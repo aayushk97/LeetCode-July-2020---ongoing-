@@ -1,0 +1,33 @@
+//Whenever we encounter an opeartor we pop 2 elements in order and then perform opeartion and push back result untill reverse polish notation is empty.
+//Here, we need to take care of order of operands we pop. The 2nd element popped id first element in opeartion.
+
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+        
+        string plus = "+", mult = "*", div = "/", subt= "-";
+        
+        for(int i = 0; i < tokens.size(); i++){
+            //cout<<tokens[i]<<" "<<plus<<endl;
+            if(tokens[i] != plus && tokens[i] != mult && tokens[i] != div && tokens[i] != subt){
+                //cout<<tokens[i];
+                int a = stoi(tokens[i]);
+                st.push(a);
+            }else{
+                int b = st.top();
+                st.pop();
+                int a = st.top();
+                st.pop();
+                
+                if(tokens[i] == plus) st.push(a+b);
+                if(tokens[i] == subt) st.push(a-b);
+                if(tokens[i] == mult) st.push(a*b);
+                if(tokens[i] == div) st.push(a/b);
+                //cout<<a<<" "<<b<<" "<<tokens[i]<<" "<<st.top()<<endl;
+            }
+        }
+        
+        return st.top();
+    }
+};
