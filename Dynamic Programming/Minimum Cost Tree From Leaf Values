@@ -1,0 +1,36 @@
+//The arr given can be divided at any point to create a left subtree and right subtree so we try all possible combinations. 
+//This given dp(i,n)=dp(i,k)+dp(k+1,n)+max(arr[i..k])*max(arr[k+1][j]). We recursively find what will be the value of these subtrees which is optimal.
+//Here, we can store the max value of each subtree so that we don't have to calcullate it again to make everything faster.
+//The expression: dp(i,k)+dp(k+1,n)+max(arr[i..k])*max(arr[k+1][j]) means we add the subtree nodes val and then multiply the max in subtrees to get this node val
+//or min cost for tree from (1, n).
+
+class Solution {
+public:
+    int mctFromLeafValues(vector<int>& arr) {
+        vector<vector<int>> dp(arr.size()+1, vector<int>(arr.size()+1, 0));
+        
+        
+        
+        for(int l = 1; l < arr.size(); l++){
+            for(int i = 0; i < arr.size()-l; i++){
+                int j = i+l;
+                dp[i][j] = INT_MAX;
+                for(int k = i; k < j; k++){
+                    
+                    dp[i][j] = min(dp[i][j], dp[i][k]+dp[k+1][j]+maxArr(arr, i,k)*maxArr(arr,k+1,j));
+                }
+            }
+        }
+        
+        return dp[0][arr.size()-1];
+    }
+    
+    int maxArr(vector<int>& arr, int i, int j){
+        int maxNum = INT_MIN;
+        for(int k = i; k <=j; k++){
+            maxNum = max(maxNum, arr[k]);
+        }
+        
+        return maxNum;
+    }
+};
