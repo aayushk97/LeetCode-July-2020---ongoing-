@@ -1,0 +1,39 @@
+//Here we mark each node as unvisited intially then when we visit it the first time we assign it 2 then if all its nodes are visited we assign it 1.
+//Here if the node is already 2 then there is a cycle so we return false. Else if it is 1 we return true;
+//This result is cached so on next round if a node with value 2 is visited it will know there is some loop from there and it will return false;
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        
+        vector<int> nodes;
+         vector<int> visited(graph.size());
+        
+        
+        for(int i = 0; i < graph.size(); i++){
+           
+            if(dfs(graph, i, visited)) nodes.push_back(i);
+        }
+        
+        return nodes;
+        
+    }
+    
+    bool dfs(vector<vector<int>>& graph, int src, vector<int>& visited){
+        if(visited[src] != 0) return visited[src] == 1;
+        
+        visited[src] = 2;
+        
+       
+        
+        for(int i = 0; i < graph[src].size(); i++){
+            bool val = dfs(graph, graph[src][i], visited);
+            if(!val) return false;
+        }
+        
+        visited[src] = 1;
+        
+        return true;
+        
+    }
+};
