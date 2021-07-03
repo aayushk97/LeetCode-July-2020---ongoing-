@@ -1,0 +1,70 @@
+//We start bfs from all the points and if its value is 1 we assign it the level. Here, we don't need to check which from which 0 this has min dist
+//as we start from all the 0's. we just need to assign the level as soon as we push it onto stack otherwise same cell would be pushed by neighbouring cells.
+
+
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        vector<vector<int>> dist(mat.size(), vector<int>(mat[0].size(), 0));
+        queue<pair<int, int>> q;
+                
+        for(int i = 0; i < mat.size(); i++){
+            for(int j = 0; j < mat[0].size(); j++){
+                if(mat[i][j] == 0){
+                    q.push({i, j});
+                    dist[i][j] = 0;
+                    
+                }
+                   
+            }
+        }
+        
+        vector<vector<int>> visited(mat.size(), vector<int>(mat[0].size()));
+        
+        int level = 0;
+        while(q.size() > 0){
+            
+            level++;
+            int n = q.size();
+            
+            for(int k = 0; k < n; k++){
+                pair<int, int> curr = q.front();
+                q.pop();
+                
+                int i = curr.first, j = curr.second;
+                
+               
+                if(i-1>=0 && mat[i-1][j] && dist[i-1][j] == 0){
+                    q.push({i-1,j});
+                    dist[i-1][j] = level;   
+                } 
+                
+                if(j-1>=0 && mat[i][j-1] && dist[i][j-1] == 0){
+                    q.push({i, j-1});
+                    dist[i][j-1] = level;
+                } 
+                
+                if(i+1<mat.size() && mat[i+1][j] && dist[i+1][j] == 0){
+                    q.push({i+1, j});
+                    dist[i+1][j] = level;
+                } 
+                
+                if(j+1<mat[0].size() && mat[i][j+1] && dist[i][j+1] == 0){
+                    q.push({i, j+1});
+                    dist[i][j+1] = level;
+                } 
+                    
+                
+                
+            }
+            
+            
+        }
+         return dist;
+    }
+        
+       
+        
+   
+        
+};
