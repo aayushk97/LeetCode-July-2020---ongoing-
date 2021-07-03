@@ -1,0 +1,25 @@
+//We first find the index of number than is greater than or equal to x. Then we start to include all the k elements starting from this index and index-1.
+//Carefully look at the constriants for this. Also try to learn the code for upper_bound.
+
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        vector<int> elem;
+        int R = upper_bound(arr.begin(), arr.end(), x) - arr.begin(), L = R-1;
+        
+        while(k--){
+            if(L < 0 ||R < arr.size() && modDiff(arr[R],x) < modDiff(arr[L],x)) R++;
+            else L--;
+        }
+        
+        for(int i = L+1; i < R; i++){
+            elem.push_back(arr[i]);
+        }
+        
+        return elem;
+    }
+    
+    int modDiff(int a , int b){
+        return a < b? b-a:a-b;
+    }
+};
