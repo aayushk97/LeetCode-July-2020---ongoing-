@@ -1,0 +1,29 @@
+//1st method used was to create a 2D array and store in it the product[i][j] as prod starting with i and ending at j similar to interleaving intervals but it
+//was giving TLE for 2 cases.
+
+//The below method first finds if the currMax untill that point if curr element is greater than product untill now starting from any prev point then we set
+//curr max to that. We also keep a track of min element so that we can swap whenever a -ve number comes.
+//Finally we return the maxprod.
+https://leetcode.com/problems/maximum-product-subarray/discuss/48230/Possibly-simplest-solution-with-O(n)-time-complexity
+
+
+
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+     
+        int currMax = 1, currMin = 1;
+        int maxProd = INT_MIN;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] < 0) swap(currMax, currMin);
+            
+            currMax = max(nums[i]*currMax, nums[i]);
+            currMin = min(nums[i]*currMin, nums[i]);
+            
+            maxProd = max(maxProd, currMax);
+        }
+        
+        return maxProd;
+    }
+};
