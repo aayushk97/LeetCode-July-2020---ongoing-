@@ -1,0 +1,62 @@
+//We first start with all the possible vowels from main.
+//Then check in countVowel function what is the curr char then accordingly call the function with appropriate index of char unti size = 0
+//We also cache the dp[k][n] = no of string starting with a char k and having length n.
+//Then in main we sum up these values to get all the poddible string starting from any char.
+
+class Solution {
+public:
+    int countVowelPermutation(int n) {
+        vector<char> vowel;
+        
+        vowel.push_back('a'); vowel.push_back('e'); vowel.push_back('i'); vowel.push_back('o'); vowel.push_back('u');
+        
+        vector<vector<int>> dp(5, vector<int>(n+1, -1));
+        
+        for(int i = 0; i < vowel.size(); i++){
+            dp[i][n] = countVowel(n-1, vowel, i, dp);
+        }
+        int count = 0;
+        /*
+        for(int i = 0; i < dp.size(); i++){
+            for(int j = 0; j < dp[i].size(); j++) cout<<dp[i][j]<<" ";
+            cout<<endl;
+        }*/
+        for(int i = 0; i < dp.size(); i++) count = (count%1000000007 + dp[i][n]%1000000007)%1000000007;
+        //return countVowel(n, vowel, 0, "", dp);
+        return count;
+        
+    }
+    
+    int countVowel(int n, vector<char>& vowel, int k, vector<vector<int>>& dp){
+        if(n==0) return 1;
+        if(dp[k][n] != -1) return dp[k][n];
+        
+        int count = 0; 
+        
+        if(k == 0){
+                count += countVowel(n-1, vowel, 1, dp)%1000000007;
+                                
+        }else if(k == 1){
+               
+                count = countVowel(n-1, vowel, 0, dp)%1000000007;
+                count = (count%1000000007 + countVowel(n-1, vowel, 2, dp)%1000000007)%1000000007;
+               
+        }else if(k == 2){
+            for(int i = 0; i < 5; i++)
+                if(i!= 2) count = (count%1000000007+countVowel(n-1, vowel, i, dp)%1000000007)%10000000007;
+            
+        }else if(k == 3){
+                count = countVowel(n-1, vowel, 2, dp)%1000000007;
+                count = (count %1000000007 + countVowel(n-1, vowel, 4, dp)%1000000007)%1000000007;
+            
+        }else if(k == 4){
+                count += countVowel(n-1, vowel,0, dp)%1000000007;
+        }
+        
+        
+       return dp[k][n] = count%1000000007;
+        
+        
+        
+    }
+};
