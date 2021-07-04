@@ -1,0 +1,39 @@
+//Similar to combination sum but to avoid duplicate sets we first sort the elements, then for going for adding an element we check if the prev added element was
+//same as this. If yes then we ignore this element as adding this would generate the same set as previous one. Otherwise we add this element.
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        
+        vector<vector<int>> combinations;
+        vector<int> comb;
+        sort(candidates.begin(), candidates.end());
+        findComb(candidates, target, 0, 0, comb, combinations);
+        
+        return combinations;
+        
+    }
+    
+    void findComb(vector<int>& candidates, int target, int sum, int k, vector<int>& comb, vector<vector<int>>& combinations){
+        
+        if(sum > target || k > candidates.size()) return;
+        
+        //cout<<sum<<" "<<k<<endl;
+        
+        if(sum == target){
+            combinations.push_back(comb);
+            
+        }
+        
+        for(int i = k; i < candidates.size(); i++){
+            if(sum + candidates[i] <= target){
+                if(i > k && candidates[i] == candidates[i-1]) continue;
+                comb.push_back(candidates[i]);
+                findComb(candidates, target, sum+candidates[i], i+1, comb, combinations);
+                comb.pop_back();
+            } 
+        }
+        //cout<<"Here"<<endl;
+        //findComb(candidates, target, sum, k+1, comb, combinations);
+    }
+};
