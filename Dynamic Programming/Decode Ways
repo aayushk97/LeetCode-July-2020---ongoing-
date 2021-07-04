@@ -1,0 +1,44 @@
+//We find if the substring of length 1 is a no between 0 and 26 if yes then we recursively check the next char.
+//We also check the substring at length 2 not starting with 0, if yes then we recursively check from + 2 char.
+//Then we save no of ways to create a substring in an array, for dynammic programming. As subsproblem ways(2) can be reached by ways(1) then ways(2) or directly by
+//matching 2 chars.
+
+class Solution {
+public:
+    int numDecodings(string s) {
+        vector<char> map(27, 0);
+        
+        vector<int> waysL(s.length(), -1);
+        
+        for(int i = 1; i < 27; i++) map[i] = 'A'+i-1;
+        
+        //for(int i = 1; i < 27; i++) cout<<map[i];
+        
+        return countWays(s, map, 0, waysL);
+        
+    }
+    
+    int countWays(string s, vector<char>& map, int i, vector<int>& waysL){
+        
+        if(i==s.length()) return 1;
+        
+        if(waysL[i] != -1) return waysL[i];
+        
+        int ways = 0;
+        string subst1, subst2;
+        if(i < s.length()){
+            subst1 = s.substr(i, 1);  
+            if(stoi(subst1) > 0 && stoi(subst1) <= 26) ways += countWays(s, map, i+1, waysL);
+        }
+        if(i+1 < s.length() && s[i] != '0'){
+            subst2 = s.substr(i, 2);
+        
+            if(stoi(subst2) > 0 && stoi(subst2) <= 26) ways += countWays(s, map, i+2, waysL);
+            
+        }
+        
+        return waysL[i] = ways;
+        
+    }
+    
+};
