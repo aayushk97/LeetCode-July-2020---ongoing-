@@ -1,0 +1,38 @@
+//We check if the adding a number will give equal to or less than sum then we add the number and recursively call the function starting at same index at which 
+//the prev number was added.
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> combinations;
+        vector<int> comb;
+        
+        findCombinations(candidates, target, 0, comb, 0, combinations);
+        
+        return combinations;
+    }
+    
+    void findCombinations(vector<int>& candidates, int target, int sum, vector<int>& comb, int k,  vector<vector<int>>& combinations){
+        
+        
+        if(sum > target) return;
+        
+        if(sum == target){
+            combinations.push_back(comb);
+            
+        }
+        
+        for(int i = k; i < candidates.size(); i++){
+            if(sum + candidates[i] <= target){
+                comb.push_back(candidates[i]);
+                findCombinations(candidates, target, sum+candidates[i], comb, i, combinations);
+                comb.pop_back();
+            } 
+        }
+        
+        
+        
+        
+        
+    }
+};
