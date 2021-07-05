@@ -1,3 +1,55 @@
+//using partition algo of quick sort we find if the pivot is at element k, if not then we recurese on left side otherwise recurse on right side. 
+//After partition algo the first k elements are less than last n-k elements and since no order is fixed we just put these elements in result and return it.
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        
+        
+        
+        partition(points, 0, points.size()-1, k-1);
+        
+        vector<vector<int>> result;
+        
+        for(int i = 0; i <= k-1; i++) result.push_back(points[i]);
+        
+        return result;
+    }
+    
+    void partition(vector<vector<int>>& points, int i, int j, int k){
+        
+        
+        vector<int> pivot = points[j];
+        double distPivot = findDist(points[j]);
+        
+        int m = i;
+        for(int t = i; t <= j; t++){
+            
+            double dist = findDist(points[t]);
+            
+            if(dist < distPivot){
+                swap(points[m], points[t]);
+                m++;
+            } 
+        }
+        swap(points[m], points[j]);
+        
+        if(m == k) return;
+        else if(m > k) partition(points, i, m-1, k);
+        else partition(points, m+1,j, k);
+        
+    }
+    
+    double findDist(vector<int>& points){
+        return sqrt(points[0]*points[0] + points[1]*points[1]);
+    }
+    
+    
+    
+    
+};
+
+
 //We find the dist of points from origin and then put them in a max heap so that when elements are more than k we pop. 
 //IN the end we have least dist points. We then return this in array.
 
