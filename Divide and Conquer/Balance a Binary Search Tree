@@ -1,0 +1,36 @@
+//To balance we inorder traverse to get the values in sorted order. Then we create a tree from this inorder.
+//Can we create AVL tree from this??
+
+class Solution {
+public:
+    TreeNode* balanceBST(TreeNode* root) {
+        vector<int> inord;
+        inorder(root, inord);
+        
+        return createTree(inord, 0, inord.size()-1);
+    }
+    
+    void inorder(TreeNode* root, vector<int>& inord){
+        if(!root) return;
+        
+        inorder(root -> left, inord);
+        inord.push_back(root -> val);
+        inorder(root -> right, inord);
+    }
+    
+    TreeNode* createTree(vector<int>& inord, int i, int j){
+        
+        if(i > j) return NULL;
+        
+        int mid = (i + j)/2;
+        
+        TreeNode* root = new TreeNode();
+        root -> val = inord[mid];
+        
+        root -> left = createTree(inord, i, mid-1);
+        root -> right = createTree(inord, mid+1, j);
+        
+        return root;
+        
+    }
+};
