@@ -1,0 +1,16 @@
+//We start form end as our max sell price then we move left to find the value at which the person needs to buy to get max profit and then return maxProfit.
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxProfit = 0;
+        int maxPrice = prices[prices.size()-1];
+        
+        for(int i = prices.size()-2; i >= 0; i--){
+            if(maxPrice < prices[i]) maxPrice = prices[i];
+            
+            if(maxProfit < maxPrice - prices[i]) maxProfit = maxPrice - prices[i];
+        }
+        
+        return maxProfit > 0 ? maxProfit : 0;
+    }
+};
