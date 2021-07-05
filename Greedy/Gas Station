@@ -1,0 +1,32 @@
+//We can either use recursion to solve this ques i.e start with every node and see if it's possible to go to next stop if it fails at some point return false for
+//that starting point and choose other index as starting point.
+
+//The below solution involves concept that if starting from a node if we cannot reach to ourselves then starting at any node after that and before node 
+//after which it was not possible to go are not our candidate starting point.
+//Now at every point if we cannot go further then we start at next point i.e, i+1 point with an empty tank. We also add up total fuel added - consumed so if it is
+//less than 0 there is no solution otherwise we return the starting point.
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        
+
+        int fuel = 0, total = 0;
+        int start = 0;
+        
+        for(int i = 0; i < gas.size(); i++){
+            fuel += gas[i] - cost[i];
+            
+            if(fuel < 0){
+                total += fuel;
+                start = i + 1;
+                fuel = 0;
+            }
+        }
+        
+        total += fuel;
+        
+        return total < 0? -1: start;
+        
+    }
+};
