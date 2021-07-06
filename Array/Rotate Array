@@ -1,0 +1,29 @@
+//There are 3 solutions: 1.either use a queue to rotate.
+//2. or rotate the entire array untill all the elments are rotated do this k times.
+//3. reverse the first n-k elements then reverse the next k elements and then reverse the whole array.
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        
+        if(nums.size() < k) k = k % nums.size();
+        
+        int nk = nums.size()-k-1;
+        
+        reverse(nums, 0, nk);
+        reverse(nums, nk+1, nums.size()-1);
+        reverse(nums, 0, nums.size()-1);
+        
+        
+        
+    }
+    
+    void reverse(vector<int>& nums, int i, int j){
+        
+        while(i < j){
+            swap(nums[i], nums[j]);
+            i++, j--;
+        }
+        
+    }
+};
