@@ -1,0 +1,36 @@
+//Here for every interval (i,j) for size atleast 3 we choose a point k such that score of traingle formed from (i,k) and (k, j) has low score and total n-2 trinagles
+//formed are of lowest score.
+//Here, finding the min in range of i, j will and then triangulating will not result in correct answer as there may a possibility that lowest score might be one of
+//i and j that may be added to other triangles will bring score down. ex: [3, 1, 4, 5, 4] here we chose 3, 1, 4 to be one traingle then subproblem are 1,4,5,4
+//In this if we find lowest which is not border then it is 4. Triangulating in such a way will then make the last traingle 4,5,4. 
+//Best solution for this is 3,1,4 then in 1,4,5,4 : 1, 5, 4 then 1, 4, 5.
+
+class Solution {
+public:
+    int minScoreTriangulation(vector<int>& values) {
+        
+        vector<vector<int>> dp(values.size(), vector<int>(values.size(), -1));
+        
+        return minScore(values, 0, values.size()-1, dp);
+        
+    }
+    
+    int minScore(vector<int>& values, int i, int j, vector<vector<int>>& dp){
+        
+        if(i + 2 > j) return 0;
+        
+        if(i + 2 == j) return values[i]*values[i+1]*values[j];
+        
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        
+        int cost = INT_MAX;
+        for(int k = i+1; k < j; k++){
+            cost = min(cost, minScore(values, i, k, dp) + minScore(values, k, j, dp) + values[i]*values[k]* values[j]);
+            
+        }
+        
+        return dp[i][j] = cost;
+        
+    }
+};
