@@ -1,0 +1,29 @@
+//store the freq and then remove the elements having max freq untill we have array size that is half or less than half.
+
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int, int> freq;
+        
+        for(int i = 0; i < arr.size(); i++){
+            freq[arr[i]]++;
+        }
+        
+        priority_queue<int> pq;
+        
+        for(auto it = freq.begin(); it != freq.end(); it++){
+            pq.push(it -> second);
+        }
+        
+        int size = arr.size();
+        int halfSize = size/2;
+        int count = 0;
+        while(size > halfSize){
+            size -= pq.top();
+            pq.pop();
+            count++;
+        }
+        
+        return count;
+    }
+};
