@@ -1,0 +1,37 @@
+//It is same as 3Sum with extra loop on top and the condition for j to ignore an element is that it should be greater than i+1 and it should be similar to
+//prev element. It should be greater than i+1 as if it was not it would also compare with element at i and if they are similar it would ignore the case which
+//should not be done as there would be a case like -1 -1 1 1 2.
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> res;
+        
+        sort(nums.begin(), nums.end());
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            
+            for(int j = i+1; j < nums.size(); j++){
+                if(j>i+1 && nums[j] == nums[j-1]) continue;
+                
+                int k = j+1, l = nums.size()-1;
+                while(k < l){
+                    if(nums[i]+nums[j]+nums[k]+nums[l] == target){
+                        res.push_back({nums[i], nums[j], nums[k], nums[l]});
+                        while(k < l && nums[k] == nums[k+1]) k++;
+                        while(k < l && nums[l] == nums[l-1]) l--;
+                        k++, l--;
+                    }else if(nums[i]+nums[j]+nums[k]+nums[l] < target) k++;
+                    else l--;
+                    
+                    
+                }
+                
+            }
+            
+        }
+        
+        return res;
+    }
+};
