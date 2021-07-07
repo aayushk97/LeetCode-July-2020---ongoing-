@@ -1,0 +1,50 @@
+//The recursive equation for this is: T(k) + node(k) + T(n-k-1) where k varies from 0 to n-1.
+//We cache the result of dp with values of nodes from i..j and then return them when they are used again.
+
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        
+        vector<vector<vector<TreeNode*>>> BSTs(n+1, vector<vector<TreeNode*>>(n+1));
+        
+        return constructBST(n, BSTs, 1, n);
+       
+            
+    }
+    
+    vector<TreeNode*> constructBST(int n, vector<vector<vector<TreeNode*>>>& BSTs, int i, int j){
+        
+        if(n== 0) return {NULL};
+        
+        if(BSTs[i][j].size() > 0) return BSTs[i][j];
+        vector<TreeNode*> res;
+        
+        if(n == 1){
+            TreeNode* nodeOne = new TreeNode(i);
+            nodeOne -> left = nodeOne -> right = NULL;
+            res.push_back(nodeOne);
+            return BSTs[i][i] = res;
+        }
+        
+        
+        for(int k = 0; k < n; k++){
+            
+            vector<TreeNode*> leftBST = constructBST(k, BSTs, i,i+k-1);
+            vector<TreeNode*> rightBST = constructBST(n-k-1, BSTs, i+k+1,j);
+            
+            for(int l = 0; l < leftBST.size(); l++){
+                for(int r = 0; r < rightBST.size(); r++){
+                    
+                    TreeNode* root = new TreeNode(i+k);
+                    root -> left = leftBST[l];
+                    root -> right = rightBST[r];
+                    res.push_back(root);
+                }
+            }
+        }
+        
+        return BSTs[i][j] = res;
+        
+    }
+    
+};
