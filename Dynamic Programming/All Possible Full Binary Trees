@@ -1,0 +1,47 @@
+//To create full BT of size n we need T(i)+node+T(n-i-1) where i is from 1 to N-2 as we have Full BT.
+//We cache the trees of lower size to build it efficiently.
+
+class Solution {
+public:
+    vector<TreeNode*> allPossibleFBT(int n) {
+        
+        vector<vector<TreeNode*>> trees(n+1);
+        
+        TreeNode* node = NULL;
+        trees[0].push_back(node);
+        
+        TreeNode* nodeOne = new TreeNode(0);
+        trees[1].push_back(nodeOne);
+        return createTree(trees, n);
+        
+        
+    }
+    
+    vector<TreeNode*> createTree(vector<vector<TreeNode*>>& trees, int n){
+        
+        if(trees[n].size() > 0) return trees[n];
+       
+        for(int i = 1; i < n; i+=2){
+            
+            
+            vector<TreeNode*> leftST = createTree(trees, i);
+            vector<TreeNode*> rightST = createTree(trees, n-i-1);
+            
+            for(int j = 0; j < leftST.size(); j++){
+                for(int k = 0; k < rightST.size(); k++){
+                    TreeNode* node = new TreeNode(0);
+                    node -> left = leftST[j];
+                    node -> right = rightST[k];
+                   
+                    trees[n].push_back(node);
+                }
+            }
+            
+        }
+        
+        return trees[n];
+        
+    }
+    
+  
+};
