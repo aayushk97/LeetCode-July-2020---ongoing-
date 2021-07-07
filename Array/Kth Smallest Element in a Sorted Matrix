@@ -1,0 +1,31 @@
+//put the entire 1st column in a a pq, then whenever an element is removed put the element to the right of it in the queue as next greater can be this element or one
+//of the previously inserted element at (0,1). 
+//We can even add for every element removed the next element to its right and down but it will take more time than this method.
+//To return min element we insert -ve of that number in queue.
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        
+        priority_queue<pair<int, vector<int>>> pq;
+        int i = 0, j = 0;
+        
+        for(int i = 0; i < matrix.size(); i++) pq.push({-matrix[i][0], {i, 0}});
+        int answer = -1;
+        
+        while(k > 0){
+            
+            vector<int> curr = pq.top().second;
+            //cout<<curr[0]<<" "<<curr[1]<<endl;
+            answer = pq.top().first;
+            pq.pop();
+            k--; 
+           
+            if(curr[1]+1 < matrix[0].size()) pq.push({-matrix[curr[0]][curr[1]+1], {curr[0], curr[1]+1}}); 
+            
+        }
+        
+        return -answer;
+        
+    }
+};
