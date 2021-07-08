@@ -7,8 +7,7 @@ public:
         
         vector<vector<TreeNode*>> trees(n+1);
         
-        TreeNode* node = NULL;
-        trees[0].push_back(node);
+       
         
         TreeNode* nodeOne = new TreeNode(0);
         trees[1].push_back(nodeOne);
