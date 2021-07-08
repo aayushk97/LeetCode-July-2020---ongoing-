@@ -1,0 +1,27 @@
+//same as LIS, but here the elements may not be in order i.e, big starting time interval can be at last. So, we need to sort it. Can be done by Greedy method as well.
+
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        
+        vector<int> longestChain(pairs.size(), 1);
+        sort(pairs.begin(), pairs.end(), cmp);
+        int size = 1;
+        int maxSize = 1;
+        
+        for(int i = 0; i < pairs.size(); i++){
+            for(int j = i-1; j >= 0; j--){
+                if(pairs[j][1] < pairs[i][0])longestChain[i] = max(longestChain[i] , 1+ longestChain[j]);
+                
+            }
+            maxSize = max(maxSize, longestChain[i]);
+        }
+        
+        return maxSize;
+        
+    }
+    
+    static bool cmp(vector<int>& a, vector<int>& b){
+        return a[0] < b[0] || (a[0] == b[0] && a[1] < b[1]);
+    }
+};
