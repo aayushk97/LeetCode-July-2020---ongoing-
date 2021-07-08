@@ -1,0 +1,23 @@
+//sort the array and then for every element check all the prev envelopes and see if the size is such that it can fit, if yes then increase no of envelopes by 1;
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        
+        sort(envelopes.begin(), envelopes.end());
+        
+        vector<int> maxEnv(envelopes.size(), 1);
+        
+        for(int i = 0; i < envelopes.size(); i++){
+            for(int j = i-1; j >= 0; j--){
+                if(envelopes[j][0] < envelopes[i][0] && envelopes[j][1] < envelopes[i][1]){
+                    maxEnv[i] = max(maxEnv[i], maxEnv[j]+1);
+                }
+            }
+        }
+        int size = 0;
+        for(int i = 0; i < maxEnv.size(); i++) size = max(size, maxEnv[i]);
+        
+        return size;
+        
+    }
+};
