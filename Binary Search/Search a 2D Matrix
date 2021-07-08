@@ -1,0 +1,28 @@
+//Since the matrix is sorted in such a way that the entire matrix can be seen as an array divided into parts. We use one binary search to search for that element.
+//We can even binary search the row which has the last element less than target.
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        
+        bool found = false;
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int i = 0, j = m*n-1;
+        
+        while(i <= j){
+            
+            int mid = i + (j-i)/2;
+            
+            if(matrix[mid/n][mid%n] == target) return true;
+            
+            if(matrix[mid/n][mid%n] < target) i = mid+1;
+            else j = mid-1;
+            
+        }
+        
+        return false;
+    }
+    
+    
+};
