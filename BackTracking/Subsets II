@@ -1,0 +1,35 @@
+//We sort the numbers first so that all suplicates come at same place.
+//Then we either push the current element in set or push the next element which is not this element(i.e by skipping the similar elements).
+
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> subsets;
+        vector<int> sets;
+        
+        createSets(nums, subsets, sets, 0);
+        
+        return subsets;
+    }
+    
+    void createSets(vector<int>& nums, vector<vector<int>>& subsets,vector<int>& sets,int i){
+        
+        if(i == nums.size()){
+            subsets.push_back(sets);
+            return;
+        }
+        
+        sets.push_back(nums[i]);
+        createSets(nums, subsets, sets, i+1);
+        sets.pop_back();
+        
+        while(i+1 < nums.size() && nums[i+1] == nums[i]) i++;
+        
+        createSets(nums, subsets, sets, i+1);
+        
+       
+        
+    }
+};
