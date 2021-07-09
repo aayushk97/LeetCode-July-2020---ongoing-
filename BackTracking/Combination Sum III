@@ -1,0 +1,39 @@
+class Solution {
+//Similar to combination sum 2 but here we also check along with if the number added to it is less than sum and if the number is less than or equal to 9.
+
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        
+        vector<vector<int>> combs;
+        vector<int> comb;
+        
+        combSum(n, k, 0, comb, combs);
+        
+        return combs;
+        
+    }
+    
+    void combSum(int n, int k, int i, vector<int>& comb, vector<vector<int>>& combs){
+        
+        
+        
+        if(k == 0){
+            
+            if(n == 0) combs.push_back(comb);
+            else return;
+        }
+        
+       
+        if(i+1 <= n && i+1 <= 9){
+            
+            comb.push_back(i+1);
+            combSum(n-(i+1), k-1, i+1, comb, combs);
+            comb.pop_back();
+            
+            combSum(n, k, i+1, comb, combs);
+        }
+        
+        
+        
+    }
+};
