@@ -1,0 +1,34 @@
+//Here we just make subsets of size 2. Concept is same as subsets, just we insert when there are 2 elements in set instead of reaching end as in subsets.
+//Take care of return condition that is i > n as if we put it at top then it returns without adding current set to combination if it has last element.
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+     
+        vector<vector<int>> combinations;
+        vector<int> comb;
+        
+        createCombinations(n, k, comb, combinations, 1);
+        
+        return combinations;
+        
+    }
+    
+    void createCombinations(int n, int k, vector<int>& comb, vector<vector<int>>& combinations, int i){
+        
+        
+       
+        if(k == 0){
+           
+            combinations.push_back(comb);
+            return;
+        }
+        if(i > n) return;
+        
+        for(int t = i; t <=n; t++){
+            comb.push_back(t);
+            createCombinations(n, k-1, comb, combinations, t+1);
+            comb.pop_back();
+        }
+       
+    }
+};
