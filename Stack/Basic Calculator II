@@ -1,0 +1,85 @@
+//Convert infix to postfix. Evaluate postfix.
+class Solution {
+public:
+    int calculate(string s) {
+        
+        vector<string> postf = convertToPostfix(s);
+        
+        //for(int i = 0; i < postf.size(); i++) cout<<postf[i]<<endl;
+        
+        stack<int> st;
+        
+        for(int i = 0; i < postf.size(); i++){
+            if(postf[i] == "*" || postf[i] == "/" || postf[i] == "+" || postf[i] == "-"){
+                int a = st.top();st.pop();
+                int b = st.top();st.pop();
+                
+                if(postf[i] == "*") st.push(a*b);
+                else if(postf[i] == "/") st.push(b/a);
+                else if(postf[i] == "-") st.push(b-a);
+                else st.push(a+b);
+                //cout<<st.top();
+            }else st.push(stoi(postf[i]));
+        }
+        
+        return st.top();
+    }
+    
+    vector<string> convertToPostfix(string a){
+        
+        unordered_map<char, int> priority;
+        priority['+'] = 1;
+        priority['-'] = 1;
+        priority['*'] = 2;
+        priority['/'] = 2;
+        
+        vector<string> postFix;
+        
+        stack<char> st;
+        string res = "";
+        
+        for(int i = 0; i < a.length(); i++){
+            //cout<<a[i]<<endl;
+            if(a[i] == '+' || a[i] == '-' || a[i] == '*' || a[i] == '/'){
+                
+                postFix.push_back(res);
+                res = "";
+                
+                
+                if(st.size() == 0) st.push(a[i]);
+                else{
+                    int priority1 = priority[st.top()];
+                    int priority2 = priority[a[i]];
+                    
+                    if(priority1 < priority2) st.push(a[i]);
+                    else if(priority1 >= priority2){
+                        while(st.size() > 0 && priority[st.top()] >= priority2){
+                            string curr = "";
+                            curr += st.top();
+                            postFix.push_back(curr);
+                            st.pop();
+                        }
+                        st.push(a[i]);
+                    }
+                }
+                
+                
+            }else{
+                res += a[i];
+            }
+            //cout<<"done"<<endl;
+        }
+        
+        postFix.push_back(res);
+        
+        while(st.size() > 0){
+            string curr = "";
+            curr += st.top();
+            postFix.push_back(curr);
+            st.pop();
+        }
+        
+        return postFix;
+        
+    }
+};
