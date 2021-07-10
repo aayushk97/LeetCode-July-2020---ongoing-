@@ -1,0 +1,31 @@
+//We first find the group a number belongs to, then see if the group is in map already has element if yes then we insert this new element otherwise create a new
+//vector of this element and inset it. THen we check if the size of the vector is greater than size of group , if yess then we add this element to result and
+//empty the key in map.
+
+class Solution {
+public:
+    vector<vector<int>> groupThePeople(vector<int>& groupSizes) {
+        unordered_map<int, vector<int>> group;
+        vector<vector<int>> res;
+        
+        for(int i = 0; i < groupSizes.size(); i++){
+            int curr = groupSizes[i];
+            
+           
+            
+            if(group.find(curr) != group.end()) group[curr].push_back(i);
+            else group[curr] = vector<int>{i};
+            
+            if(group[curr].size() == curr){
+                res.push_back(group[curr]);
+                group.erase(curr);
+            }
+            
+            
+        }
+       
+        
+        return res;
+      
+    }
+};
