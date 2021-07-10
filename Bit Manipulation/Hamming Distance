@@ -1,0 +1,25 @@
+//Perform XOR and then count no of 1s in it.
+// can be done in 1 line using __builtin_popcount(x^y);
+
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        
+        int res = x ^ y;
+        
+        int one = 1;
+        int i = 0;
+        int count = 0;
+        
+        while(i < 32){
+            int x = res & (one << i);
+            
+            if(x) count++;
+            i++; 
+        }
+        
+        return count;
+        
+    }
+};
+
