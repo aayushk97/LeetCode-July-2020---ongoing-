@@ -1,0 +1,20 @@
+//Sort and pair min and max elements from both end. Sum these 2 and return min.
+
+class Solution {
+public:
+    int minPairSum(vector<int>& nums) {
+        
+        sort(nums.begin(), nums.end());
+        
+        int maxSum = INT_MIN;
+        
+        for(int i = 0, j = nums.size()-1; i < j; i++, j--){
+            maxSum = max(maxSum, nums[i]+nums[j]);
+            
+            
+        }
+        
+        return maxSum;
+        
+    }
+};
