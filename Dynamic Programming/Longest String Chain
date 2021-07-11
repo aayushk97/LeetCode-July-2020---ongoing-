@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int longestStrChain(vector<string>& words) {
+        
+        vector<int> dp(words.size(), 1);
+        int maxChain = 1;
+        
+        sort(words.begin(), words.end(), cmp);
+        
+        for(int i = 0; i < words.size(); i++){
+            for(int j = i-1; j >= 0; j--){
+                //cout<<i<<" "<<j<<endl;
+                if(checkPredecessor(words[i], words[j])){
+                    dp[i] = dp[j]+1;
+                    maxChain = max(maxChain, dp[i]);
+                }
+            }
+        }
+        
+        return maxChain;
+    }
+    
+    bool checkPredecessor(string a, string b){
+        
+        if(a.length()-1 != b.length()) return false; 
+        
+        int count = 0;
+        int j = 0;
+        for(int i = 0; i < a.length() && j < b.length(); i++){
+            if(a[i] == b[j]) {
+                count++;
+                j++;
+            }
+        }
+        
+        if(j == b.length()) return true;
+        
+        return false;
+    }
+    
+    static bool cmp(string& a, string& b){
+        return (a.length() < b.length()) ? true: false;
+    }
+};
