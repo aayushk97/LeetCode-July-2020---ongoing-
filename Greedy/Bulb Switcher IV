@@ -1,0 +1,22 @@
+//We set the oldState as the state of bulbs from i that it was switched to. 
+//So from left to right if we come across a bulb that is not in the state we want it to be we flip all the bulbs from that point. and then if we find a bulb which is 
+//not in this state we swtich all the bulbs to its right and increment the no of switches.
+
+class Solution {
+public:
+    int minFlips(string target) {
+        
+        int oldState = 0;
+        int switchNum = 0;
+        for(int i = 0; i < target.length(); i++){
+            if(target[i] -'0' != oldState){
+                switchNum++;
+                oldState = target[i] - '0';
+            }
+            
+            
+        }
+        
+        return switchNum;
+    }
+};
