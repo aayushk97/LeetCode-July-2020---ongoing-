@@ -1,0 +1,36 @@
+//For evey row ans column we find the max and then the height at particular i, j is min of max of height of that row and max of height of that column.
+//Can be improved by preprocessing the max heights of rows and columns
+
+class Solution {
+public:
+    int maxIncreaseKeepingSkyline(vector<vector<int>>& grid) {
+        int maxSum = 0;
+        
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                maxSum += (findMinOfMax(grid, i, j) - grid[i][j]);
+            }
+        }    
+        
+        return maxSum;
+    }
+    
+    int findMinOfMax(vector<vector<int>>& grid, int r, int c){
+        int maxCol = -1;
+        
+        for(int i = 0; i < grid.size(); i++){
+            maxCol = max(maxCol, grid[i][c]);
+        }
+        
+        int maxRow = -1;
+        
+        for(int i = 0; i < grid[0].size(); i++){
+            maxRow = max(maxRow, grid[r][i]);
+        }
+        
+        return min(maxCol, maxRow);
+        
+        
+    }
+    
+};
