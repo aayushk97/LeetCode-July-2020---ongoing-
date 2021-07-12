@@ -18,3 +18,21 @@ public:
         return st.size();
     }
 };
+
+//Without stack, we keep track of left bracket, and if it is we add 1 to stack and if it is right we decrement. If stack is less than zero then it means,
+//there are no brackets and we are encountered a right bracket so we increment count. At the end, the total we need to add is no of left bracket + no 
+// of right bracket which have no pairs so we return stk+count.
+
+ public int minAddToMakeValid(String S) {
+        int count = 0, stk = 0;
+        for (int i = 0; i < S.length(); ++i) {
+            if (S.charAt(i) == '(') { 
+                ++stk; 
+            }else if (stk <= 0) { 
+                ++count; 
+            }else {
+                --stk; 
+            }
+        }
+        return count + stk;
+    }
