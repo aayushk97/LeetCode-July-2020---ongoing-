@@ -1,0 +1,21 @@
+//Here, at every i we find the max dist it can go from there, and j is the max it could go from last iteration. i.e, at each step we see what is the max we can go utill
+//we reach the end.
+//Teace algo to get better understanding: ex[2, 3, 0, 1, 4]
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int steps = 0;
+        for(int i = 0, j = 0; j < nums.size()-1; steps++){
+            int jNew = 0;
+            for(int k = i; k <= j; k++){
+                jNew = max(jNew, k + nums[k]);
+            }
+            i = j+1;
+            j = jNew;
+            
+            
+        }
+        
+        return steps;
+    }
+};
