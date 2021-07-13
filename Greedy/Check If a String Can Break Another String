@@ -1,0 +1,29 @@
+//we sort the strings and then check for each element if either s1 can be broken into s2 or vice versa. We skip the same chars in beginning.
+//We can do this in same loop by merging the condition and if 1st condition is true or 2nd condition is true return true. if(s1[i] < s2[i]) f1 = false; if(s2[i] < s1[i]) f2 = false;
+//return f1 || f2;
+
+class Solution {
+public:
+    bool checkIfCanBreak(string s1, string s2) {
+        sort(s1.begin(), s1.end());
+        sort(s2.begin(), s2.end());
+        
+        int i = 0; 
+        while(s1[i] == s2[i]) i++;
+        
+        //if(i == s1.size()-1) return true;
+        
+        if(s1[i] >= s2[i]){
+            for(int j = i; j < s1.length(); j++){
+                if(s1[j] < s2[j]) return false;
+            }    
+        }else if(s2[0] >= s1[0]){
+            for(int j = 1; j < s2.length(); j++){
+                if(s2[j] < s1[j]) return false;
+            }
+        }
+        
+        return true;
+        
+    }
+};
