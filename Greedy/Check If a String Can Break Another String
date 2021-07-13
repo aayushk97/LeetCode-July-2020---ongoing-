@@ -27,3 +27,39 @@ public:
         
     }
 };
+
+
+//Another solution
+//We count the freq of characters and check if the string that covers other string should have more count for higher chars, so if it diff goes neg, they
+//it doesn't cover the string and we return OR of boht checks.
+
+class Solution {
+public:
+    bool checkIfCanBreak(string s1, string s2) {
+        
+        vector<int> freq1(26, 0);
+        vector<int> freq2(26, 0);
+        
+        for(int i = 0; i < s1.length(); i++){
+            freq1[s1[i] -'a'] += 1;
+            freq2[s2[i] -'a'] += 1;
+        }
+        
+        //now we check if one covers other or vice versa
+        return check(freq1, freq2) || check(freq2, freq1);
+        
+    }
+    
+    bool check(vector<int>& freq1, vector<int>& freq2){
+        
+        int diff = 0;
+        
+        for(int i = 0; i < 26; i++){
+            diff += (freq1[i] - freq2[i]);
+            
+            if(diff < 0) return false;
+        }
+        return true;
+    }
+};
+
