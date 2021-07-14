@@ -1,0 +1,29 @@
+//For every element we either divide it if it is even or subtract it if its odd. Since doubling can be done at once for all evenets so we find which element 
+//requires the most doubling and then since addition is done for each element individually we count no of times each element has to be added by 1 and return this total
+//sum
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        
+        int step = 0;
+        int mult = 0;
+       for(int i = 0; i < nums.size(); i++){
+           int mults = 0;
+           while(nums[i] > 0){
+               
+               if(nums[i] % 2 == 0){
+                   nums[i] /= 2;
+                   mults++;
+                   mult = max(mult, mults);
+               }else{
+                   nums[i] -= 1;
+                   step++;
+               } 
+           }
+       }
+        //cout<<mult<<" "<<step;
+        return step+mult;
+        
+    }
+};
