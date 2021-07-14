@@ -1,0 +1,20 @@
+//We post order traverse so that if a leaf node with target value is deleted and its root is also same as target so we need to delete this as well.
+
+class Solution {
+public:
+    TreeNode* removeLeafNodes(TreeNode* root, int target) {
+        
+        if(!root) return NULL;
+        
+        
+        if(root -> left) root -> left = removeLeafNodes(root -> left, target);
+             
+        if(root -> right) root -> right = removeLeafNodes(root -> right, target);
+        
+        if(root -> val == target && !root -> left && !root -> right) return NULL;
+        
+        
+        return root;
+        
+    }
+};
