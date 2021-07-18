@@ -1,0 +1,44 @@
+class Solution {
+//We store the reserved seats in new data structure map so that we can know for a row which seats are occupied.
+//Now since each row can have max 2 sequential 4 seats max vacant seats we can get is 2*n.
+//Now we check for each row how many consequtive 4 seats can be present and if these are filled then we subtact those consecutive 4 rows from answer.
+
+//Notes: Using another 2D array to keep track of vact seats will lead to memeory limit.
+//Iterating over all the rows will lead to Timeout, so we iterate over seats filled and then subtract from answer.
+
+public:
+    int maxNumberOfFamilies(int n, vector<vector<int>>& reservedSeats) {
+        unordered_map<int, vector<int>> rows;
+        
+        for(int i = 0; i < reservedSeats.size(); i++){
+            //if(reservedSeats[i][1] == 1 || reservedSeats[i][1] == 10) continue;
+            rows[reservedSeats[i][0]].push_back(reservedSeats[i][1]);
+        }
+        
+        int count = n*2;
+        
+        for(auto it = rows.begin(); it!= rows.end(); it++){
+            
+            vector<int> storedRow = it -> second;
+            vector<int> row(10, 0);
+            
+            for(int j = 0; j < storedRow.size(); j++){
+                row[storedRow[j]-1] = 1;
+            }    
+            
+            bool p1 = false, p2 = false, p3 = false;
+            
+            if(!row[1] && !row[2] && !row[3] && !row[4]) p1 = true;
+            if(!row[3] && !row[4] && !row[5] && !row[6]) p2 = true;
+            if(!row[5] && !row[6] && !row[7] && !row[8]) p3 = true;
+            
+            if(p1 && p3) continue;
+            else if(p1 || p2 || p3) count -= 1;
+            else count -= 2;
+            
+            
+        }
+        
+        return count;
+    }
+};
