@@ -1,0 +1,48 @@
+//We use DFS to find the sequential digits then sort it since answer is wanted in sorted order.
+
+
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        vector<int> seqData;
+        
+        for(int i = 1; i <= 9; i++)
+            generateSeq(i,i+1,low, high, seqData);
+            
+        sort(seqData.begin(), seqData.end());
+        return seqData;
+        
+    }
+    
+    void generateSeq(int i,int digit, int low, int high, vector<int>& seqData){
+       
+        if(i >= low && i <= high){
+            seqData.push_back(i);
+        }
+        
+        if(i > high) return;
+        
+        if(digit <= 9) generateSeq((i*10)+digit,digit+1,low, high, seqData);
+        
+    }
+};
+
+
+//We can use BFS to come up with all sequential digits then discard those not in range. Trick that can be learnt is instead of storing the last digit we can get it
+//by %10;
+class Solution {
+public:
+    vector<int> sequentialDigits(int l, int h) {                
+        queue<int> q{{1,2,3,4,5,6,7,8,9}}; //9 can be removed
+        vector<int> ans;
+        while(!q.empty()) {
+            int cur = q.front();    q.pop();
+            if(cur > h) break; // reach upperbound. Done
+            if(cur >= l && cur <= h) ans.push_back(cur);
+            int num = cur % 10; // Ready for hoisting operation           
+            int next = cur * 10 + (num + 1);
+            if(num < 9) q.push(next);// 1234->12345
+        }
+        return ans;
+    }
+};
