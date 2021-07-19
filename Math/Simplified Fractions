@@ -1,0 +1,32 @@
+//For a number to be a fraction the numerator should be less than deminator and for a fraction to be not be simplifiable
+//ex. 6/8 can be simplified in 3/4 its gcd should be 1.
+
+class Solution {
+public:
+    vector<string> simplifiedFractions(int n) {
+        
+        vector<string> sf;
+        
+        for(int i = 1; i < n; i++){
+            for(int j = 2; j <= n; j++){
+                if(i < j && gcd(i, j) == 1){
+                    sf.push_back(to_string(i)+"/"+to_string(j));  
+                } 
+            }
+        }
+        
+        return sf;
+        
+    }
+    
+    int gcd(int a , int b){
+        if(a == 0) return b;
+        if(b == 0) return a;
+        
+        if(a == b) return a;
+        
+        if(a > b) return gcd(a-b, b);
+        else return gcd(a, b-a);
+        
+    }
+};
