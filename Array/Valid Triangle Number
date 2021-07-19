@@ -1,0 +1,31 @@
+//Since, the propert of triangle is sum of any(all) 2 sides is greater than 3rd side. So we have to take every pair and check this property. This leads to TLE as it 
+//would be O(n^3) time. We use O(n^2) solution which is similar to 3Sum problem as we sort and check from last element the range between that which would
+//create an trianlge and add count.
+
+class Solution {
+public:
+    int triangleNumber(vector<int>& nums) {
+        int count = 0;
+        
+        sort(nums.begin(), nums.end());
+        
+        int n = nums.size();
+        for(int i = n-1; i >= 2; i--){
+            
+            int j = 0, k = i-1;
+            
+            while(j < k){
+                if(nums[j]+nums[k] > nums[i]){
+                    count+= k-j;
+                    k--;
+                }else j++;
+            }
+                
+            
+        }
+        
+        return count;
+        
+    }
+    
+};
