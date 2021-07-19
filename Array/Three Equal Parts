@@ -1,0 +1,41 @@
+//We first count the no of 1s then we divide the no of 1s into 3 parts and get the stored index of all the 1st ones in all groups and start comparing each element one
+//by one till the last group index has reached the end or group elements doesn't match. If all the elements match we reutrn index of ending of 1st group
+//and starting of 3rd group.
+
+//Testing each of 3 groups that can be formed will lead to TLE.
+
+class Solution {
+public:
+    vector<int> threeEqualParts(vector<int>& arr) {
+        //find the indexes of 1.
+        vector<int> ones;
+        
+        for(int i = 0; i < arr.size(); i++){
+            if(arr[i]) ones.push_back(i);
+        }
+        
+        //now since we have to divide it into 3 parts they will have equal no of ones
+        int totalOnes = ones.size();
+        //if there are no ones we return 
+        int n = arr.size();
+        if(totalOnes == 0) return {0,n-1};
+        
+        //If no of 1s is not divisible by 3 it can't be didived into 3 equal parts
+        if(totalOnes % 3 != 0) return {-1, -1};
+        
+        //Now we check each of the individual groups if they are equal
+        int r = ones[0];
+        int s = ones[totalOnes/3];
+        int t = ones[totalOnes*2/3];
+        
+        while(t < n && arr[s] == arr[t] && arr[r] == arr[s]){
+            s++, t++,r++;
+        }
+        
+        //As r and s would reach the starting of next group, we need end of group 1 and starting of group 3 so we return r-1 and s.
+        if(t==n) return {r-1, s};
+        
+        return {-1, -1};
+        
+    }
+};
