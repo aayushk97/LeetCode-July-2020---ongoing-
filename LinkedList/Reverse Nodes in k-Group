@@ -1,0 +1,40 @@
+class Solution {
+//We first check if lenght of linked list is atleadt k, if not we dont perform any reversal.
+//If yes, then we reverse in group of k, and then the next node for this is produced by recursively calling the fuction again on the next node.
+//Then we return head.
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        if(!head) return NULL;
+        
+        ListNode* temp = head;
+        int length = 0;
+        while(temp && length <k){
+            length++;
+            temp = temp -> next;
+        }
+        if(length < k) return head;
+        
+        ListNode* p = NULL;
+        ListNode* curr = head;
+        ListNode* q = head -> next;
+        int iter = k-1;
+        
+        while(iter > 0 && q){
+            p = curr;
+            curr = q;
+            q = q -> next;
+            //cout<<p -> val<<" "<<curr -> val<<" "<<q -> val<<endl;
+            curr -> next = p;
+            iter--;
+        }
+        
+        head -> next = reverseKGroup(q, k);
+        
+        head = curr;
+        
+        
+        return head;
+        
+    }
+};
