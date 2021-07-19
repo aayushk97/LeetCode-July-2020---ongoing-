@@ -1,0 +1,43 @@
+//Similar to LIS we find the size of subset which is largest with condition of divisibility and copy all the elements of that set j in set i and 
+//add element i. to make this largest subset.
+//Then we find the max subset one by one from the sizeSubset and return the max one.
+//We can also maintain an array that stores index of element of prev max subset to which this element is added. So we can backtrack to get all the elements.
+//https://leetcode.com/problems/largest-divisible-subset/discuss/684783/C%2B%2B-Crystal-Clear-Explanation
+
+
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        
+        sort(nums.begin(), nums.end());
+        
+        vector<vector<int>> sizeSubset(nums.size());
+        //sizeSubset[0].push_back(nums[0]);
+        
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = i-1; j >= 0; j--){
+                if(nums[i] % nums[j] == 0){
+                    if(sizeSubset[j].size()+1 > sizeSubset[i].size()){
+                        sizeSubset[i].clear();
+                        
+                        for(int k = 0; k < sizeSubset[j].size(); k++) sizeSubset[i].push_back(sizeSubset[j][k]);
+                        sizeSubset[i].push_back(nums[i]);
+                        
+                    }
+                }
+            }
+            
+            if(sizeSubset[i].size() == 0) sizeSubset[i].push_back(nums[i]);
+        }
+        
+       
+        vector<int> maxSubset;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(sizeSubset[i].size() > maxSubset.size()) maxSubset = sizeSubset[i];
+        }
+        
+        return maxSubset;
+        
+    }
+};
