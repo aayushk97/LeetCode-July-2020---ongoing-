@@ -1,0 +1,47 @@
+//We first discard leading white spaces.
+//Then we find the sign of number. If sign is already assigned and no number was assigned then we return 0, otherwise we just return the number till this sign was
+//encountered. Then we check while calculating the number if the sign is neagtive and if it is out of range if yes then clamp it.
+//Then if the number ws negative return neg of the number found else return number.
+
+class Solution {
+public:
+    int myAtoi(string s) {
+        
+        long num = 0;
+        int i = 0;
+        while(s[i] == ' ') i++;
+        bool started = false;
+        bool wrong = false;
+        int negative = -1;
+        
+        for(; i < s.length(); i++){
+            if(s[i] == '-'){
+                if(negative == -1 && !started) negative = 1;
+                else{
+                    //wrong = true;
+                    break;
+                } 
+            } 
+            else if (s[i] >= '0' && s[i] <= '9'){
+                started = true;
+                num = num * 10 + (s[i]-'0');
+                if(negative == 1 && num >= 2147483648) num = 2147483648;
+                else if(num > INT_MAX) num = INT_MAX;
+                //cout<<num<<endl;
+            }else if(s[i] == '+'){
+                if(negative == -1 && !started){
+                    negative = 0;  
+                } 
+                else{
+                    //wrong = true;
+                    break;  
+                } 
+            }else break; 
+            
+        }
+        
+        if(negative == 1) num = -num;
+        return num;
+        
+    }
+};
