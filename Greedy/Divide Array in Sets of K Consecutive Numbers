@@ -1,0 +1,34 @@
+//Here we store the count of elements in an ordered map, then we start from smallest number and find if group of k is possible if yes then we decrement freq and
+//make this one set of k elements, and look at the enxt element in map that has freq greater than 0 and so on..
+//sorting and finding all elements of group and then deleting was passing 57/59 test cases as it led to TLE.
+
+class Solution {
+public:
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        map<int, int> count;
+        
+        for(int i = 0; i < nums.size(); i++){
+            count[nums[i]]++;
+        }
+        
+        for(auto it = count.begin(); it != count.end(); it++){
+            if(it -> second){
+                
+                int freq = it -> second;
+                
+                for(int j = 0; j < k; j++){
+                    if(count[it -> first + j] < freq){
+                        return false;
+                    }else{
+                        count[it -> first + j] -= freq;
+                    }
+                }
+                
+            }    
+            
+        }
+        
+        return true;
+        
+    }
+};
