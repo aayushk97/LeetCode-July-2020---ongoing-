@@ -1,0 +1,27 @@
+//Here, if we have the no of odd char less than or equal to k then these odd chars can be added to each of these palindromic strings to make them plaindrome.
+//So, we should have atleast that.
+//Also, we sould check if the size of k is always greater than or equal to no of chars as if there are less we can form empty string palindromes so we return false.
+
+
+class Solution {
+public:
+    bool canConstruct(string s, int k) {
+        
+        if(s.length() < k) return false;
+        
+        vector<int> chars(26, 0);
+        int count = 0;
+        
+        for(int i = 0; i < s.length(); i++){
+            chars[s[i]-'a'] += 1;
+        }
+        
+        for(int i = 0; i < 26; i++){
+            if(chars[i] % 2 == 1) count++;
+        }
+        
+        if(count <= k) return true;
+        else return false;
+        
+    }
+};
