@@ -1,0 +1,51 @@
+//3 cases we need to handle: 1. First few chars are empty and then there is left falling domino: Then make all these empty chars as left.
+//2. There is space between right and left falling domino, then if space is odd the middle one stays up or even then half is left and half is right.
+//3. There are space after right most domino, then we fill all with right domino.
+
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        
+        for(int i = 0; i < dominoes.size()-1; i++){
+            if(dominoes[i] != '.' && dominoes[i+1] == '.'){
+                //cout<<i<<endl;
+                int j = i+1;
+                while(j < dominoes.size() && dominoes[j] == '.') j++;
+                
+                if(j != dominoes.size()) fillTheGap(dominoes, i, j, dominoes[i], dominoes[j]);
+                else{
+                    
+                    if(dominoes[i] == 'R') fillTheGap(dominoes, i, dominoes.size(), dominoes[i], dominoes[i]);
+                  
+                } 
+            }
+        }
+        
+        int i = 0;
+        while(dominoes[i] == '.') i++;
+        if(dominoes[i] == 'L')fillTheGap(dominoes, -1, i, dominoes[i], dominoes[i]);
+        
+        return dominoes;
+    }
+    
+    void fillTheGap(string& dominoes, int i, int j, char L, char R){
+        
+        if(L == R){
+            
+            for(int k = i+1; k <= j-1; k++) dominoes[k] = L;
+        }else if(L == 'R' && R == 'L'){
+            i++; j--;
+            while(i < j){
+                dominoes[i] = L;
+                dominoes[j] = R;
+                i++; j--;
+                
+                if(i+1 == j) break;
+            }
+            
+            
+        }
+        //cout<<dominoes<<" "<<L<<" "<<R;
+        
+    }
+};
