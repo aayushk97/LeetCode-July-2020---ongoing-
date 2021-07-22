@@ -1,0 +1,21 @@
+//There is a limit that each boat can carry at most 2 people so We put people in same boat if they are of lightest and heaviest weight if less than limit.
+//If it is less than limit then we increment i and decrement j otherwise if its not possible to accomodate both in same boat we put j in boat and then 
+//decrement j.
+
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(), people.end());
+        
+        int numBoats = 0;
+        
+        for(int i = 0, j = people.size()-1; i <= j; j--){
+            if(people[i] + people[j] <= limit) i++;
+            
+            numBoats++;
+            
+        }
+        
+        return numBoats;
+    }
+};
