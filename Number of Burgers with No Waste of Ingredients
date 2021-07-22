@@ -1,0 +1,27 @@
+//Form an equation and return if the equation is satisfied by some value and it's not negative.
+
+class Solution {
+public:
+    vector<int> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+        
+        int x = tomatoSlices - 2*cheeseSlices;
+        x = x / 2; 
+        
+        int y = cheeseSlices - x;
+        
+        if(4*x + 2*y != tomatoSlices || x < 0 || y < 0) return {};
+        
+        else return {x, y};
+    }
+};
+
+//or we check for each combination of small and jumbo burgers which are less than no of cheese slices as each burger can have only one cheese slice.
+vector<int> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+        int burgers = cheeseSlices;
+        for (int jumbo = 0; jumbo <= burgers; jumbo++) {
+            int small = burgers - jumbo;
+            if (tomatoSlices == 4*jumbo + 2*small)
+                return {jumbo, small};
+        }
+        return {};
+    }
