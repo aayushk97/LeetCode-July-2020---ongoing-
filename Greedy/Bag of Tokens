@@ -1,0 +1,54 @@
+//We first sort the input so tokens with least power is in front as we want as many tokens less than curr power. Now, if the power is less than current token,
+//we take the max token to increase our power till it is greater than token at i. We keep track of maxScore at each step and return the maxScore which happened at
+//any point of time.
+
+class Solution {
+public:
+    int bagOfTokensScore(vector<int>& tokens, int power) {
+        sort(tokens.begin(), tokens.end());
+        
+        int maxScore = 0;
+        int score = 0;
+        
+        for(int i = 0, j = tokens.size()-1; i <= j; i++){
+            
+            while(score >= 1 && i < j && power < tokens[i]){
+                power += tokens[j];
+                score--;
+                maxScore = max(score, maxScore);
+                j--;
+            }
+            
+            cout<<i<<" "<<j<<endl;
+            if(tokens[i] <= power){
+                power -= tokens[i];
+                score++;
+            }
+            
+            maxScore = max(score, maxScore);
+            
+           
+            
+        }
+        
+        return maxScore;
+    }
+};
+
+//Another small similar solution
+int bagOfTokensScore(vector<int>& tokens, int P) {
+        sort(tokens.begin(), tokens.end());
+        int res = 0, points = 0, i = 0, j = tokens.size() - 1;
+        while (i <= j) {
+            if (P >= tokens[i]) {
+                P -= tokens[i++];
+                res = max(res, ++points);
+            } else if (points > 0) {
+                points--;
+                P += tokens[j--];
+            } else {
+                break;
+            }
+        }
+        return res;
+    }
