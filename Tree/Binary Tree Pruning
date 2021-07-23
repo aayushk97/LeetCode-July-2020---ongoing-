@@ -1,0 +1,20 @@
+//We first check if root is NULL, then we travel post order so we can remove the root only if w ehave traversed 
+//both it's left subtree and right subtree. So we check if left subtree has a 1 or right subtree or if root has value 1
+//If yes then we return as it is. Otehrwise we prune this tree and return NULL.
+
+class Solution {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if(!root) return NULL;
+        
+        TreeNode* left = pruneTree(root -> left);
+        TreeNode* right = pruneTree(root -> right);
+        
+        root -> left = left;
+        root -> right = right;
+        
+        if(left || right || root -> val == 1) return root;
+        
+        return NULL;
+    }
+};
