@@ -1,0 +1,42 @@
+//Find an appropriate location and then place the flower and then check the other location.
+//Other method is to keep track of no of continues 0s and subtract from n the (noOfZeros - 1)/2 spaces for flowers and resent value of zeros. This method doesn't
+//mutate the input array.
+
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        
+        if(n == 0) return true;
+        
+        if(flowerbed.size() == 1){
+            if(flowerbed[0] == 0 && n == 1) return true;
+            else return false;
+        }
+        
+        for(int i = 0; i < flowerbed.size() && n > 0; i++){
+           //cout<<"Here"<<endl;
+            if(i == 0 && flowerbed[i] == 0 && flowerbed[i+1] == 0 ){
+                //cout<<i<<n<<endl;
+                flowerbed[i] = 1;
+                n--;
+            } 
+           // cout<<"Here2"<<endl;
+            if( i > 0 && i+1 < flowerbed.size() && flowerbed[i] == 0 && flowerbed[i-1] == 0 && flowerbed[i+1] == 0){
+                //cout<<i<<n<<endl;
+                flowerbed[i] = 1;
+                n--;
+            }
+           // cout<<"Here3"<<endl;
+            if(i > 0 && i == flowerbed.size()-1 && flowerbed[i-1] == 0 && flowerbed[i] == 0){
+                cout<<i<<n<<endl;
+                flowerbed[i] = 1;
+                n--;
+            }
+        }
+        
+        cout<<n;
+        
+        if(n == 0) return true;
+        else return false;
+    }
+};
