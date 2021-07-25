@@ -1,0 +1,39 @@
+//We first find the adjacent element which is larger than its right adjacent element since this will be one of candidates for replacement. Now from rest of input
+//we find the candidate2 which is less than candidate and greater than all other elements. Then we swap candidate and candidate2 to get maximum smallest element
+
+class Solution {
+public:
+    vector<int> prevPermOpt1(vector<int>& arr) {
+        int n = arr.size();
+        
+       
+        int largest = -1;
+        
+        for(int i = n-1; i > 0; i--){
+            if(arr[i-1] > arr[i]){
+                largest = i-1;
+                break;  
+            } 
+        }
+        
+        if(largest == -1) return arr;
+        
+        int secLargest = -1; 
+        int secLargestIndex = -1;
+        for(int i = largest+1; i < n; i++){
+            if(arr[i] < arr[largest]){
+                if(secLargest < arr[i]){
+                    secLargest = arr[i];
+                    secLargestIndex = i;
+                }
+            }
+        }
+        
+        if(secLargestIndex == -1) return arr;
+        //cout<<largest<<" "<<secLargestIndex<<endl;
+        swap(arr[largest], arr[secLargestIndex]);
+        
+        return arr;
+        
+    }
+};
