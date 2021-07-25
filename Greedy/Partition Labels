@@ -1,0 +1,54 @@
+//first 20 lines are just for creating the string in interval form which is in acending order. 
+//Map also can be used and then an array to store the respective interval.
+//Then after this datastructure is created we find non overlapping interval size. intervals that overlap are made into one interval.
+
+class Solution {
+public:
+    vector<int> partitionLabels(string s) {
+        
+        vector<vector<int>> count(26);
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(count[s[i]-'a'].size() == 0){
+                count[s[i]-'a'].push_back(i);
+                count[s[i]-'a'].push_back(i);
+            } else {
+                count[s[i]-'a'][1] = i;
+            }
+        }
+       // cout<<"Here2"<<endl;
+        vector<vector<int>> loc;
+        
+        for(int i = 0; i < 26; i++){
+            if(count[i].size() > 0) loc.push_back(count[i]);
+        }
+        
+        sort(loc.begin(), loc.end());
+        //for(auto it = loc.begin(); it != loc.end(); it++) cout << it -> first <<" "<<it -> second[0]<<" "<<it -> second[it -> second.size()-1]<<endl;
+        //cout<<"Here"<<endl;
+        
+        vector<int> interval;
+        int start = -1, end = -1;
+        for(int k = 0; k < loc.size(); k++){
+            //cout<<start<<" "<<end<<endl;
+            if(start == -1){
+                start = loc[k][0];
+                end = loc[k][1];
+            }else{
+                int i = loc[k][0];
+                int j = loc[k][1];
+                
+                if(i < end && end < j) end = j;
+                else if(i > end){
+                    //cout<<start<<" "<<end<<" "<<end-start+1<<endl;
+                    interval.push_back(end - start + 1);
+                    start = i;
+                    end = j;
+                }
+            }
+        }
+        interval.push_back(end - start + 1);
+        return interval;
+        
+    }
+};
