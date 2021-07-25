@@ -1,0 +1,45 @@
+//Idea is to find for each element of B an element that is least greater in A, and for elements which don't have such greater elements assign them smallest element
+//possible. Since we sort array A so we can linearly do this part.
+//Next is for each element in B array we get the greater element and assign it to nums1.
+
+class Solution {
+public:
+    vector<int> advantageCount(vector<int>& nums1, vector<int>& nums2) {
+        
+        sort(nums1.begin(), nums1.end());
+        
+        vector<int> temp(nums2.begin(), nums2.end());
+        sort(temp.begin(), temp.end());
+        
+        unordered_map<int, vector<int>> greaterNum;
+        
+        int i = 0, j = 0;
+        
+        while(i < nums1.size()){
+            //cout<<i<<" "<<j<<endl;
+            if(nums1[i] > temp[j]){
+                //cout<<nums1[i]<<" "<<temp[j]<<endl;
+                greaterNum[temp[j]].push_back(nums1[i]);
+                nums1[i] = -1;
+                j++; i++;
+            }else{
+                i++;
+            }
+        }
+        //cout<<"Here";
+        for(int i = 0; i < nums1.size(); i++){
+            if(nums1[i] != -1){
+                 greaterNum[temp[j]].push_back(nums1[i]);  
+                 j++;
+            }
+        }
+        
+        for(int i = 0; i < nums2.size(); i++){
+            nums1[i] = greaterNum[nums2[i]].back();
+            greaterNum[nums2[i]].pop_back();
+        }
+        
+        return nums1;
+        
+    }
+};
