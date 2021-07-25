@@ -1,6 +1,7 @@
 //Idea is to find for each element of B an element that is least greater in A, and for elements which don't have such greater elements assign them smallest element
 //possible. Since we sort array A so we can linearly do this part.
 //Next is for each element in B array we get the greater element and assign it to nums1.
+//Since there may be repeated elements so we need a vector in map and not int.
 
 class Solution {
 public:
