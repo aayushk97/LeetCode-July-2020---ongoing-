@@ -1,0 +1,29 @@
+//On the basis of no of chars in a and b we combine a & b and then when one of them is 0 the rest of it is appended as it is.
+
+class Solution {
+public:
+    string strWithout3a3b(int a, int b) {
+        
+        string res = "";
+        
+        while(a > 0 && b > 0){
+            if( a > b ){
+                res += "aab";
+                a-= 2, b--;
+            }else if(b > a){
+                res += "bba";
+                b-= 2, a--;
+            }else{
+                res += "ab";
+                b--, a--;
+            }
+            
+            
+        }
+        
+        while(a-- > 0) res += 'a';
+        while(b-- > 0) res += 'b';
+       
+        return res;
+    }
+};
