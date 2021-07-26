@@ -1,0 +1,19 @@
+//Simply sort and see if a paricular kid can be satisfied by which cookie, If this kid can't be satisfied no other after it can be as thier satifiable number is more
+//as we have sorted it.
+
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        
+        int i = 0, j = 0;
+        
+        for( j = 0; i < g.size() && j < s.size(); j++){
+            if(g[i] <= s[j]) i++;
+        }
+        return i;
+        
+    }
+};
