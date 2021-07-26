@@ -1,0 +1,52 @@
+//We first count the occurances of each tasks, then assign them time quantum such that they are at n Time quantum apart.
+//To do this we first take the n+1 most time taking tasks in each round then provide them scheduler and then put them back into queue for next round which 
+//fetches next n+1 most time taking tasks.
+//Imp points are that a temp vector is used to first pop and then push back in other loop so that it is not fetched again in same cycle.
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        
+        vector<int> count(26, 0);
+        
+        for(int i = 0; i < tasks.size(); i++){
+            count[tasks[i]-'A']+= 1;
+        }
+        
+        priority_queue<pair<int, char>> pq;
+        
+        for(int i = 0; i < count.size(); i++){
+            if(count[i] > 0) pq.push({count[i], 'A'+i});
+        }
+        
+        int totalTime = 0;
+        int cycle = n+1;
+        
+        while(pq.size()){
+            
+            int time = 0;
+            
+            vector<pair<int, char>> temp;
+            
+            for(int i = 0; i < cycle; i++){
+                if(pq.size()){
+                    temp.push_back(pq.top());
+                    pq.pop();
+                    time++;
+                }
+            }
+            
+            for(int i = 0; i < temp.size(); i++){
+                if(temp[i].first-1 > 0)
+                    pq.push({temp[i].first-1, temp[i].second});
+            }
+            
+            totalTime += pq.size() > 0? cycle: time; 
+            
+            
+        }
+        
+        return totalTime;
+        
+    }
+};
