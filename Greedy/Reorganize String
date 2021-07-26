@@ -1,0 +1,56 @@
+//Similar to Task Scheduler, we count the no of occurances then put the count and char in PQ. Then in each round we pick two chars with most freq and attach it to
+//resultant string and then decrease count and insert into PQ. In such a way the higher charracter coount one is used most no of times and since we are popping
+//2 at a time we are not going for same element. 
+
+//A condition to check if its possible to create such a string is to count if any char has count greater than half. But here we have just checked if the last char 
+//in string is same as curr char we are insrting then its not true.
+
+class Solution {
+public:
+    string reorganizeString(string s) {
+        
+        unordered_map<char, int> count;
+        
+        for(int i = 0; i < s.length(); i++){
+            count[s[i]]+= 1;
+        }
+        
+        //now make a pq of occurances
+        priority_queue<pair<int, char>> pq;
+        
+        for(auto it = count.begin(); it != count.end(); it++){
+            //cout<<it -> second<<" "<<it -> first<<endl;
+            pq.push({it -> second, it -> first});
+        }
+        
+        //now we make the final string
+        string res = "";
+        
+        while(pq.size()){
+            
+            pair<int, char> curr1 = pq.top();
+            pq.pop();
+            if(res.size() > 0 && res[res.size()-1] == curr1.second) return "";
+            res += curr1.second;
+            if(pq.size() > 0) {
+                pair<int, char> curr2 = pq.top();
+                pq.pop();
+                
+                if(res.size() > 0 && res[res.size()-1] == curr2.first) return "";
+                
+                res += curr2.second;
+                //cout<<res<<" 1st char: "<<curr1.second<<" 2nd char: "<<curr2.second<<endl;
+                if(curr2.first-1 > 0) pq.push({curr2.first-1, curr2.second});
+           
+            }
+            
+            
+            if(curr1.first-1 > 0) pq.push({curr1.first-1, curr1.second});
+           
+            
+        }
+        
+        return res;
+        
+    }
+};
