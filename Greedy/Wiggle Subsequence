@@ -1,0 +1,45 @@
+//We track if the curr num is less than prev if yes then these 2 can be added as next 2 elements of down sequence to create a wiggle sequence.
+//Otherwise if curr num is more then these two can be added to current up sequence to create a wiggle sequence.
+//Then return the max of up or down.
+
+//Can also be implemented in DP using LIS, having 2 arrays one that incerements when the difference is negative to last positive differnce pair and other which
+//increments when the difference is positve to last negative difference pair. (As shown below line 26)
+
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        
+        int up = 1, down = 1;
+        
+        for(int i = 1; i < nums.size(); i++){
+            if(nums[i] > nums[i-1]) up = down + 1;
+            else if(nums[i] < nums[i-1]) down = up + 1;
+        }
+        
+        return max(up, down);
+        
+    }
+};
+
+
+
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        int size=nums.size();
+        if(size==0) return 0;
+        vector<int> f(size, 1);
+        vector<int> d(size, 1);
+        for(int i=1; i<size; ++i){
+            for(int j=0; j<i; ++j){
+                if(nums[j]<nums[i]){
+                    f[i]=max(f[i], d[j]+1);
+                }
+                else if(nums[j]>nums[i]){
+                    d[i]=max(d[i], f[j]+1);
+                }
+            }
+        }
+        return max(d.back(), f.back());
+    }
+};
