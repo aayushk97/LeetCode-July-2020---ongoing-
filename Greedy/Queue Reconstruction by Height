@@ -1,0 +1,41 @@
+class Solution {
+//We first sort based on index2 i.e no of people with height greater before him. Then we take each element and see how many have height greatera before him.
+// When we find a place which has same no of people with heights greater as that of curr persons index2 we shift all elements to right and place it here. Similarly,
+//do this to all the elements and return this.
+
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        
+        sort(people.begin(), people.end(), cmp);
+        
+        for(int i = 0; i < people.size(); i++){
+            //cout<<"i: "<<i<<endl;
+            int count = 0, j = 0;
+            for(; j < i; j++){
+                if(people[j][0] >= people[i][0]) count++;
+                if(count > 0 && count == people[i][1]+1) break;
+            }
+            //cout<<"j: "<<j<<endl;
+            int x = i;
+            if(j < x){
+                vector<int> temp = people[i];
+            
+                while(x > j){
+                    people[x] = people[x-1];
+                    x--;
+                }
+            
+                people[j] = temp;
+            }
+            
+            
+        }
+        
+        return people;
+    }
+    
+    static bool cmp(vector<int>& a, vector<int>& b){
+        if(a[1] == b[1]) return a[0] < b[0]? true: false;
+        else return a[1] < b[1] ? true: false;
+    }
+};
