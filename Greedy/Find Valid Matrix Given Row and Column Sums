@@ -1,0 +1,20 @@
+//We find min of row sum and col sum and assign the cell of resultant matrix that value and then subtract from col and row sum that number so that next of cells
+//can find the corresponding element with that sum.
+
+class Solution {
+public:
+    vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum) {
+        vector<vector<int>> res(rowSum.size(), vector<int>(colSum.size(), 0));
+        
+        for(int i = 0; i < res.size(); i++){
+            for(int j = 0; j < res[i].size(); j++){
+                int val = min(rowSum[i], colSum[j]);
+                res[i][j] = val;
+                rowSum[i] -= val;
+                colSum[j] -= val;
+            }
+        }
+        
+        return res;
+    }
+};
