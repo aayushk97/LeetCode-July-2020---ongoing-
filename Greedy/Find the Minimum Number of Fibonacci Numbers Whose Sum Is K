@@ -1,0 +1,33 @@
+//We find all the fibb numbers that are leq than k, then we take the biggest number and subtract it then find the next big fibb number for remaining.
+
+class Solution {
+public:
+    int findMinFibonacciNumbers(int k) {
+        vector<long> fibb;
+        
+        fibb.push_back(1);
+        fibb.push_back(1);
+        
+        for(int i = 2; i <= k; i++){
+            if(fibb[i-1]+fibb[i-2] <= k)fibb.push_back(fibb[i-1]+fibb[i-2]);
+            else break;
+        }
+        
+        int num = 0;
+        
+        while(k > 0){
+            for(int i = fibb.size()-1; i >= 0; i--){
+                if(fibb[i] <= k){
+                    k -= fibb[i];
+                    num++;
+                    break;
+                } 
+            }
+    
+        }
+        
+        return num;
+                
+        
+    }
+};
