@@ -1,0 +1,41 @@
+//We store the values and their Roman symbols and then question becomes same as one of greedy solution to take max number take the char representing the number
+//then we subtract the number with this number and repeate the process untill input num is 0.
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        vector<int> denom;
+        denom.push_back(1);denom.push_back(4);denom.push_back(5);denom.push_back(9);denom.push_back(10);
+        denom.push_back(40); denom.push_back(50); denom.push_back(90); denom.push_back(100); 
+        denom.push_back(400); denom.push_back(500); denom.push_back(900); denom.push_back(1000);
+        
+        unordered_map<int, string> roman;
+        roman[1] = "I";
+        roman[4] = "IV";
+        roman[5] = "V";
+        roman[9] = "IX";
+        roman[10] = "X";
+        roman[40] = "XL";
+        roman[50] = "L";
+        roman[90] = "XC";
+        roman[100] = "C";
+        roman[400] = "CD";
+        roman[500] = "D";
+        roman[900] = "CM";
+        roman[1000] = "M";
+        
+        string res = "";
+        
+        while(num){
+            for(int i = denom.size()-1; i >= 0; i--){
+                if(num - denom[i] >= 0){
+                    num -= denom[i];
+                    res+= roman[denom[i]];
+                    break;
+                }
+            }
+        }
+        
+        return res;
+    }
+};
