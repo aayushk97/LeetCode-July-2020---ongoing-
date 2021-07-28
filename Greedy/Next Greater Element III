@@ -1,0 +1,48 @@
+//We first find the left neighbour of an index which has less value than right, let this be candidate.
+//we swap it with the an element from right which has value greater than this with candidate. Then after candidate we reverse all elements.
+
+class Solution {
+public:
+    int nextGreaterElement(int n) {
+        string nums = to_string(n);
+        
+        int smallest = -1;
+        
+        for(int i = nums.length()-1; i >= 1; i--){
+            if(nums[i] > nums[i-1]){smallest = i-1; break;}
+        }
+        
+        if(smallest == -1) return -1;
+        
+        int larger = -1;
+        
+        for(int j = nums.length(); j >= smallest; j--){
+            if(nums[j] > nums[smallest]){
+                larger = j;
+                break;
+            } 
+        }
+        
+        if(larger == -1) return -1;
+        
+        swap(nums[smallest], nums[larger]);
+        
+        for(int i = smallest+1, j = nums.length()-1; i < j; i++, j--){
+            swap(nums[i], nums[j]);
+        }
+        
+        
+        return  convertToNum(nums);
+        
+    }
+    
+    int convertToNum(string& nums){
+        long num = 0;
+        for(int i = 0; i < nums.length(); i++){
+            num = num * 10 + nums[i] - '0';
+            if(num > INT_MAX) return -1;
+        }
+        
+        return num;
+    }
+};
