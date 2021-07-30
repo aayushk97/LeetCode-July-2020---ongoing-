@@ -1,0 +1,20 @@
+//We handle swapping of 1st 2 pairs then recursively call the function for next 2 nodes untill we reach the end. When it comes back swapping of current 2 nodes is 
+//done.
+
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(!head) return NULL;
+        
+        if(!head -> next) return head;
+        
+        ListNode* temp1 = head;
+        ListNode* temp2 = head -> next;
+        
+        temp1 -> next = swapPairs(temp2 -> next);
+        
+        temp2 -> next = temp1;
+        
+        return temp2;
+    }
+};
