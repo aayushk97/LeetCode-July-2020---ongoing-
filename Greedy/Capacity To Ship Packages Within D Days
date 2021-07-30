@@ -1,0 +1,50 @@
+//For max size that can be contained in matrix which is 500*500*100. We binary search for a number and check if that number is possible to be a 
+//size of ship that can ship it in min days time. If yes, then ther is a possibility of a lesser size. We reduce the search space by half.
+//If not then we want a bigger ssize boat so wwe go to second half. We do this untill we find the min size.
+
+//Imp thing is conditions in finding if the size of boat is enough.
+
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        
+        vector<int> temp(weights.begin(), weights.end());
+        
+        
+        
+        int i = 0, j = 25000000;
+        
+        while(i < j){
+            int mid = i + (j - i)/2;
+            
+            int done = canBeDone(weights, mid, days);
+          
+            //cout<<i<<" "<<j<<endl;
+                        
+            if(!done) i = mid+1;
+            else j = mid;
+        }
+        //cout<<i<<" "<<j<<endl;
+        return i;
+    }
+    
+    int canBeDone(vector<int>& weights, int maxSize, int days){
+       
+        int size = 0;
+        days--;
+        for(int i = 0; i < weights.size(); i++){
+            if(weights[i] > maxSize) return 0;
+            else if(size + weights[i] <= maxSize){
+                size += weights[i];
+            }else{
+                size = weights[i];
+                days--;
+            }
+        }
+        
+        if(days >= 0) return 1;
+        else return 0;
+        
+        
+    }
+};
