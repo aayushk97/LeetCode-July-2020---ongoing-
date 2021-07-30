@@ -1,0 +1,45 @@
+//We cache the cost from a node to dest using k steps. Rest is just traversing and finding a route and cost of route in less than k steps.
+
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        
+        vector<vector<pair<int, int>>> graph(n);
+        vector<vector<int>> costFromNode(n, vector<int>(k+1, -1));
+        
+        for(int i = 0; i < flights.size(); i++) {
+            graph[flights[i][0]].push_back({flights[i][1], flights[i][2]});
+        }
+            
+        int val = minCost(graph, src, dst, k, -1, costFromNode);
+        
+        if(val == INT_MAX) return -1;
+        else return val;
+        
+    }
+    
+    int minCost(vector<vector<pair<int, int>>>& graph, int src, int dst, int k, int i, vector<vector<int>>& costFromNode){
+        //cout<<"src: "<<src<<" dst: "<<dst<<" i: "<<i<<endl;
+        if(src == dst && i <= k) return 0;
+        if(i > k) return INT_MAX;
+        
+        if(i != -1 && costFromNode[src][i] != -1) return costFromNode[src][i];
+        //cout<<"Here"<<endl;
+        int cost = INT_MAX;
+        
+        for(int j = 0; j < graph[src].size(); j++){
+            //cout<<graph[src][j].first<<endl;
+            int val = minCost(graph, graph[src][j].first, dst, k, i+1, costFromNode);
+            //cout<<"val: "<<val<<endl;
+            
+            if(val == INT_MAX) continue;
+            cost = min(cost, val+graph[src][j].second);
+            
+        }
+        
+        
+        if(i != -1) return costFromNode[src][i] = cost;
+        
+        else return cost;
+    }
+};
