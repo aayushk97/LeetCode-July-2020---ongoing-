@@ -1,0 +1,34 @@
+//We travel reverse from the label to root and then reverse the path to get the result. Here, we find the root of the particular element in normal binary tree
+//Then convert it using low + (high - root) to get the value of root in zig zig tree.
+
+class Solution {
+public:
+    vector<int> pathInZigZagTree(int label) {
+        
+        vector<int> path;
+        
+        int root = label;
+        
+        while(root > 1){
+            //cout<<root<<endl;
+            path.push_back(root);
+            
+            int level = log(root)/log(2);
+            
+            root = root / 2;
+            int low = pow(2, level-1);
+            int high = pow(2, level)-1;
+            
+            root = low+(high - root);
+            
+        }
+        
+        path.push_back(1);
+        reverse(path.begin(), path.end());
+        
+        return path;
+        
+        
+    }
+    
+};
