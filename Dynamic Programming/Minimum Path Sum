@@ -1,0 +1,30 @@
+//Here we go down a path and store the min sum on that path, then we we encouter it again we just return this value. 
+//DFS is used to traverse the matrix.
+
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        vector<vector<int>> visited(grid.size(), vector<int>(grid[0].size()));
+        
+        return minSum(grid, 0, 0, visited); 
+    }
+    
+    int minSum(vector<vector<int>>& grid, int i, int j, vector<vector<int>>& visited){
+        if(i >= grid.size() || j >= grid[0].size()) return INT_MAX;
+        //cout<<i<<" "<<j<<endl;
+        
+        if(visited[i][j] != 0) return visited[i][j];
+        
+        int minPath = INT_MAX;
+        minPath = minSum(grid, i+1, j, visited);
+        
+        if(minPath != INT_MAX) minPath = min(minPath, minSum(grid, i, j+1, visited));
+        else minPath = minSum(grid, i, j+1, visited);
+        
+        
+        //cout<<"Min Path: "<<i<<" "<<j<<" "<<minPath<<endl;
+        
+        if(minPath != INT_MAX) return visited[i][j] = minPath + grid[i][j];
+        else return visited[i][j] = grid[i][j];
+    }
+};
