@@ -1,0 +1,55 @@
+//Since we need max sum we will need max value of each row. This is only possbile when we have MSBs as 1. So, we first see which rows don't have 1st col as 1, we
+//flip those. Then we count the number of 1's in each column and if it is less than size()/2 then flipping the column will give us max decimal. 
+//Then we sum those decimal from binary and return output.
+
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        
+        for(int i = 0; i < grid.size(); i++){
+            if(grid[i][0] == 0) flipRow(grid, i);
+        }
+        
+        vector<int> numOnesInCol(grid[0].size(), 0);
+        
+        for(int j = 0; j < grid[0].size(); j++){
+            for(int i = 0; i < grid.size(); i++){
+                numOnesInCol[j] += grid[i][j];
+                
+            }
+            //cout<<numOnesInCol[j]<<endl;
+        }
+        
+       
+        for(int j = 1; j < grid[0].size(); j++){
+            if(numOnesInCol[j] <= grid.size()/2) flipCol(grid, j);
+        }
+        
+        int res = 0;
+        
+        for(int i = 0; i < grid.size(); i++){
+            int sum = 0;
+            for(int j = 0; j < grid[i].size(); j++){
+                sum = sum*2 + grid[i][j];
+            }
+            //cout<<sum<<endl;
+            res += sum;
+        }
+        
+        return res;
+    }
+    
+    void flipRow(vector<vector<int>>& grid, int row){
+        for(int j = 0; j < grid[row].size(); j++){
+            grid[row][j] = 1-grid[row][j];
+        }
+    }
+    
+    void flipCol(vector<vector<int>>& grid, int col){
+        for(int j = 0; j < grid.size(); j++){
+            grid[j][col] = 1 - grid[j][col]; 
+        }
+    }
+    
+    
+};
