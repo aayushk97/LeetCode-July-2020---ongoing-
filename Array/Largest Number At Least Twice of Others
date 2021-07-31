@@ -1,0 +1,27 @@
+//We find max and second max then if max is atleast as twice as second max then all other elements will be such. So if true we return index else return -1. 
+
+class Solution {
+public:
+    int dominantIndex(vector<int>& nums) {
+        
+        if(nums.size() == 1) return 0;
+        
+        int max = INT_MIN;
+        int max2 = INT_MIN;
+        int index = -1;
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] > max){
+                max2 = max;
+                max = nums[i];
+                index = i;
+                
+            }else if(nums[i] > max2){
+                max2 = nums[i];
+            }
+        }
+        //cout<<max2<<max<<endl;
+        if(max2 <= max/2) return index;
+        else return -1;
+    }
+};
