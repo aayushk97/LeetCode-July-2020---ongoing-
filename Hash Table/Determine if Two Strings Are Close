@@ -1,0 +1,39 @@
+//Since we can swap two chars at different positions and one char existing in string to other char in string ans vice versa to get another string.
+//We first find the count of each chars in both string and check if both string have common chars by comparing no zero count of word1 with non zero count of word2.
+//Now since we want to change a char with another existing char we need to check the char we are changing it to has to have same no of count as in word2.
+//So we compare different count of chars in word1 and word2 and check both have same no of count sequence of chars. If yes, then we return true else false.
+
+class Solution {
+public:
+    bool closeStrings(string word1, string word2) {
+        if(word1.length() != word2.length()) return false;
+        
+        vector<int> count1(26, 0);
+        vector<int> count2(26, 0);
+        
+        for(int i = 0; i < word1.size(); i++){
+            count1[word1[i]-'a'] += 1;
+            count2[word2[i]-'a'] += 1;
+        }
+        
+        for(int i = 0; i < 26; i++){
+            if((count1[i] > 0 && count2[i] <= 0) || (count1[i] <= 0 && count2[i] > 0)) return false;
+            
+        }
+        
+        unordered_map<int, int> countNum;
+        
+        for(int i = 0; i < 26; i++){
+            if(count1[i] > 0) countNum[count1[i]]+= 1;
+            if(count2[i] > 0) countNum[count2[i]]-= 1;
+        }
+        
+        for(auto it = countNum.begin(); it != countNum.end(); it++){
+            if(it -> second != 0) return false;
+        }
+        
+        return true;
+        
+        
+    }
+};
