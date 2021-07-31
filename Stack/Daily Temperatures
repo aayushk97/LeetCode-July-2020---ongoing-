@@ -1,0 +1,25 @@
+//We store the temp and index of each day in a stack and to see if a greater one is present in future we just pop the stack untill we get such a temp.
+//Otherwise by default it is 0. Then we push this element with its index int the stack so earlier elements can refer to it.
+//Here since elements lesser to it have been popped. If an element greater than this is present previously then it would not have the popped elements as greater
+//temp if the elemnent is lesser than this then that would have this as greater element.
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        
+        stack<pair<int, int>> maxS;
+        
+        vector<int> res(temperatures.size(), 0);
+        
+        for(int i = temperatures.size()-1; i >= 0; i--){
+            while(maxS.size() > 0 && temperatures[i] >= maxS.top().first) maxS.pop();
+            if(maxS.size() > 0 && temperatures[i] < maxS.top().first){
+                res[i] = maxS.top().second - i;
+                maxS.push({temperatures[i], i});
+            }
+            if(maxS.size() == 0) maxS.push({temperatures[i], i});
+        }
+        
+        return res;
+    }
+};
