@@ -1,0 +1,24 @@
+//We first count the no of x's and y's in both strings where chars are not equal. Then we can find if it is possible
+//to swap the elements to create same string by checking if the no of 0s and 1s is even. IF it is odd we can't make them
+//equal. Then x/2 is no of 1 swap and y/2 is no of 1 swap and x1%2*2 for if there is one xy and yx pair we need 2 swaps.
+https://leetcode.com/problems/minimum-swaps-to-make-strings-equal/discuss/419351/Java-Solution-with-detailed-comments
+
+class Solution {
+public:
+    int minimumSwap(string s1, string s2) {
+        int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+        
+        for(int i = 0; i < s1.length(); i++){
+            if(s1[i] == s2[i]) continue;
+            if(s1[i] == 'x') x1++;
+            else y1++;
+            
+            if(s2[i] == 'x') x2++;
+            else y2++;
+        }
+        
+        if((x1 + x2) % 2 != 0 || (y1 + y2) % 2 != 0) return -1;
+        
+        return x1/2 + y1/2 + (x1 % 2) * 2;
+    }
+};
