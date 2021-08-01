@@ -1,0 +1,28 @@
+//We are alternating our milestones in round robin manner so no 2 weeks have same projects. Now here since if the max milestone is greater than sum of all other mile
+//stones then there is no alternating sequence between them which could finish all milestones. So we finish alternatingly 1 milestone of max and other milestone
+// of other and at last one milestone of max so total 2*rest + 1. If maxMilestone is less than sum of rest then there is an alternating sequence which can
+//finish all of them. In this case since all milestones will be completed no of weeks is equal to no of milstones.
+
+//Using a priority queue and popping 2 max and assigning them subsequent weeks also works but it will give a TLE.
+
+class Solution {
+public:
+    long long numberOfWeeks(vector<int>& milestones) {
+        
+        long long sum = 0;
+        int maxMileStone = 0;
+        
+        for(int i = 0; i < milestones.size(); i++){
+            sum += milestones[i];
+            maxMileStone = max(maxMileStone, milestones[i]);
+        }
+        
+        long long sumRest = sum - maxMileStone;
+        
+        if(sumRest < maxMileStone) return 2*sumRest+1;
+        else return sum;
+        
+    }
+    
+  
+};
