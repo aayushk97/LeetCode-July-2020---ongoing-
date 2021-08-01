@@ -1,0 +1,63 @@
+//We find k times next permutation using next permuation algoritm and then we now need to find no of waps between
+//this string and original string. So when the numbers at a pos is not equal then search for the pos of num in str.
+//Then we make them at same position and rest shifted to right and then similarly find the next not in position.
+//This is done untill both the strings have same chars at same loc.
+
+class Solution {
+public:
+    int getMinSwaps(string num, int k) {
+        
+        string str1(num.begin(), num.end());
+        while(k--){
+            str1 = getNextPermutation(str1);
+        }
+        
+        int i = 0, j = 0;
+        int numSwaps = 0;
+        while(i < num.length()){
+            j = i;
+            while(num[j] != str1[i]) j++;
+            
+            while(i < j){
+                swap(num[j], num[j-1]);
+                j--;
+                numSwaps++;
+            }
+            i++;
+        }
+        
+        return numSwaps;
+        
+    }
+    
+    string getNextPermutation(string num){
+        
+        int smaller = -1;
+        for(int i = num.length()-1; i >= 1; i--){
+            if(num[i-1] < num[i]){
+                smaller = i-1;
+                break;
+            }
+        }
+        
+        int larger = -1;
+        for(int j = num.length()-1; j > smaller; j--){
+            if(num[j] > num[smaller]){
+                larger = j;
+                break;
+            }
+        }
+        
+        //now we swap them
+        swap(num[smaller], num[larger]);
+        
+        //now we reverse after smaller all the numbers
+        for(int j = smaller+1, k = num.length()-1; j < k; j++, k--){
+            swap(num[j], num[k]);
+        }
+        
+        return num;
+    }
+    
+    
+};
