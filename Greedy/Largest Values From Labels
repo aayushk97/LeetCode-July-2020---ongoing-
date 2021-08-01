@@ -1,0 +1,44 @@
+//We put the values in a seperate data structure so that it can be sorted based on values. Now we use a map to put max(limit, countOfLabel) count for each label
+//in map to keep track of how many we have taken to create sum. Now we take elements one by one from sorted vector and see if its labels count is greater than 0;
+//If yes, then we can take this value and decrement label count. Similarly we do untill we don't have num_wanted elements sum. Then we return that sum.
+
+class Solution {
+public:
+    int largestValsFromLabels(vector<int>& values, vector<int>& labels, int num_wanted, int use_limit) {
+        
+        vector<vector<int>> merged;
+        
+        
+        
+        for(int i = 0; i < values.size(); i++){
+            merged.push_back({values[i], labels[i]});
+        }
+        
+        sort(merged.begin(), merged.end(), cmp);
+        
+        unordered_map<int, int> items;
+        
+        for(int i = 0; i < values.size(); i++){
+            
+            if(items[merged[i][1]] < use_limit) items[merged[i][1]]++;
+        }
+        
+        int sum = 0;
+        
+        for(int i = 0; i < merged.size() && num_wanted; i++){
+            //int limit = use_limit;
+            
+            if(items[merged[i][1]] > 0){
+                sum+= merged[i][0];
+                items[merged[i][1]]--;
+                num_wanted--;
+            }
+        }
+        
+        return sum;
+    }
+    
+    static bool cmp(vector<int>&a, vector<int>& b){
+        return a[0] > b[0]? true: false;
+    }
+};
