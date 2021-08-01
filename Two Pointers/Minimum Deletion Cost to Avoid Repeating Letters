@@ -1,0 +1,45 @@
+//We keep 2 pointers ans similar to removing adjacent repeated chars we perform this but we only remove the one with
+//most cost. If left is most cost then we add the sum and set pointer to j and increment j otherwise if other one is
+//greater then we add this cost and increment j pointer.
+
+class Solution {
+public:
+    int minCost(string s, vector<int>& cost) {
+        
+        int totalCost = 0;
+        for(int i = 0, j = 1; j < s.length(); ){
+            
+            if(s[i] != s[j]){
+                i = j; j++;
+            }else if(s[i] == s[j]){
+                if(cost[i] < cost[j]){
+                    totalCost += cost[i];
+                    i = j; j++;
+                }else{
+                    totalCost += cost[j];
+                    j++;  
+                } 
+            }
+            
+        }
+        
+        return totalCost;
+        
+        
+        
+    }
+};
+
+//Can also be done using method in which we keep the char if it has max weights between its neighbours.
+int minCost(string s, vector<int>& cost) {
+    int res = cost[0], max_cost = cost[0];
+    for (int i = 1; i < s.size(); ++i) {
+        if (s[i] != s[i - 1]) {
+            res -= max_cost;
+            max_cost = 0;
+        }
+        res += cost[i];
+        max_cost = max(max_cost, cost[i]);
+    }
+    return res - max_cost;
+}
