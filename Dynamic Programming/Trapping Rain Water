@@ -1,0 +1,31 @@
+//Here for every horizontal section we calculate the max height of left and max height at right and subtract the height of this section with min of them to get
+//water trapped at a section. If the height of section is max then waterTrapped will be zero as min and height will have same value.
+//We first store the value of max height on left and right to avoid TLE.
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        if(height.size() < 3) return 0;
+        
+        vector<int> leftMax(height.size());
+        vector<int> rightMax(height.size());
+        
+        rightMax[rightMax.size()-1]= height[height.size()-1];
+        
+        for(int i= height.size()-2; i >= 0; i++){
+            rightMax[i] = max(rightMax[i+1], height[i]);
+        }
+        
+        leftMax[0] = height[0];
+        for(int i = 1; i < height.size(); i++){
+            leftMax[i] = max(leftmax[i-1], height[i]);
+        }
+        
+        int waterTrapped = 0;
+        for(int i = 0; i < height.size(); i++){
+            waterTrapped += min(leftMax[i], rightMax[i]) - height[i];
+        }
+        
+        return waterTrapped;
+    }
+};
