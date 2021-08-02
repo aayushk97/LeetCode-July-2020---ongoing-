@@ -1,0 +1,21 @@
+//Keep track of max at each path and if node val is less than max don't count this node. 
+//DFS traversal but we may also try BFS.
+
+class Solution {
+public:
+    int goodNodes(TreeNode* root) {
+        int maxVal = INT_MIN;
+        return countGN(root, maxVal);
+    }
+    
+    int countGN(TreeNode* root, int maxVal){
+        if(!root) return 0;
+        int count = 0;
+        
+        if(root -> val >= maxVal) count++;
+        
+        maxVal = max(root -> val, maxVal);
+        
+        return count + countGN(root-> left, maxVal) + countGN(root -> right, maxVal);
+    }
+};
