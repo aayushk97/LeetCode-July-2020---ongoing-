@@ -1,0 +1,37 @@
+//Sometimes may lead to TLE due to O(n^2) time complexity on sorted array. 
+
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        
+        quickSort(nums, 0, nums.size()-1);
+        return nums;
+        
+    }
+    
+    void quickSort(vector<int>& nums, int i, int j){
+        if(i >= j) return ;
+        //cout<<i <<" "<<j<<endl;
+       
+        
+        int pivot = partition(nums, i, j);
+        //cout<<i <<" "<<j<<" "<<pivot<<endl;
+        quickSort(nums, i, pivot-1);
+        quickSort(nums, pivot+1, j);
+    }
+    
+    int partition(vector<int>& nums, int i, int j){
+        int pivot = nums[j];
+        
+        int left = i, right = i;
+        while(right < j){
+            if(nums[right] < pivot){
+                swap(nums[right], nums[left]);
+                left++, right++;
+            }else if (nums[right] >= pivot) right++;
+        }
+        
+        swap(nums[left], nums[j]);
+        return left;
+    }
+};
