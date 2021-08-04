@@ -1,0 +1,41 @@
+//Simple divide and conquer and then merge. We can ignore the 2nd while loop as we are copying back to num the largest element which will already be present.
+
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+       
+        vector<int> helper(nums.size());
+        
+        mergeSort(nums, helper, 0, nums.size()-1);
+        
+        return nums;
+    }
+    
+    void mergeSort(vector<int>& nums, vector<int>& helper, int i, int j){
+        if(i >= j) return;
+        
+        int mid = (i + j)/2;
+        //cout<<i<<" "<<mid<<" "<<j<<endl;
+        mergeSort(nums, helper, i, mid);
+        mergeSort(nums, helper, mid+1, j);
+        merge(nums, helper, i, mid, j);
+        
+    }
+    
+    void merge(vector<int>& nums, vector<int>& helper, int left, int mid, int right){
+        for(int i = left; i <= right; i++) helper[i] = nums[i];
+        
+        int i = left, j = mid+1, k = left;
+        
+        while(i <= mid && j <= right){
+            if(helper[i] <= helper[j]) nums[k++] = helper[i++];
+            else nums[k++] = helper[j++];
+        }
+        
+        while(i <= mid) nums[k++] = helper[i++];
+        while(j <= right) nums[k++] = helper[j++];
+        
+        
+        
+    }
+};
