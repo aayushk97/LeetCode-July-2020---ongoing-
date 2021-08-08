@@ -1,0 +1,31 @@
+//We take each diagonal individually sort them and put them back.
+//Another way would be to find all elements whose i-j diff is same, these elements lie on diagonal. Then we can sort them and return them back using a hashmap.
+
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+        
+        vector<int> diagonal;
+        
+        int i = 0, j = mat[0].size()-1;
+        
+        for(; i < mat.size() && j < mat[0].size(); ){
+            
+            for(int k = i, l = j; k < mat.size() && l < mat[0].size(); k++, l++){
+                diagonal.push_back(mat[k][l]);
+                //cout<<k<<" "<<l<<" "<<mat[k][l]<<" "<<endl;
+            }
+            sort(diagonal.begin(), diagonal.end());
+            
+            for(int k = i, l = j, m = 0; k < mat.size() && l < mat[0].size(); k++, l++, m++){
+                mat[k][l] = diagonal[m];
+            }
+            diagonal.clear();
+            if(j > 0) j--;
+            else i++;
+        }
+        
+        return mat;
+        
+    }
+};
