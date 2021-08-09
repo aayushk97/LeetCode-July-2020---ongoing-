@@ -1,0 +1,51 @@
+//Add from back 2 chars of string with carry if any from prev calc.
+
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string res = "";
+        
+        int carry = 0;
+        
+        int i = num1.length()-1, j = num2.length()-1;
+        for(; i >= 0 && j >= 0 ; i--, j--){
+            int temp = num1[i] - '0' + num2[j] - '0' + carry;
+            
+            if(temp >= 9){
+                carry = temp / 10;
+                temp = temp % 10;
+            }else carry = 0;
+            cout<<temp;
+            string tmp = to_string(temp);
+            res = tmp + res;
+        }
+        
+        cout<<"Here "<<i<<" "<<j<<endl;
+        while(i >= 0){
+            int temp = num1[i] - '0' + carry;
+            if(temp >= 9){
+                cout<<"temp: "<<temp<<endl;
+                carry = temp / 10;
+                temp = temp % 10;
+            }else carry = 0;
+            string tmp = to_string(temp);
+            res = tmp + res;
+            i--;
+        }
+        
+        cout<<"Here2"<<carry<<endl;
+        while(j >= 0){
+            int temp = num2[j] - '0' + carry;
+            if(temp >= 9){
+                carry = temp / 10;
+                temp = temp % 10;
+            }else carry = 0;
+            string tmp = to_string(temp);
+            res = tmp + res;
+            j--;
+        }
+        
+        if(carry > 0) res = to_string(carry) + res;
+        return res;
+    }
+};
