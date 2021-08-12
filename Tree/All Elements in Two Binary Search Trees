@@ -1,0 +1,43 @@
+//We first find the Inorder which gives us the sorted order of the elements in the tree. Then we merge the inorder porduced to form the final sorted array.
+
+class Solution {
+public:
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        
+        vector<int> elements1;
+        vector<int> elements2;
+        
+        inorder(elements1, root1);
+        inorder(elements2, root2);
+        
+        vector<int> res;
+        
+        int i = 0, j = 0;
+        
+        while(i < elements1.size() && j < elements2.size()){
+            if(elements1[i] < elements2[j]) res.push_back(elements1[i++]);
+            else res.push_back(elements2[j++]);
+        }
+        
+        while(i < elements1.size()){
+            res.push_back(elements1[i]);
+            i++;
+        }
+        
+        while(j < elements2.size()){
+            res.push_back(elements2[j]);
+            j++;
+        }
+        
+        
+        return res;
+    }
+    
+    void inorder(vector<int>& elements, TreeNode* root){
+        if(!root) return;
+        
+        inorder(elements, root -> left);
+        elements.push_back(root -> val);
+        inorder(elements, root -> right);
+    }
+};
