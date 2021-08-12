@@ -1,0 +1,40 @@
+//We start with one outer layer fill it then go into inside cube layer. Similar to Spiral Matrix one.
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        
+        vector<vector<int>> res(n, vector<int>(n, 0));
+        
+        int rowEnd = n-1, colEnd = n-1;
+        int rowBegin = 0, colBegin = 0;
+        
+        int k = 1;
+        while(rowBegin <= rowEnd && colBegin <= colEnd){
+            
+            for(int j = rowBegin; j <= rowEnd; j++){
+                res[colBegin][j] = k;
+                k++;
+            }
+            
+            for(int i = colBegin+1; i <= colEnd; i++){
+                res[i][rowEnd] = k;
+                k++;
+            }
+            
+            for(int j = rowEnd-1; j >= rowBegin; j--){
+                res[colEnd][j] = k;
+                k++;
+            }
+            
+            for(int i = colEnd-1; i >= colBegin+1; i--){
+                res[i][rowBegin] = k;
+                k++;
+            }
+            
+            rowBegin++, rowEnd--;
+            colBegin++, colEnd--;
+        }
+        
+        return res;
+    }
+};
