@@ -1,6 +1,16 @@
 //First we calculate step size at each row height. There will be 2 step sizes when its not the top or bottom row. One step size is larger and other is smaller.
 //Now for each row we start to add the row wise element and increment step to get the next element. Here, since at top and bottom either of step1 or step2 will be
 //0 so line if(step1) or if(step2) is used other wise we will repeated elements.
+/*n=numRows
+Δ=2n-2    1                           2n-1                         4n-3
+Δ=        2                     2n-2  2n                    4n-4   4n-2
+Δ=        3               2n-3        2n+1              4n-5       .
+Δ=        .           .               .               .            .
+Δ=        .       n+2                 .           3n               .
+Δ=        n-1 n+1                     3n-3    3n-1                 5n-5
+Δ=2n-2    n                           3n-2                         5n-4
+*/
+
 
 class Solution {
 public:
