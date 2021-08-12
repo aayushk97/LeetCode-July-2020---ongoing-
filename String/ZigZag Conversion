@@ -1,0 +1,34 @@
+//First we calculate step size at each row height. There will be 2 step sizes when its not the top or bottom row. One step size is larger and other is smaller.
+//Now for each row we start to add the row wise element and increment step to get the next element. Here, since at top and bottom either of step1 or step2 will be
+//0 so line if(step1) or if(step2) is used other wise we will repeated elements.
+
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        
+        if(numRows == 1) return s;
+        string res = "";
+        
+        for(int i = 0; i < numRows && i < s.length(); i++){
+            int step1 = (numRows-i)*2 - 2;
+            int step2 = i*2;
+            
+            int j = i;
+            res += s[j];
+            
+            while(true){
+                j += step1;
+                if(j >= s.length()) break;
+                if(step1) res += s[j];
+                
+                j += step2;
+                if(j >= s.length()) break;
+                if(step2)res += s[j];
+            }
+            
+        }
+        
+        return res;
+        
+    }
+};
