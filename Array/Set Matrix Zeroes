@@ -1,3 +1,12 @@
+//We store the indexes of zeros and then set column and row to zero.
+//Other method is to first check if the the first row or column has a zero and set the flag firstRow = true and firstCol = true. 
+//Now we check for the remaing matrix for 1 to m and 1 to n if any other entries are 0, then we set matrix[i][0] = 0 and matrix[0][j] as 0 if any of col or row 
+//has a zero.
+//Now for 1 to m and 1 to n we see if the paticular matrix[i][0] == 0 || matrix[0][j] == 0, if yes then set this element to 0.
+//Now after this we check if prev flags for 1st row and columsn were set and set the netire row to 0 if firstCol flag was set,
+//or entire first col to 0 is firstRow flasg was set.
+
+
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
