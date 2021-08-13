@@ -1,0 +1,26 @@
+//Here, formula: F(k) = F(k-1) + sum + nums[n-k]*n. So, question changes to DP. 
+//Other method is to use recursion is for each i: 0 to nums.size()-1: findSum(nums, i, k):= return nums[i]*k%nums.size()+ findSum(nums, i+1, k+1);
+
+class Solution {
+public:
+    int maxRotateFunction(vector<int>& nums) {
+        
+        int sum = 0;
+        for(int i = 0; i < nums.size(); i++) sum += nums[i];
+        
+        int maxSum = 0;
+        int lastSum = 0;
+        for(int i = 0; i < nums.size(); i++) lastSum += i*nums[i];
+        
+        maxSum = lastSum;
+        for(int i = 1; i < nums.size(); i++){
+            int currSum = lastSum + sum - nums[nums.size()-i]*nums.size();  
+            lastSum = currSum;
+            maxSum = max(maxSum, currSum);
+        } 
+        
+        return maxSum;
+    }
+    
+    
+};
