@@ -1,0 +1,34 @@
+//Travel the tree preorder and find the root to left number and add the number when it is on a leaf. 
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        
+        if(!root) return 0;
+        
+        int currSum = 0, sum = 0;
+        findSum(root, currSum, &sum);
+        
+        return sum;
+        
+    }
+    
+    void findSum(TreeNode* root, int currSum, int* sum){
+        
+        if(!root) return;
+        
+        
+        
+        if(!root -> left && !root -> right){
+            *sum += currSum*10 + root -> val;
+            return ;
+        }
+        
+        currSum = currSum*10 + root -> val;
+        
+        findSum(root -> left, currSum, sum);
+        findSum(root -> right, currSum, sum);
+        
+        return;
+        
+    }
+};
