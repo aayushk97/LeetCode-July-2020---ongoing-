@@ -1,0 +1,30 @@
+//To swap we choose an element in range 0 to n then swap with 0, then choose in range 1 to n then swap with 1, then in range 2 to n then swap with 2...to
+//shuffle the entire array.
+
+class Solution {
+public:
+    vector<int> arr;
+    Solution(vector<int>& nums) {
+        this -> arr = nums;
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    vector<int> reset() {
+        return arr;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    vector<int> shuffle() {
+        
+        vector<int> res(arr.begin(), arr.end());
+        
+        for(int i = 0; i < res.size(); i++){
+            int pos = rand() % (res.size()-i);
+           
+            swap(res[i+pos], res[i]);
+        }
+        
+        return res;
+        
+    }
+};
