@@ -1,0 +1,21 @@
+//First find freq of chars in string then check which have freq as 1 return the min index out of all of them.
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        vector<vector<int>> appear(26, vector<int>(2, 0));
+        
+        for(int i = 0; i < s.length(); i++){
+            appear[s[i]-'a'][0] += 1;
+            appear[s[i]-'a'][1] = i;
+        }
+        
+        int minIndex = s.length();
+        
+        for(int i = 0; i < 26; i++){
+            //cout<<appear[i][0]<<" "<<appear[i][1]<<endl;
+            if(appear[i][0] == 1) minIndex = min(minIndex, appear[i][1]);
+        }
+        
+        return minIndex == s.length() ? -1: minIndex;
+    }
+};
