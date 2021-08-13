@@ -1,0 +1,63 @@
+//We find the mid element of list them set the prev element to this to NULL so we have two equal size list then similarly we recurse of these list and the result
+//is merge using merge sort method.
+
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        
+        if(!head || !head -> next) return head;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* prevSlow = NULL;
+        
+        while(fast && fast -> next){
+            //cout<<slow->val<<" "<<fast -> val<<endl;
+            prevSlow = slow;
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+        
+        //cout<<"mid: "<<slow -> val<<endl;
+        
+        prevSlow -> next = NULL;
+        
+        head = sortList(head);
+        slow = sortList(slow);
+        
+        ListNode* sorted = mergeList(head, slow);
+        
+        return sorted;
+    }
+    
+    ListNode* mergeList(ListNode* head1, ListNode* head2){
+        
+        ListNode* temp = new ListNode();
+        
+        if(!head1 && !head2) return NULL;
+        
+        if(!head1){
+            temp -> val = head2 -> val;
+            temp -> next = head2 -> next;
+            return temp;
+        }
+        if(!head2){
+            temp -> val = head1 -> val;
+            temp -> next = head1 -> next;
+            return temp;
+        } 
+        
+        if(head1 -> val < head2 -> val){
+            temp -> val = head1 -> val;
+            temp -> next = mergeList(head1 -> next, head2);
+            return temp;
+        }else {
+            temp -> val = head2 -> val;
+            temp -> next = mergeList(head1, head2 -> next);
+            return temp;
+        }
+        
+        
+        
+    }
+};
