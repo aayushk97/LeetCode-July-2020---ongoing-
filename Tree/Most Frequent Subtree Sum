@@ -1,0 +1,38 @@
+//We store the sum of all subtrees in a hashmap and simultanously find the maxcount which sum has.
+//After coming out of the function we traverse through the hash map to find all the sums with count equal to maxCount.
+
+class Solution {
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        
+        int maxCount = 0;
+        vector<int> res;
+        
+        unordered_map<int, int> sumCount;
+        
+        findSum(root, sumCount, &maxCount);
+        
+        for(auto it = sumCount.begin(); it != sumCount.end(); it++){
+            if(it -> second == maxCount) res.push_back(it -> first);
+        }
+        return res;
+        
+    }
+    
+    int findSum(TreeNode* root, unordered_map<int, int>& sumCount, int* maxCount){
+        
+        if(!root) return 0;
+        
+        int leftSum = 0;
+        if(root -> left) leftSum = findSum(root -> left, sumCount, maxCount);
+        int rightSum = 0;
+        if(root -> right) rightSum = findSum(root -> right, sumCount, maxCount);
+        
+        int s = root -> val + leftSum + rightSum;
+        sumCount[s] += 1;
+        
+        *maxCount = max(*maxCount, sumCount[s]);
+        
+        return s;
+    }
+};
