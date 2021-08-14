@@ -1,0 +1,86 @@
+//Find if the cells has neighbour bomb then we put the number of neighbours bomb in current cell, and then stop at this cell. Otherwise recursively we traverse,
+//to neighbouring cells.
+//or if current cell is a bomb then put it 'X'.
+
+class Solution {
+public:
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+        int r = click[0], c = click[1];
+        
+        if(board[r][c] == 'M') board[r][c] = 'X';
+        
+        
+        if(board[r][c] == 'E') {
+            vector<vector<int>> visited(board.size(), vector<int>(board[0].size(), 0));
+            
+            reveal(board, r, c, visited);
+        }
+        
+        return board;
+    }
+    
+    void reveal(vector<vector<char>>& board, int r, int c, vector<vector<int>>& visited){
+        
+        int neighbour = 0;
+        
+        visited[r][c] = true;
+        
+        if(r + 1 < board.size()){
+            if(board[r+1][c] == 'M') neighbour++;
+        }
+        if(r - 1 >= 0){
+            if(board[r-1][c] == 'M') neighbour++;
+        } 
+        if(c + 1 < board[0].size()){
+            if(board[r][c+1] == 'M') neighbour++;
+        } 
+        if(c - 1 >= 0){
+            if(board[r][c-1] == 'M') neighbour++;
+        }
+        if(r + 1 < board.size() && c + 1 < board[0].size()){
+            if(board[r+1][c+1] == 'M') neighbour++;
+        }
+        if(r + 1 < board.size() && c - 1 >= 0){
+            if(board[r+1][c-1] == 'M') neighbour++;
+        }
+        if(r - 1 >= 0 && c + 1 < board[0].size()){
+            if(board[r-1][c+1] == 'M') neighbour++;
+        }
+        if(r - 1 >= 0 && c - 1 >= 0){
+            if(board[r-1][c-1] == 'M') neighbour++;
+        }
+        
+        if(neighbour == 0){
+            if(r + 1 < board.size()){
+                if(board[r+1][c] != 'M' && !visited[r+1][c]) reveal(board, r+1, c, visited);
+            }
+        
+            if(r - 1 >= 0){
+                if(board[r-1][c] != 'M' && !visited[r-1][c]) reveal(board, r-1, c, visited);
+            } 
+            if(c + 1 < board[0].size()){
+                if(board[r][c+1] != 'M' && !visited[r][c+1]) reveal(board, r, c+1, visited);
+            } 
+            if(c - 1 >= 0){
+                if(board[r][c-1] != 'M' && !visited[r][c-1]) reveal(board, r, c-1, visited);
+            }
+            if(r + 1 < board.size() && c + 1 < board[0].size()){
+                if(board[r+1][c+1] != 'M' && !visited[r+1][c+1]) reveal(board, r+1, c+1, visited);
+            }
+            if(r + 1 < board.size() && c - 1 >= 0){
+                if(board[r+1][c-1] != 'M' && !visited[r+1][c-1]) reveal(board, r+1, c-1, visited);
+            }
+            if(r - 1 >= 0 && c + 1 < board[0].size()){
+                if(board[r-1][c+1] != 'M' && !visited[r-1][c+1]) reveal(board, r-1, c+1, visited);
+            }
+            if(r - 1 >= 0 && c - 1 >= 0){
+                if(board[r-1][c-1] != 'M' && !visited[r-1][c-1]) reveal(board, r-1, c-1, visited);
+            }    
+        }
+        
+        if(neighbour == 0) board[r][c] = 'B';
+        else board[r][c] = '0'+neighbour;
+        
+        
+    }
+};
