@@ -1,0 +1,30 @@
+//We first find substring of size that are multiple of length of string. Then check if that substring can be used to create the entire string by comparing the chars
+//of substring with that of string repeatedly.
+
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        for(int i = 1; i <= s.length()/2; i++){
+            if(s.length() % i != 0) continue;
+            
+            string subs = s.substr(0, i);
+            
+            if(canConstruct(subs, s)) return true;
+        }
+        
+        return false;
+    }
+    
+    bool canConstruct(string subs, string s){
+        int i = 0, j = 0;
+        for(; i < s.length(); j++, i++){
+            if(j == subs.length()) j = 0;
+            if(subs[j] != s[i]) return false;
+            
+        }
+        
+        if(j == subs.length()) return true;
+        else return false;
+        
+    }
+};
