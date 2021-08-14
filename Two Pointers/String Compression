@@ -1,0 +1,51 @@
+//Here we maintain 3 points, 2 for window of similar chars and one at index of where we want to put the char, in the original array.
+//The count is converted to string so that if number is greater than 9 converting to ascii will store some other char with ascii value of that number so each char
+//of string of count is added one by one.
+//After finish one parse we then add the last count to include the last sequence of continuous chars.
+
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        
+        int size = 0;
+        int i = 0, j = 1, k = 0;
+        for(; j < chars.size(); j++){
+            
+            if(chars[i] != chars[j]){
+                if(j-i > 1) {
+                    chars[k++] = chars[i];
+                    int count = j-i;
+                    
+                    string c = to_string(count);
+                   
+                    int l = 0;
+                    while(l < c.length()) chars[k++] = c[l++];
+                    
+                    i = j;
+                }
+                else{
+                   chars[k] = chars[i];
+                    k+= 1;
+                    i = j;
+                } 
+                
+                
+            }
+            
+        }
+        if(j-i > 1){
+            chars[k++] = chars[i];
+            int count = j-i;
+                    
+            string c = to_string(count);
+                   
+            int l = 0;
+            while(l < c.length()) chars[k++] = c[l++];
+            
+        }else{
+            chars[k] = chars[i];
+            k++;
+        }  
+        return k;
+    }
+};
