@@ -1,0 +1,24 @@
+//Start counting the occurances and if its dup we set the dup to it and don't add it in sum. Now, to find the missing element we subtart sum of n natural nos 
+//by this sum.
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        
+        vector<int> count(nums.size()+1, 0);
+        
+        int sum = 0;
+        int dup = 0;
+        for(int i = 0; i < nums.size(); i++){
+            count[nums[i]]++;
+            if(count[nums[i]] == 1) sum += nums[i];
+            if(count[nums[i]] > 1) dup = nums[i]; 
+        }
+        
+        cout<<sum<<endl;
+        
+        int n = nums.size();
+        return {dup, (n*(n+1)/2) - sum};
+        
+    }
+};
