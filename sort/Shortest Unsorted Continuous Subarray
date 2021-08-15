@@ -1,0 +1,55 @@
+//Sort and check which pos element doesn;t match from lhs and rhs then we need to sort those so we return index j - i + 1;
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        vector<int> dup(nums.begin(), nums.end());
+        
+        sort(dup.begin(), dup.end());
+        int i = 0, j = nums.size()-1;
+        for(; i < nums.size(); i++){
+            if(dup[i] != nums[i]) break;
+        }
+        
+        for(; j > i; j--){
+            if(dup[j] != nums[j]) break;
+        }
+        
+        return j-i+1;
+    }
+};
+
+//Imp METHOD:**
+// We first find if the min element from right of the array. i.e, so if there are any element to right of it that are less than it then we have to sort from here.
+//Similarly from LHS we find the max element i.e, if there is any element to left of it that are more than this elemnet then we need to sort till here.
+//Now we return the range between them.
+
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        
+        vector<int> minr(nums.size(), 0);
+        vector<int> maxl(nums.size(), 0);
+       
+        maxl[0] = nums[0];
+        for(int i = 1; i < nums.size(); i++){
+            if(nums[i] > maxl[i-1]){
+                maxl[i] = nums[i];
+            }else maxl[i] = maxl[i-1];
+        }
+        //cout<<"here"<<endl;
+        int n = nums.size();
+        minr[n-1] = nums[n-1];
+        for(int i = n-2; i >= 0; i--){
+            if(nums[i] < minr[i+1]){
+                minr[i] = nums[i];
+            }else minr[i] = minr[i+1];
+        }
+        cout<<"here"<<endl;
+        int i = 0, j = n-1;
+        while(i < n && nums[i] <= minr[i]) i++;
+        while(j > i && nums[j] >= maxl[j]) j--;
+        
+        return j - i + 1;
+    }
+};
