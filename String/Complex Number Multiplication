@@ -1,0 +1,32 @@
+//Convert the complex real and imag part to numbers and find the real and imag part of result and return the res in string form.
+
+class Solution {
+public:
+    string complexNumberMultiply(string num1, string num2) {
+        int a1, b1, a2, b2;
+        int j1 = 0;
+        for(int i = 0; i < num1.size(); i++){
+            if(num1[i] == '+'){
+                a1 = stoi(num1.substr(0, i)); j1 = i;  
+            } 
+            if(num1[i] == 'i') b1 = stoi(num1.substr(j1+1, i-j1+1));
+        }
+        
+        for(int i = 0; i < num2.size(); i++){
+            if(num2[i] == '+'){
+                a2 = stoi(num2.substr(0, i)); j1 = i;  
+            } 
+            if(num2[i] == 'i') b2 = stoi(num2.substr(j1+1, i-j1+1));
+        }
+        
+        //cout<<a1<<"+"<<b1<<"i"<<endl;
+        //cout<<a2<<"+"<<b2<<"i"<<endl;
+        
+        int real = a1*a2 - b1*b2;
+        int imag = a1*b2 + a2*b1;
+        
+        string res = to_string(real) + "+" + to_string(imag) + "i";
+        
+        return res;
+    }
+};
