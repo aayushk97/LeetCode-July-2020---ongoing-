@@ -1,0 +1,34 @@
+//At each point we remove the continuous sequence of colors and then recurse on next set of colors. Then we find if there are any other consecutive colors of same
+//value as this so as to combine if we remove the middle elements and see if this produces max.
+
+
+class Solution {
+public:
+    int removeBoxes(vector<int>& boxes) {
+        int n = boxes.size();
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(n, vector<int>(n, -1)));
+        
+        return removeBoxesSub(boxes, 0, n-1, 0, dp);
+    }
+    
+    int removeBoxesSub(vector<int>& boxes, int i, int j, int k, vector<vector<vector<int>>>& dp){
+        
+        if(i > j) return 0;
+        
+        if(dp[i][j][k] != -1) return dp[i][j][k];
+        int i0 = i, k0 = k;
+        
+        for(; i+1 <= j && boxes[i+1] == boxes[i]; i++, k++);
+        
+        int val = (k+1)*(k+1) + removeBoxesSub(boxes, i+1, j, 0, dp);
+        
+        for(int n = i+1; n <= j; n++){
+            if(boxes[n] == boxes[i]){
+                val = max(val, removeBoxesSub(boxes, i+1, n-1, 0, dp) + removeBoxesSub(boxes, n, j, k+1, dp));
+            }
+        }
+        
+        return dp[i0][j][k0] = val;
+        
+    }
+};
