@@ -1,0 +1,23 @@
+//We find the prefix Sum then see if the sum at this point  - k is present as prefix sum in ? then sum of k is possible. Then we add the num ways to create prefSum - k
+//from the hash map. We then store this current prefix sum in array.
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        
+        unordered_map<int, int> count;
+        
+        count[0]++;
+        int c = 0;
+        
+        int prefSum = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            prefSum += nums[i];
+            c += count[prefSum - k];
+            count[prefSum]++;
+        }
+        
+        return c;
+    }
+};
