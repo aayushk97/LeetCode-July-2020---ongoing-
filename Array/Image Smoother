@@ -1,0 +1,61 @@
+//We first find the sum of 9 squares then divide by number sqaures.
+
+class Solution {
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
+        
+        if(img.size() == 1 && img[0].size() == 1) return img;
+        
+        vector<vector<int>> res(img.size(), vector<int>(img[0].size(), 0));
+        
+        for(int i = 0; i < img.size(); i++){
+            for(int j = 0; j < img[0].size(); j++){
+                res[i][j] = getSum(img, i, j);
+                
+            }
+        }
+        
+        return res;
+    }
+    
+    int getSum(vector<vector<int>>& img, int i, int j){
+        int numOnes = 0, count = 0;
+        
+        if(i - 1 >= 0 && j - 1 >= 0){
+             if(img[i-1][j-1]) numOnes+= img[i-1][j-1];
+            count++;
+        } 
+        if(i - 1 >= 0){
+            if(img[i-1][j]) numOnes+= img[i-1][j];
+            count++;
+        } 
+        if(j - 1 >= 0 ){
+          if(img[i][j-1]) numOnes+= img[i][j-1];
+            count++;
+        } 
+        if(i + 1 < img.size() && j - 1 >= 0){
+            if(img[i+1][j-1]) numOnes+= img[i+1][j-1];
+            count++;
+        } 
+        if(i + 1 < img.size() ){
+            if(img[i+1][j]) numOnes+= img[i+1][j];
+            count++;
+        } 
+        if(i + 1 < img.size() && j + 1 < img[0].size()){
+            if(img[i+1][j+1]) numOnes+= img[i+1][j+1];
+            count++;
+        } 
+        if(j + 1 < img[0].size()){
+            if(img[i][j+1]) numOnes+= img[i][j+1];
+            count++;
+        } 
+        if(i - 1 >= 0 && j + 1 < img[0].size()){
+            if(img[i-1][j+1]) numOnes += img[i-1][j+1];
+            count++;
+        } 
+        numOnes += img[i][j];
+        count++;
+        //cout<<numOnes<<" "<<count<<endl;
+        return numOnes/count;
+    }
+};
