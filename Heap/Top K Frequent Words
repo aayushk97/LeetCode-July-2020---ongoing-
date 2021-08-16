@@ -1,0 +1,71 @@
+//count the occurances then we sort the stored occurances and string then return top K elements.
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        
+        map<string, int> count;
+        
+        for(int i = 0; i < words.size(); i++){
+            count[words[i]]++;        
+        }
+        
+        vector<pair<string, int>> v;
+        
+        for(auto it = count.begin(); it != count.end(); it++){
+            v.push_back({it -> first, it -> second});
+        }
+        
+        sort(v.begin(), v.end(), comp);
+        
+        //for(int i = 0; i < v.size(); i++) cout<<v[i].first<<" "<<v[i].second<<endl;
+        vector<string> res;
+        int i = 0;
+        
+        while(k){
+            
+            res.push_back(v[i].first);
+            
+            k--;
+            i++;
+        }
+        
+        
+        return res;
+    }
+    
+    static bool comp(pair<string, int>& a, pair<string, int>& b){
+        if(a.second > b.second) return true;
+        if(a.second == b.second && a.first < b.first) return true;
+        return false;
+    }
+};
+
+//Using PQ
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int> freq;
+        for(auto w : words){
+            freq[w]++;
+        }
+        
+        auto comp = [&](const pair<string,int>& a, const pair<string,int>& b) {
+            return a.second > b.second || (a.second == b.second && a.first < b.first);
+        };
+        typedef priority_queue< pair<string,int>, vector<pair<string,int>>, decltype(comp) > my_priority_queue_t;
+        my_priority_queue_t  pq(comp);
+        
+        for(auto w : freq ){
+            pq.emplace(w.first, w.second);
+            if(pq.size()>k) pq.pop();
+        }
+        
+        vector<string> output;
+        while(!pq.empty()){
+            output.insert(output.begin(), pq.top().first);
+            pq.pop();
+        }
+        return output;
+    }
+};
