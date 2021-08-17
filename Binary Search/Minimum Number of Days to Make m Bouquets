@@ -1,0 +1,45 @@
+//The number of days needed will be from 1 to max number of days in bloom. So we binary search on them, and for a number of day we find number of bouquets that can
+//be made with mid if it is more than m then we decrease the number of bloom days, otherwise we increase number of days. 
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        
+        if(m*k > bloomDay.size()) return -1;
+        int maxDays = 0;
+        
+        for(int i = 0; i < bloomDay.size(); i++) maxDays = max(bloomDay[i], maxDays);
+        
+        int i = 1, j = maxDays;
+        
+        while(i < j){
+            int mid = i + (j - i)/2;
+            
+            if(isPossible(bloomDay, mid, m, k)) j = mid;
+            else i = mid + 1;
+        }
+        
+        return i;
+    }
+    
+    bool isPossible(vector<int>& bloomDay, int days, int m, int k){
+        
+        int bouquets = 0;
+        int flowers = 0;
+        
+        for(int i = 0; i < bloomDay.size(); i++){
+            if(bloomDay[i] <= days){
+                flowers+= 1;       
+            }else flowers = 0;
+            
+            if(flowers == k){
+                bouquets++;
+                flowers = 0;
+            } 
+            
+        }
+        
+        if(bouquets >= m) return true;
+        else return false;
+        
+    }
+};
