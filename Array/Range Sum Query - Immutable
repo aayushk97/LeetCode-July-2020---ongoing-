@@ -1,0 +1,18 @@
+//Store prefix sum. And return the sum of range using: sum(i, j) = sum(j) - sum(i-1);
+
+class NumArray {
+public:
+    vector<int> sum;
+    NumArray(vector<int>& nums) {
+        sum.push_back(nums[0]);
+        
+        for(int i = 1; i < nums.size(); i++) sum.push_back(sum[i-1]+nums[i]);
+    }
+    
+    int sumRange(int left, int right) {
+        
+        if(left == 0) return sum[right];
+        return sum[right] - sum[left-1];
+        
+    }
+};
