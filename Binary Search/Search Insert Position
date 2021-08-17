@@ -1,0 +1,25 @@
+//We need to find the element if it is present, if not then we need to find its position. So, we find if the mid element is greater than or equal to target then
+//this might be the index we are looking for so we set j = mid otherwise we set i = mid + 1 to search for the closest number to target that is greater. 
+
+//Last line is if all the elements are less than target then we need to place target at last. 
+//We can also do the above by initializing right to nums.size() instead of nums.size()-1;
+
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        
+        int i = 0, j = nums.size()-1;
+        
+        while(i < j){
+            int mid = i + (j - i)/2;
+            
+            if(nums[mid] >= target) j = mid;
+            else i = mid +1;
+        }
+        
+        if(i == nums.size()-1 && target > nums[i]) return i + 1 ;
+        
+        return i;
+        
+    }
+};
