@@ -1,0 +1,41 @@
+//Similar to Split Array Largest Sum [Hard] & Capacity To Ship Packages Within D Days [Medium] we first find the max value that speed can have. 
+//Since no of hours is always greater or equal to number of piles, speed max value is equal to max value in array.
+//Speed min value is 1. Then we perform binary search to find a value of speed at which piles.size() piles can be eaten by Koko in less than h hours.
+//If it can be eaten at that speed we try to reduce the value of j to mid and if not then we increment i to mid + 1. 
+//This is done untill we find the least value of speed k.
+
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        
+        int maxElement = INT_MIN;
+        
+        for(int i = 0; i < piles.size(); i++) maxElement = max(maxElement, piles[i]);
+        
+        int i = 1, j = maxElement;
+        
+        while(i < j){
+            int mid = i + (j - i)/2;
+            //cout<<mid<<endl;
+            if(possibleVal(piles, mid, h)) j = mid;
+            else i = mid + 1;
+        }
+        
+        return i;
+    }
+    
+    bool possibleVal(vector<int>& piles, int m, int h){
+        
+        int hrs = 0;
+        
+        for(int i = 0; i < piles.size(); i++){
+            int nums = piles[i];
+            hrs += ceil((double)nums/(double)m);
+            
+        }
+        
+        
+        if(hrs <= h) return true;
+        else return false;
+        }
+};
