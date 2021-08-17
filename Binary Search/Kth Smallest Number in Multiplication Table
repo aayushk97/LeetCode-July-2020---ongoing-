@@ -1,0 +1,38 @@
+//We use Binary search to find the kth min element from (1, m*n) by choosing the mid number and finding the number of elements that are less than this number 
+//by going through row by row and since each row is a multiple of row number we get number of less than mid by max(mid/rowNum+1, numCols) and find total number of 
+//elements less than it. 
+//If total numbers are greater than or equal to k we reduce the search space to (1, mid) else we have to set search space to (mid+1, end) to get more numbers that
+//are less than mid. We stop the BS when we reach a number that is kth max element.
+
+class Solution {
+public:
+    int findKthNumber(int m, int n, int k) {
+        
+        int i = 1, j = m*n;
+        
+        while(i < j){
+            int mid = i + (j-i)/2;
+            //cout<<mid<<endl;
+            if(isKthMin(m, n, mid, k)) j = mid;
+            else i = mid + 1;
+        }
+        
+        return i;
+    }
+    
+    bool isKthMin(int m, int n, int mid, int k){
+        
+        int totalLess = 0;
+        
+        for(int i = 1; i <= m; i++){
+            
+            int less = min(mid/i, n);
+            
+            totalLess += less;
+        }
+        
+        if(totalLess >= k) return true;
+        else return false;
+        
+    }
+};
