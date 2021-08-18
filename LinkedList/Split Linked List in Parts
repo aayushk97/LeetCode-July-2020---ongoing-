@@ -1,0 +1,79 @@
+//We first find the length of the linked list, then check if the length is greater than k, if not then we put node one by node and fill remaining with empty nodes.
+//Otherwise at each step we find if the number of nodes / k is integer, if not then group size is +1 otherwise groupsize is normal numNodes/k, then we decrement
+//numNodes by groupSize and k by 1 and do this again.
+
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* head, int k) {
+        
+        int length = findLength(head);
+        
+        
+        if(length < k){
+            
+            vector<ListNode*> res;
+            //cout<<"here"<<endl;
+            int groupSize = 1;
+            
+            ListNode* temp = head;
+            ListNode* prev = head;
+            
+            for(int l = 0; l < k; l++){
+                if(temp == NULL){
+                  res.push_back(NULL);  
+                }else{
+                    temp = temp -> next;
+                    prev -> next = NULL;
+                    res.push_back(prev);
+                    prev = temp;
+                }
+            }
+            
+            return res;
+            
+        }
+            vector<ListNode*> res;
+            //cout<<"here"<<endl;
+            int groupSize = length/k;
+            int firstGroup = groupSize+1;
+            
+            ListNode* temp = head;
+            ListNode* prev = head;
+            int tempk = k;
+            for(int l = 0; l < k; l++){
+                
+                if(length % tempk != 0) groupSize = length/tempk + 1;
+                else groupSize = length/tempk;
+                
+                int size = groupSize;
+                head = temp;
+                //cout<<size<<endl;
+                while(size--){
+                    prev = temp;
+                    temp = temp -> next;
+                }
+                length -= groupSize;
+                tempk--;
+                prev -> next = NULL;
+                res.push_back(head);
+            }
+            
+            return res;
+                
+            
+       
+    }
+    
+    int findLength(ListNode* head){
+        
+        int length = 0;
+        ListNode* temp = head;
+        
+        while(temp) {
+            length++;
+            temp = temp -> next;
+        }
+        
+        return length;
+    }
+};
