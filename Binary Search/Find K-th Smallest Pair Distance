@@ -1,0 +1,49 @@
+//We perform binary search to find if there are 'k' pairs of numbers with difference less than or equal to diff 'd'. To find if the number of pairs is with dist 'd'
+//or less is present we use 2 pointer approach by first sorting and incrementing j till we reach a point the diff is greater than 'd' then we count the all the pairs
+//between i and j then we increment j.
+
+
+class Solution {
+public:
+    int smallestDistancePair(vector<int>& nums, int k) {
+        
+        
+        
+        sort(nums.begin(), nums.end());
+        
+        int i = 0, j = INT_MIN;
+        
+        for(int i = 0; i < nums.size(); i++) j = max(nums[i], j);
+        
+        while(i < j){
+            
+            int mid = i + (j-i)/2;
+            //cout<<mid<<endl;
+            if(isKthDist(nums, mid, k)) j = mid;
+            else i = mid + 1;
+            
+        }
+        
+        return i;
+        
+    }
+    
+    bool isKthDist(vector<int>& nums, int dist, int k){
+        
+        int i = 0, j = 0;
+        int count = 0;
+        
+        while(i < nums.size() || j < nums.size()){
+            //cout<<i<<" "<<j<<endl;
+            while(j < nums.size() && nums[j] - nums[i] <= dist) j++;
+            
+            count+= j - i - 1;
+            i++;
+            
+        }
+        //cout<<"count: "<<count<<endl;
+        if(count >= k) return true;
+        else return false;
+        
+    }
+};
