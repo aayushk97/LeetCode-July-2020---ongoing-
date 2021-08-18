@@ -1,0 +1,35 @@
+//We binary search on range 1 to max(nums) to get the min divisor. Then we find if the sum of division result of nums array by num is less than or equal to threshold
+//we reduce the interval to include (0, mid) so greater size of divisor will decrease the sum, else we have to increase the divisor to decrease the total sum 
+// by changing range to (mid+1, n).
+
+class Solution {
+public:
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int i = 1, j = INT_MIN;
+        
+        for(int k = 0; k < nums.size(); k++) j = max(j, nums[k]);
+        
+        while(i < j){
+            int mid = i + (j - i)/2;
+            
+            if(isMinDiv(nums, mid, threshold)) j = mid;
+            else i = mid + 1;
+        }
+        
+        return i;
+    }
+    
+    bool isMinDiv(vector<int>& nums, int num, int threshold){
+        
+        int sum = 0;
+        
+        for(int i = 0; i< nums.size(); i++){
+            sum += ceil((float) nums[i]/(float) num);
+            
+        }
+        
+        if(sum <= threshold) return true;
+        else return false;
+        
+    }
+};
