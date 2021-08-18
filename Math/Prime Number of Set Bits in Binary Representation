@@ -1,0 +1,31 @@
+//We find the number of 1s then check if its stored prime. Since, the number is 32 bits then total 1s can't exceed 31 bits and hence prime number till 31 are inserted.
+
+class Solution {
+public:
+    int countPrimeSetBits(int left, int right) {
+        
+        unordered_set<int> primes;
+        primes.insert(2);primes.insert(3);primes.insert(5);primes.insert(7);primes.insert(11);primes.insert(13);primes.insert(17);primes.insert(19);primes.insert(23);primes.insert(29);
+        primes.insert(31);
+        
+        int count = 0;
+        for(int i = left; i <= right; i++){
+            int val = __builtin_popcount(i);
+            //cout<<val<<endl;
+            if( primes.find(val) != primes.end()) count+= 1;
+        }
+        
+        return count;
+    }
+};
+
+
+
+//665772 is binary of all the prime numbers and then we find the number of 1s is the number. Then we shift the bit numOnes number of times to find if its a prime
+//by anding with 1.
+int countPrimeSetBits(int L, int R) {
+    int count = 0;
+    while (L <= R)
+        count += 665772 >> __builtin_popcount(L++) & 1;
+    return count;
+}
