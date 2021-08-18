@@ -1,0 +1,79 @@
+//Here we create a graph by assigning node numbers to each of emails and mapping node numbers to email and vice versa, we also include the person to which this
+//email is addigned to. 
+//Then we create a graph using mapped numbers and perform dfs to find connected componenets. These connected components used to get back their respective emails.
+//We put the name of person and sort the emails in aphabetical order and then put it in result.
+
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+     
+        unordered_map<string, pair<string, int>> nodes;
+        unordered_map<int, pair<string, string>> revNodes;
+        
+        int nodeNum = 0;
+        for(int i = 0; i < accounts.size(); i++){
+            for(int j = 1; j < accounts[i].size(); j++) {
+                if(nodes.find(accounts[i][j]) != nodes.end()) continue;
+                
+                nodes[accounts[i][j]].first = accounts[i][0];
+                nodes[accounts[i][j]].second = nodeNum;
+                revNodes[nodeNum].first = accounts[i][0];
+                revNodes[nodeNum].second = accounts[i][j];
+                
+                nodeNum++;
+            }
+            
+        }
+        
+        vector<vector<int>> graph(nodeNum);
+        
+        for(int i = 0; i < accounts.size(); i++){
+            for(int j = 1; j < accounts[i].size()-1; j++){
+                int p = nodes[accounts[i][j]].second;
+                int q = nodes[accounts[i][j+1]].second;
+                
+                graph[p].push_back(q);
+                graph[q].push_back(p);
+                
+            }
+        }
+        
+        vector<vector<string>> res;
+        
+        vector<int> visited(nodeNum, 0);
+        
+        for(int i = 0; i < nodeNum; i++){
+            if(visited[i]) continue;
+            vector<int> connectedNode;
+            
+            dfs(graph, i, connectedNode, visited);
+            
+            vector<string> tempRes;
+           
+            
+            tempRes.push_back(revNodes[i].first);
+            
+            for(int i= 0; i < connectedNode.size(); i++) tempRes.push_back(revNodes[connectedNode[i]].second);
+            sort(tempRes.begin()+1, tempRes.end());
+            
+            res.push_back(tempRes);
+            
+            
+        }
+        
+        return res;
+    }
+    
+    void dfs(vector<vector<int>>& graph, int i, vector<int>& connectedNode, vector<int>& visited){
+        if(visited[i]) return;
+        
+        visited[i] = 1;
+        connectedNode.push_back(i);
+        for(int j = 0; j < graph[i].size(); j++){
+            
+            dfs(graph, graph[i][j], connectedNode, visited);
+        }
+        
+        
+    }
+};
