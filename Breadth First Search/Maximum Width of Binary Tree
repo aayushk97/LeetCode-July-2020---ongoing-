@@ -1,0 +1,45 @@
+//Since, for a node i the left child is 2*i and right child is 2*i +1 we can use this fact to find using BFS the leftmost node of a level and righmost node of a 
+//level and find the difference between their indexs to get number of nodes at that level. To get the nodes level by level BFS is used. 
+//offset is used to reset the level in order to avoid overflow.
+
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        
+        if(!root) return 0;
+        
+        queue<pair<TreeNode*, long long>> q;
+        q.push({root, 1});
+        q.push({NULL, INT_MIN});
+        
+        int maxWidth = 1;
+        long long offset = 0;
+        while(q.size() > 1){
+            //cout<<q.size()<<endl;
+            TreeNode* curr = q.front().first;
+            long long k = q.front().second;
+            q.pop();
+            
+            if(!curr){
+                int left = q.front().second;
+                int right = q.back().second;
+                //cout<<'Here'<<right - left + 1 <<endl;
+                maxWidth = max(maxWidth, right-left+1);
+                offset = left;
+                q.push({NULL, INT_MIN});
+                
+            }
+            
+            if(!curr) continue;
+            
+            if(curr -> left) q.push({curr -> left, 2*k-offset});
+            if(curr -> right) q.push({curr -> right, 2*k+1-offset});
+            
+        }
+        return maxWidth;
+    }
+    
+    long long int max(long long int a, long long int b){
+        return a > b? a: b;
+    }
+};
