@@ -1,0 +1,27 @@
+//We traverse from right and whenever there is a number that is greater than this number on immediate left we decrement it and move left. Goal is to find 
+// a position such that all numbers to left of it are monotonic. Now, from this point we decrement this number and all numbers to right are replaced by 9.
+
+class Solution {
+public:
+    int monotoneIncreasingDigits(int n) {
+        string num = to_string(n);
+        
+        int i = 0;
+        bool change = false;
+        int end = num.length()-1;
+        
+        for(i = num.length()-1; i > 0; i--){
+            if(num[i] < num[i-1]) {
+                
+                end = i - 1;
+                num[i-1]--;
+            }
+        }
+        
+        for(int j = end+1; j < num.length(); j++){
+            num[j] = '9';
+        }
+        
+        return stoi(num);
+    }
+};
