@@ -1,0 +1,47 @@
+//We Binary search in range of min of a, b, c and max value it can go. Then find if the number of less of multiples are a, b, c are greater than or equal to n,
+//then we return true and reduce the interval (1, mid) otherwise we go from (mid+1, n);
+//To find number of multiples of a, b and c we use num/a+num/b+num/c+num/lcm(a,b)+num/lcm(a,c)+num/lcm(b,c)-num/lcm(a,b,c);
+
+class Solution {
+public:
+    int nthUglyNumber(int n, int a, int b, int c) {
+        int i = min(min(a, b), c), j = 2*1000000000;
+        
+        while(i < j){
+            
+            int mid = i + (j - i)/2;
+            
+            if(isKthUN(mid, n, a, b, c)) j = mid;
+            else i = mid + 1;
+            
+        }
+        
+        return i;
+        
+    }
+    
+    bool isKthUN(long num, int n, long a, long b, long c){
+        
+        long count = 0;
+        
+        long ab = a*b/gcd(a, b), bc = b*c/gcd(b, c), ac = a*c/gcd(a, c), abc = a*bc/gcd(a, bc);
+        
+        count += num/a;
+        count += num/b;
+        count += num/c;
+        count -= num/ab;
+        count -= num/bc;
+        count -= num/ac;
+        count += num/abc;
+        
+        cout<<count<<endl;
+        if(count >= n) return true;
+        else return false;
+    }
+    
+    int gcd(int a , int b){
+        if(a == 0) return b;
+        
+        return gcd(b % a, a);
+    }
+};
