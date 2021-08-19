@@ -1,0 +1,34 @@
+//We find the total sum and then at each node we find the sum of subtrees+ val of this node and store it in array. Now we can find the max product by sums[i] * (totalSum - sums[i])
+
+
+class Solution {
+public:
+    int maxProduct(TreeNode* root) {
+        vector<int> sums;
+        long long totalSum = 0;
+        
+        totalSum = findSum(root, sums);
+        
+        long long maxProd = 0;
+        
+        for(int i = 0; i < sums.size(); i++){
+            long long sum = sums[i];
+            long long val = ((long long)sum*(long long)(totalSum-sum));
+            if(maxProd < val) maxProd = val;
+        }
+        
+        return maxProd%1000000007;
+        
+    }
+    
+    int findSum(TreeNode* root, vector<int>& sums){
+        if(!root) return 0;
+        
+        int leftSum = findSum(root -> left, sums);
+        int rightSum = findSum(root -> right, sums);
+        
+        sums.push_back(leftSum + rightSum + root-> val);
+        
+        return leftSum + rightSum + root -> val;
+    }
+};
