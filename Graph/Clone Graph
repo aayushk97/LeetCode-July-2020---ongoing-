@@ -1,0 +1,33 @@
+//We create a new node and traverse DFS to clone all the nodes in the way and if the node is already on the path we just return the node that we saved in hashmap.
+
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+        
+        if(!node) return NULL;
+        
+        unordered_map<int, Node*> store;
+        
+        return createClone(node, store);
+        
+    }
+    
+    Node* createClone(Node* node, unordered_map<int, Node*>& store){
+        
+        if(store.find(node -> val) != store.end()) return store[node -> val];
+        
+        Node* newNode = new Node(node -> val);
+        store[node -> val] = newNode;
+        
+        vector<Node*> newNeighbors;
+        
+        for(int i = 0; i < node-> neighbors.size(); i++){
+            newNeighbors.push_back(createClone(node -> neighbors[i], store));
+        }
+        
+        newNode -> neighbors = newNeighbors;
+        
+        return newNode; 
+        
+    }
+};
