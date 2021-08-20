@@ -1,0 +1,85 @@
+//We find frequencies of characters and then fill the array with alternating 1st highest and second highest frequencies at that point in time. TC = O(nlogn)
+
+//We can do this in O(n) time by using metod in which we fill 1 step spaces with most freqent then start filling the rest with numbers. Here, if the most freq
+//will be <=n+1/2 as if not there will be no way to write them alternatingly.
+O(n) solution:
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        
+        unordered_map<int, int> count;
+        int mostFreq = INT_MIN;
+        int mostFreqCount = 0;
+        
+        for(int i = 0; i < barcodes.size(); i++){
+            count[barcodes[i]]++;
+            if(mostFreqCount < count[barcodes[i]]){
+                mostFreqCount = count[barcodes[i]];
+                mostFreq = barcodes[i];
+            }
+        } 
+        
+        int i = 0;
+        for(; i < 2*mostFreqCount; i+= 2) barcodes[i] = mostFreq;
+        //cout<<mostFreq<<endl;
+        count.erase(mostFreq);
+        
+        //for(int i = 0; i < barcodes.size(); i++) cout<<barcodes[i]<<" ";
+        
+        for(auto it = count.begin(); it != count.end(); it++){
+            
+            for(int j = 0; j < it -> second; j++, i+= 2){
+                //cout<<i<<" "<<it-> first;
+                if(i >= barcodes.size()) i = 1;
+                barcodes[i] = it -> first;
+            }
+            
+        }
+        
+        
+        
+        return barcodes;
+    }
+};
+
+O(NlogN) solution
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        
+        unordered_map<int, int> count;
+        
+        for(int i = 0; i < barcodes.size(); i++) count[barcodes[i]]++;
+        
+        priority_queue<pair<int, int>> pq;
+        
+        for(auto it = count.begin(); it!= count.end(); it++) pq.push({it -> second, it -> first});
+        
+        int i = 0;
+        
+        while(pq.size() > 0){
+            
+            pair<int, int> a = pq.top();
+            pq.pop();
+            
+            barcodes[i++] = a.second;
+            
+            if(pq.size() > 0){
+                pair<int, int> b = pq.top();
+                pq.pop();
+                
+                barcodes[i++] = b.second;
+                
+                if(b.first > 1) pq.push({b.first-1, b.second});
+            }
+            
+            
+            if(a.first > 1) pq.push({a.first-1, a.second});
+            
+            
+            
+        }
+        
+        return barcodes;
+    }
+};
