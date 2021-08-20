@@ -1,0 +1,27 @@
+//For every node with even value we see if it has grandchildren, if yes then we add the value of it's grandchildren and recursively do it for all the nodes and
+//return the value.
+
+class Solution {
+public:
+    int sumEvenGrandparent(TreeNode* root) {
+        
+        if(!root) return 0;
+       
+        int retVal = 0;
+       
+        
+        if(root -> val % 2 == 0){
+            if(root -> left && root -> left -> left) retVal += root -> left -> left -> val;
+            if(root -> left && root -> left -> right) retVal += root -> left -> right -> val;
+            
+            if(root -> right && root -> right -> left) retVal += root -> right -> left -> val;
+            if(root -> right && root -> right -> right) retVal += root -> right -> right -> val;
+            
+        }
+        
+        retVal += sumEvenGrandparent(root -> left);
+        retVal += sumEvenGrandparent(root -> right);
+      
+        return retVal;
+    }
+};
