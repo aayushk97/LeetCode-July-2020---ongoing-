@@ -1,0 +1,124 @@
+//We can find head of n-k th node and then make nodes after that head of this list.
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        if(!head || !head -> next ) return head;
+        
+        int length = findLength(head);
+        
+        if(k >= length) k = k % length;
+        if(k == 0) return head;
+        
+        int nk = length - k;
+        nk--;
+        ListNode* head2 = head;
+        while(nk-- > 0){
+            head2 = head2 -> next;
+        }
+        
+        ListNode* tail = head2;
+        head2 = head2 -> next;
+        
+        ListNode* temp = head2;
+        
+        while(temp -> next) temp = temp -> next;
+        
+        temp -> next = head;
+        tail -> next = NULL;
+        
+        return head2;
+    }
+    
+    int findLength(ListNode* head){
+        if(!head) return 0;
+        
+        int i = 0;
+        while(head){
+            head = head -> next;
+            i++;
+        }
+        
+        return i;
+    }
+};
+
+//Similar to how we rotate an Array. We additional have edge cases where if k > length of LL we set k = k % length;
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        if(!head || !head -> next) return head;
+        
+        int length = findLength(head);
+        
+        if(k >= length) k = k % length;
+        if(k == 0) return head;
+        
+        int rev1 = length - k;
+        
+        int goTo = rev1-1;
+        
+        ListNode* headRev2 = head;
+        
+        while(goTo--){
+            headRev2 = headRev2 -> next;
+        }
+        
+        ListNode* headRev2Prev = headRev2;
+        headRev2 = headRev2 -> next;
+        
+        headRev2Prev -> next = NULL;
+        
+        head = reverseLL(NULL, head);
+        
+        
+        headRev2 = reverseLL(NULL, headRev2);
+        
+        
+        headRev2Prev = head;
+        
+        while(headRev2Prev -> next) {
+            //cout<<headRev2Prev -> val<<endl;
+            headRev2Prev = headRev2Prev -> next;
+        }
+        
+        headRev2Prev -> next = headRev2;
+        
+        head = reverseLL(NULL, head);
+    
+        return head;
+        
+        
+    }
+    
+    ListNode* reverseLL(ListNode* p, ListNode* q){
+        
+        ListNode* res = NULL;
+        
+        if(q -> next) res = reverseLL(q, q -> next);
+        else res = q;
+        
+        q -> next = p;
+        
+        return res;
+    }
+    
+    int findLength(ListNode* head){
+        if(!head) return NULL;
+        
+        int i = 0;
+        
+        ListNode* temp = head;
+        
+        while(temp){
+            
+            temp = temp -> next;
+            i++;
+        }
+        
+        return i;
+        
+    }
+};
