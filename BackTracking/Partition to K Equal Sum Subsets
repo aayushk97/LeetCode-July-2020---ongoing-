@@ -1,0 +1,35 @@
+//We find partition by partiton elements that add up, and if an element is selected we set it's visited to true so it's not selected for any other set.
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        vector<int> visited(nums.size(), 0);
+        
+        int totalSum = 0;
+        
+        for(int i = 0; i < nums.size(); i++) totalSum += nums[i];
+        if(totalSum % k != 0) return false;
+        
+        return partitionSum(nums, k-1, 0, 0, totalSum/k, visited);
+    }
+    
+    bool partitionSum(vector<int>& nums, int k, int i, int currSum, int totalSum, vector<int>& visited){
+        
+        if(k == 0) return true;
+        
+        if(currSum == totalSum) return partitionSum(nums, k-1, 0, 0, totalSum, visited);
+        
+        for(int j = i; j < nums.size(); j++){
+            if(!visited[j]){
+                
+                if(currSum + nums[j] <= totalSum){
+                    visited[j] = true;
+                    if(partitionSum(nums, k, j+1, currSum + nums[j], totalSum, visited)) return true;
+                    visited[j] = false;
+                }
+                
+            }
+        }
+        
+        return false;
+    }
+};
