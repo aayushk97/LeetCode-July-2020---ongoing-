@@ -1,0 +1,38 @@
+//We need to keep track of all the edges that are in direction from the node 0, we can either do it by saving the direction in a seperate cell or can be done
+//by storing the back edges in seperate matrix. and then go through that if all forward edges have been visited from that point.
+//Her we use dfs to track the path to each node and whenever there is an edge in direction from 0 to that node we increase count.
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        vector<vector<vector<int>>> graph(n);
+        
+        for(int i = 0; i < connections.size(); i++){
+            graph[connections[i][0]].push_back({connections[i][1], 1});
+            graph[connections[i][1]].push_back({connections[i][0], -1});
+        }
+        
+        vector<int> visited(n, 0);
+        
+        return dfs(graph, 0, visited);
+    }
+    
+    int dfs(vector<vector<vector<int>>>& graph, int s, vector<int>& visited){
+        
+        if(visited[s]) return 0;
+        
+        visited[s] = 1;
+        int count = 0;
+        for(int i = 0; i < graph[s].size(); i++){
+            
+            if(!visited[graph[s][i][0]] ){
+                if(graph[s][i][1] == 1) count ++;
+                count += dfs(graph, graph[s][i][0], visited);
+            }
+            
+            
+        }
+        
+        return count;
+        
+    }
+};
