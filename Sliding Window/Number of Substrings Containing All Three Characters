@@ -1,0 +1,32 @@
+//We count all the presence of a b and c in the window, now since the substring can contain lots of a b and c, so 
+//we need to add a substring by adding count to total. if we have all the chars at a point we also start to shift left
+//index to right one by one and add count by one.
+
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        
+        int aPresent = 0, bPresent = 0, cPresent = 0;
+        
+        int count = 0, total = 0;
+        
+        for(int i = 0, j = 0; j < s.length(); j++){
+            if(s[j] == 'a') aPresent++;
+            else if(s[j] == 'b') bPresent++;
+            else cPresent++;
+            
+            while(aPresent && bPresent && cPresent && i < j){
+                if(s[i] == 'a') aPresent--;
+                else if(s[i] == 'b') bPresent--;
+                else cPresent--;
+                count++;
+                i++;
+            }
+            
+            total += count;
+            
+        }
+        
+        return total;
+    }
+};
