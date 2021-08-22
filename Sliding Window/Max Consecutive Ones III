@@ -1,0 +1,25 @@
+//If the number is 0 we increment count and if count is greater than k we move the i th pointer till the number of count is less than or equal to K. Then we exit out
+//of loop and check the size of window. We do this similarly untill j reaches the end of the array.
+
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        
+        int count = 0, i = 0;
+        int maxSize = 0;
+        
+        for(int j = 0; j < nums.size(); j++){
+            if(nums[j] == 0) count++;
+            
+            while(count > k && i <= j){
+                if(nums[i] == 0) count--;
+                i++;
+            }
+            
+            maxSize = max(maxSize, j - i + 1);
+        }
+        
+        return maxSize;
+        
+    }
+};
