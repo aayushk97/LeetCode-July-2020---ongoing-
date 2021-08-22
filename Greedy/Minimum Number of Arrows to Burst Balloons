@@ -1,0 +1,22 @@
+//We find the maximum number of non -overlapping intervals. Then we subtract it from total numbers as we don't have to shoot them, and shoot the rest.
+
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        sort(points.begin(), points.end(), cmp);
+        
+        int count = 0;
+        for(int i = 0, j = 1; j < points.size(); j++){
+            if(points[j][0] <= points[i][1]) count++;
+            else i = j;
+        }
+        
+        return points.size()-count;
+    }
+    
+    static bool cmp(vector<int>& a, vector<int>& b){
+        if(a[1] < b[1]) return true;
+        else if(a[1] == b[1] && a[0] < b[0]) return true;
+        else return false;
+    }
+};
