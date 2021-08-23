@@ -1,0 +1,29 @@
+//We insert the elements in set and if the number of elements is greater than 2 then we have to remove an element. We do this by removing element present at right
+//pointer untill we have less than or equal to 2 elemnts in window. We also at each iteration find the size of window.
+
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        
+        unordered_set<int> elems;
+        unordered_map<int, int> count;
+        
+        int maxSize = 0;
+        
+        for(int i = 0, j = 0; j < fruits.size(); j++){
+             elems.insert(fruits[j]);
+             count[fruits[j]]++;
+            
+             while(elems.size() > 2 && i < j){
+                 int a = count[fruits[i]];
+                 if(a - 1 == 0) elems.erase(fruits[i]);
+                 count[fruits[i]]--;
+                 i++;
+             }
+            
+            maxSize = max(maxSize, j - i + 1);
+        }
+        
+        return maxSize;
+    }
+};
