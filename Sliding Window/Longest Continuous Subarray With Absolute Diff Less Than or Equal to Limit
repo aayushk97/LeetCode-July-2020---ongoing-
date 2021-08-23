@@ -1,0 +1,41 @@
+//We store the max and min element in the window. Minimum element is stored by popping all the elments less than this num present in the deque. Similarly, max
+//element is stored. Then if the difference between max and min element in the window is less than or equal to limit. We set this as window size and compare with
+//max window size. Now, if the difference is more than limit then we have to increase the left pointer. Then remove the element the corresponding min
+//or max element associated with that index if there is any.Since, the max element will be last or min element removing them will automatically remove any problems.
+//We can also instead of incrementing j in every loop increment it after only the window is of plausible size.
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums, int limit) {
+        
+        int maxSize = 1;
+        deque<int> minElement; 
+        deque<int> maxElement; 
+        
+        for(int i = 0, j = 0; j < nums.size(); j++){
+            
+            int num = nums[j];
+            
+            while(minElement.size() > 0 && nums[minElement.back()] >= num) minElement.pop_back();
+            minElement.push_back(j);
+            
+            while(maxElement.size() > 0 && nums[maxElement.back()] <= num) maxElement.pop_back();
+            maxElement.push_back(j);
+            
+            int minElm = nums[minElement.front()];
+            int maxElm = nums[maxElement.front()];
+            
+            if(maxElm - minElm <= limit){
+                maxSize = max(maxSize, j - i + 1);
+            }else{
+                i++;
+                if(i > maxElement.front()) maxElement.pop_front();
+                if(i > minElement.front()) minElement.pop_front();
+            }
+            
+        }
+        
+        return maxSize;
+        
+    }
+};
