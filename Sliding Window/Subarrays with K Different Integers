@@ -1,0 +1,51 @@
+//To find the number of subarrays with k atmost numbers and number of subarrays with atmost k - 1 distinct integers and subtract both. To get atmost is easy
+//Just slide the window till the number of distinct elements is greater than k then start shifting the left most pointer untill count is less than k.
+//We increase the size by 1 and add at each element as an array can contain subarrays with atmost k distinct elements so to count all subrrays. 
+//At each increase of pointer j the number of sub arrays increase by size of window: j-i+1.
+
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        
+        return subarraysWithAtMostK(nums, k) - subarraysWithAtMostK(nums, k-1);
+        
+    }
+    
+    int subarraysWithAtMostK(vector<int>& nums, int k){
+        
+        if(k == 0) return 0;
+        
+        unordered_set<int> elems; 
+        unordered_map<int, int> count; 
+        
+        int maxSize = 0;
+        int size = 0;
+        
+        for(int i = 0, j = 0; j < nums.size(); j++){
+            
+            size++;
+            
+            elems.insert(nums[j]);
+            count[nums[j]]++;
+            
+            
+            while(elems.size() > k){
+                
+                size--;
+                int a = count[nums[i]];
+                if(a-1 == 0){
+                    elems.erase(nums[i]);
+                    
+                }
+                count[nums[i]]--;
+                i++;
+                
+            }
+            
+            maxSize += size;
+            
+        }
+        
+        return maxSize;
+    }
+};
