@@ -1,0 +1,33 @@
+//Here, we need to balance the string so trick is to count the occurances of each of WQER and then find the substring containing count-n/4 chars if count > n/4 for
+//that char. As we have to replace those chars with appropriate char to get the balanced string.
+//Now, we do this by using sliding window protocol, where if all the count of chars are less than or equal to bf we increase the left pointer to check if any chars
+//from left hand side can be removed to get window as small as possible. When its not possible we jump out of while loop.
+
+class Solution {
+public:
+    int balancedString(string s) {
+        unordered_map<char, int> count;
+        
+        for(int i = 0; i <s.length(); i++) count[s[i]]++;
+        
+        int bf = s.length()/4;
+        
+        int size = INT_MAX;
+        
+        for(int i = 0, j = 0; j < s.length(); j++){
+            
+            count[s[j]]--;
+            
+            while(i <= j + 1 && count['Q'] <= bf && count['W'] <= bf && count['E'] <= bf && count['R'] <= bf ){
+                count[s[i]]++;
+                size = min(size, j - i + 1);
+                i++;
+            }
+                
+            
+            
+        }
+        
+        return size;
+    }
+};
