@@ -1,0 +1,33 @@
+//We find if the cost of adding this item in substring will make the maxCost go negative , if yes then we increase the left pointer else we include this element and
+//set the window size if it's greater than prev and decrement the cost from maxCost if its greater than 0;
+
+class Solution {
+public:
+    int equalSubstring(string s, string t, int maxCost) {
+        
+        int windowSize = 0;
+        
+        for(int i = 0, j = 0; j < s.length(); j++){
+            
+            
+            while(i <= j && maxCost - abs(s[j] - t[j]) < 0){
+                
+                maxCost += abs(s[i] - t[i]);
+                i++;
+            }
+            
+            if(maxCost - abs(s[j] - t[j]) >= 0){
+                maxCost -= abs(s[j] - t[j]);
+                windowSize = max(windowSize, j - i + 1);
+              
+            }
+            
+            
+            
+            
+        }
+        
+        return windowSize;
+        
+    }
+};
