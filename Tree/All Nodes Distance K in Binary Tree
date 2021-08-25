@@ -1,0 +1,50 @@
+//We create a graph by storing back edges or parent nodes of each node then from the target node we perform dfs to find all the nodes at dist k.
+
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> parent;
+        
+        TreeNode* targetNode = dfs(root, target, parent, NULL);
+        
+        unordered_map<TreeNode*, int> dist;
+        
+        vector<int> result;
+        
+        dfsDist(targetNode, k, parent, result, dist);
+        
+        return result;
+        
+    }
+    
+    TreeNode* dfs(TreeNode* root, TreeNode* target, unordered_map<TreeNode*, TreeNode*>& parent, TreeNode* parentNode){
+        if(!root) return NULL;
+        
+        parent[root] = parentNode;
+        
+        parentNode = root;
+        
+        TreeNode* left = dfs(root -> left, target, parent, parentNode);
+        TreeNode* right = dfs(root -> right, target, parent, parentNode);
+        
+        if(left) return left;
+        if(right) return right;
+        if(root -> val == target -> val) return root;
+        return NULL;
+    }
+    
+    void dfsDist(TreeNode* root, int k, unordered_map<TreeNode*, TreeNode*>& parent, vector<int>& result, unordered_map<TreeNode*, int>& dist){
+        
+        if(!root || dist.find(root) != dist.end()) return;
+        //cout<<root -> val<<endl;
+        if(k == 0){
+            result.push_back(root -> val);
+            return;
+        }
+        dist[root] = 1;
+        
+        dfsDist(root -> left, k-1, parent, result, dist);
+        dfsDist(root -> right, k-1, parent, result, dist);
+        dfsDist(parent[root], k-1, parent, result, dist);
+    }
+};
