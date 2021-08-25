@@ -1,0 +1,18 @@
+//We can either find int t = sqrt(c-i*i) is int by using sqrt(c - i*i) == t*t. If this satisfies, then we return true. 
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        if(c == 0) return true;
+        
+        unordered_set<long> squares;
+        
+        
+        for(long i = 0; i*i <= c; i++){
+            squares.insert(i*i);
+            if(squares.find(c-i*i) != squares.end()) return true;
+            
+        }
+        
+        return false;
+    }
+};
