@@ -1,0 +1,37 @@
+//We start from each node we go to next to next house and next to next to next house which ever earns the max. Here there are repeated subproblems that we go i+2 
+//then go to i + 3 or go to i + 3 then go to i + 2. So we are arriving at a place twice, so we save the money robbed at this place.
+// To find the condition of circle we can either use (curr + 1) % nums.size() or we can store the nums array twice and use it with just 1st condition.
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int maxMoney = INT_MIN;
+            
+        if(nums.size() <= 3){
+            for(int i = 0; i < nums.size(); i++) maxMoney = max(maxMoney, nums[i]);
+            return maxMoney;
+        }
+        
+        vector<vector<int>> moneyRobbed(nums.size(), vector<int>(nums.size(), -1));
+        
+        for(int i = 0; i < nums.size(); i++){
+            //cout<<"round: "<<i<<endl;
+            int money = findMaxMoney(nums, i, i, moneyRobbed);
+            maxMoney = max(maxMoney, money);
+            //cout<<"money: "<<money<<endl;
+        }
+        return maxMoney;
+    }
+    
+    int findMaxMoney(vector<int>& nums, int start, int curr, vector<vector<int>>& moneyRobbed){
+        
+        if(curr - start >= nums.size() || (curr + 1) % nums.size() == start) return 0;
+        //cout<<nums[curr%nums.size()]<<endl;
+        if(moneyRobbed[start][curr%nums.size()] != -1) return moneyRobbed[start][curr%nums.size()];
+        
+        int val1 = findMaxMoney(nums, start, curr+2, moneyRobbed);
+        int val2 = findMaxMoney(nums, start, curr+3, moneyRobbed);
+        
+        return moneyRobbed[start][curr%nums.size()] = nums[curr%nums.size()] + max(val1, val2);
+    }
+};
