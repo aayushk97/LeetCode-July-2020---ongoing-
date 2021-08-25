@@ -1,3 +1,35 @@
+//We store prefix sum at every point and then it check if at a node prefixSum-target is present. If yes then that sum is possible in this path. We calculate and
+//store the sums in map top to down and return num of path bottom to top. We then decrement the count of prefSum at this node when we go back.
+//Other solution below is to check each node if there are paths to its left, right from this node. We don't stop even if we find the target we still go down untill 
+//we reach the leaves as negative values may be present in path which can lead to rise in path sum of target again.
+
+class Solution {
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+        unordered_map<int, int> prefSum;
+        prefSum[0] = 1;
+        
+        return numPaths(root, targetSum, prefSum, 0);
+    }
+    
+    int numPaths(TreeNode* root, int targetSum, unordered_map<int, int>& prefSum, int currSum){
+        if(!root) return 0;
+        
+        currSum += root -> val;
+        int res = 0;
+        if(prefSum.find(currSum-targetSum) != prefSum.end()) res += prefSum[currSum-targetSum];
+        
+        prefSum[currSum]++;
+        
+        res += numPaths(root -> left, targetSum, prefSum, currSum) + numPaths(root -> right, targetSum, prefSum, currSum);
+        //Remove the stored entry
+        prefSum[currSum]--;
+        
+        return res;
+        
+    }
+};
+
 class Solution {
 public:
     int paths = 0;
