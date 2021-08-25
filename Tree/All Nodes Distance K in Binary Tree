@@ -1,4 +1,8 @@
 //We create a graph by storing back edges or parent nodes of each node then from the target node we perform dfs to find all the nodes at dist k.
+//Method 2: We can store the path from root to target and the distance of each node in path from target. Then we return to main and then dfs using this stored values
+//so if any node in path is visited we use the distance and travel down its nodes to find if there is any node at dist i such that dist+i = k.
+//so target node has dist 0 its children at dist k can be found, now its parents dist from this node we know, so we can traverse down their and find nodes at dist+i=k.
+//https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/discuss/143798/1ms-beat-100-simple-Java-dfs-with(without)-hashmap-including-explanation
 
 class Solution {
 public:
