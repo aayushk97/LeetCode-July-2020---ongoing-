@@ -1,0 +1,49 @@
+//Here the worst case is O(n). Cases: if left side is ordered and if element may be present we search here otherwise search in other side. If right side is ordered
+//and element may be present here we search on this else we search on left hand side. Now, there is a condition to handle cases such as 1111234 1111211 where, left and mid
+//and right are same so we check the side which doesn;t have same elements or we have to search both sides. For cases such as 311 we have to search left hand side
+//so we add another condition.
+
+
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        
+        return ifPresent(nums, target, 0, nums.size()-1);
+        
+    }
+    
+    bool ifPresent(vector<int>& nums, int target, int i , int j){
+        if(i > j) return false;
+        
+        
+        int mid = i + (j - i)/2;
+       
+        if(target == nums[mid]) return true;
+        
+       
+        
+        if(nums[i] < nums[mid]){
+           
+            if(target < nums[mid] && target >= nums[i]) return ifPresent(nums, target, i, mid-1);
+            else return ifPresent(nums, target, mid+1, j);
+        }else if(nums[mid] < nums[j]){
+            
+            if(target > nums[mid] && target <= nums[j]) return ifPresent(nums, target, mid+1, j);
+            else return ifPresent(nums, target, i, mid-1);
+        }else if(nums[i] == nums[mid]){
+            
+            if(nums[mid] != nums[j]){
+                return ifPresent(nums, target, mid+1, j);
+                
+            }else{
+                if(!ifPresent(nums, target, i, mid-1)) return ifPresent(nums, target, mid+1, j);
+                else return true;
+            }
+        }else if(nums[j] == nums[mid]){
+                if(nums[i] != nums[mid]) return ifPresent(nums, target, i, mid-1);
+            
+        }
+        
+        return false;
+    }
+};
