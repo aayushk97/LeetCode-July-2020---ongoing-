@@ -1,0 +1,24 @@
+//Since we can only delete one element we take k as 1. And Since we have to only number of ones we subtract 1 from window size so j-i+1 becomes j-i.
+
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        
+        int windowSize = 0;
+        int k = 1;
+        
+        for(int i = 0, j = 0; j < nums.size(); j++){
+           
+            if(nums[j] != 1) k--;
+            
+            while(k < 0 && i <=j){
+                if(nums[i] != 1) k++;
+                i++;
+            }
+            
+            windowSize = max(windowSize, j-i);
+        }
+        
+        return windowSize;
+    }
+};
