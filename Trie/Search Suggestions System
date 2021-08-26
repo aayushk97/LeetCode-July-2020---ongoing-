@@ -1,0 +1,87 @@
+//We insert he words in Trie. Then for each letter in string we find the 3 words using dfs by first going to the node with k similar letters then for all children 
+//checking which node to go next. If it is end of word this word is inserted orther wise dfs forward. If the size of vector is more than 3 we return from dfs.
+
+class Solution {
+public:
+    struct TrieNode{
+        bool isEndOfWord;
+        struct TrieNode* children[26];
+    };
+    
+    struct TrieNode* root;
+    
+    struct TrieNode* getNode(){
+        TrieNode* newNode = new TrieNode();
+        newNode -> isEndOfWord = false;
+        
+        for(int i = 0; i < 26; i++) newNode -> children[i] = NULL;
+        return newNode;
+    }
+    
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        
+        root = getNode();
+        
+        for(int i = 0; i < products.size(); i++) insert(products[i]);
+        //cout<<"wordsInserted"<<endl;
+        vector<vector<string>> res;
+        
+        for(int i = 1; i <= searchWord.length(); i++){
+            vector<string> resChar;
+            getResult(resChar, searchWord, i);
+            res.push_back(resChar);
+        } 
+        
+        return res;
+    }
+    
+    
+    void insert(string word){
+        struct TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            
+            if(!temp -> children[index]) temp -> children[index] = getNode();
+            temp = temp -> children[index];
+        }
+        
+        temp -> isEndOfWord = true;
+    }
+    
+    void getResult(vector<string>& result, string& searchWord, int k){
+        struct TrieNode* temp = root;
+        
+        string res = "";
+        
+        for(int i = 0; i < k; i++){
+            int index = searchWord[i]-'a';
+            
+            if(!temp -> children[index]) return ;
+            
+            temp = temp -> children[index];
+            res.push_back(searchWord[i]);
+                
+        }
+        
+        dfs(temp, result, res);
+        
+    }
+    
+    void dfs(struct TrieNode* root, vector<string>& result, string& res){
+        if(result.size() == 3) return;
+        
+        if(!root) return;
+        //cout<<res<<endl;
+        if(root -> isEndOfWord) result.push_back(res);
+        
+        for(int i = 0; i < 26; i++){
+            if(root -> children[i]){
+                res.push_back(i+'a');
+                dfs(root-> children[i], result, res);
+                res.pop_back();
+            } 
+        }
+    }
+    
+};
