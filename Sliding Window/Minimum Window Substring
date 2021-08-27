@@ -1,0 +1,44 @@
+//We first find the freq of all chars in t. Then, for each chars in s, if the right pointer char is in map, we check if its count is greater than 0, if yes
+//then we decrement the count and freq from map. Then if the counter is 0, ie, all the elements in t are inside the window, we find the min size of this window
+//by incrementing the i pointer. If the char at i pointer is one of char in t, then we increment the counter if the freq incresed greater than zero.
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        
+        unordered_map<char, int> freq;
+        for(int i = 0; i < t.length(); i++) freq[t[i]]++;
+        
+        int windowSize = INT_MAX;
+        int start = 0;
+        string ans = "";
+        int counter = t.length();
+        
+        for(int i = 0, j = 0; j < s.length(); j++){
+            if(freq.find(s[j]) != freq.end()){
+                if(freq[s[j]] > 0 ) counter--;
+                freq[s[j]]--;
+                
+            } 
+            
+            while(counter == 0){
+                
+                if(windowSize > j - i + 1){
+                    windowSize = j - i + 1;
+                    start = i;
+                }
+                
+                if(freq.find(s[i]) != freq.end()){
+                    
+                    freq[s[i]]++;
+                    if(freq[s[i]] > 0) counter++;
+                } 
+                i++;
+            }
+            
+        }
+        
+        
+        return windowSize == INT_MAX ? "" : s.substr(start, windowSize);
+    }
+};
