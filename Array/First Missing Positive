@@ -1,0 +1,21 @@
+//We put all the positive numbers in their respective index in array recursive, ie. if we have 4 at nums[1] we put 4 at index 3 and then at index 3 we have 1 
+//we put it in index 0 so while loop inside for is used. Then we compare all the elements if they are equal to their i + 1th index.
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        
+        for(int i = 0; i < nums.size(); i++){
+            while(nums[i] > 0 && nums[i] <= nums.size() && nums[nums[i]-1] != nums[i]){
+                swap(nums[nums[i]-1], nums[i]);
+            }
+        }
+        
+        for(int i = 0; i < nums.size(); i++){
+            if(nums[i] != i+1) return i+1;
+        }
+        
+        return nums.size()+1;
+        
+    }
+};
