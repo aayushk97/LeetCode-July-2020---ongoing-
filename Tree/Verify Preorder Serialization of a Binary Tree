@@ -1,0 +1,27 @@
+//The solution is based on idea that when we read a char if its a number then it's supoosed to have 2 children either they are # or number iteself so we
+//add 2 to count. If char is # then we don't do anything as it doesn't have to have any children. We decrease count by 1 at each loop as we have processed this node.
+
+class Solution {
+public:
+    bool isValidSerialization(string preorder) {
+        
+        stringstream ss(preorder);
+        string temp;
+        
+        int numOfSlotsAvailable = 1;
+        
+        while(getline(ss, temp, ',')){
+            
+            numOfSlotsAvailable -= 1;
+            if(numOfSlotsAvailable < 0) return false;
+            if(temp != "#"){
+                numOfSlotsAvailable += 2; 
+            }
+            
+        }
+        
+        if(numOfSlotsAvailable == 0) return true;
+        else return false;
+        
+    }
+};
