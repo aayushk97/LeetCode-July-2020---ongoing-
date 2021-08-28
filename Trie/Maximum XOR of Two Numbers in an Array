@@ -1,0 +1,75 @@
+//We add the elements in reverse order in trie and try to find if for a curr number starting from left if there exists a number with max number of opposite bits
+//i.e bits[j] ^ 1 present in the trie for each bit, even if some bits are similar we go with it downwards untill we reach the end. Similarly, we do for all the
+//elements and return the max of them. XOR of 2 nos if opposite bit is present then it adds 1 otherwise it adds 0.
+
+class Solution {
+public:
+    
+    struct TrieNode{
+        struct TrieNode* children[2];
+    };
+    
+    struct TrieNode* root;
+    
+    struct TrieNode* getNode(){
+        struct TrieNode* temp = new TrieNode();
+        
+        for(int i = 0; i < 2; i++) temp -> children[i] = NULL;
+        
+        return temp;
+    }
+    
+    void insert(int num){
+        struct TrieNode* temp = root;
+        
+        for(int i = 30; i >= 0; i--){
+            int currBit = num & (1 << i);
+            
+            if(currBit > 0) currBit = 1;
+            else currBit = 0;
+            
+            if(!temp -> children[currBit]) temp -> children[currBit] = getNode();
+            temp = temp -> children[currBit];
+        }
+    }
+    
+    
+    int findMaximumXOR(vector<int>& nums) {
+        //cout<<"begin()"<<endl;
+        root = getNode();
+        
+       // cout<<"Here"<<endl;
+        
+        for(int i = 0; i < nums.size(); i++){
+            //cout<<nums[i]<<endl;
+            insert(nums[i]);
+        }
+        
+        int maxVal = INT_MIN;
+        
+        cout<<"done"<<endl;
+        
+        for(int i = 0; i < nums.size(); i++){
+            struct TrieNode* temp = root;
+            int currSum = 0;
+            //cout<< "here: "<<nums[i]<<endl;
+            for(int j = 30; j >= 0; j--){
+                int currBit = nums[i] & (1 << j);
+                
+                if(currBit > 0) currBit = 1;
+                else currBit = 0;
+                
+                if(temp -> children[currBit^1]){
+                    //as both are opposite bits so we have 1 in output at that pos.
+                    currSum += (1 << j);
+                    temp = temp -> children[currBit^1];
+                }else temp = temp -> children[currBit];
+            }
+            
+            maxVal = max(maxVal, currSum);
+        }
+        
+        return maxVal;
+        
+    }
+};
