@@ -1,0 +1,74 @@
+//We store each word in Trie and then search each word such that each letter has isEndOfWord flag set.
+//Method 2: We can sort the input array and insert all the 1 length strings. Then for other strings we see if the string of 1 less char is present, if yes then
+//we insert this string as well otherwise we look at next string and keep saving the max length string.
+
+class Solution {
+public:
+    struct TrieNode{
+        bool isEndOfWord;
+        struct TrieNode* children[26];
+    };
+    
+    struct TrieNode* root;
+    
+    struct TrieNode* getNode(){
+        struct TrieNode* newNode = new TrieNode();
+        
+        newNode -> isEndOfWord = false;
+        
+        for(int i = 0; i < 26; i++) newNode -> children[i] = NULL;
+        
+        return newNode;
+    }
+    
+    void insert(string word){
+        struct TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            if(!temp -> children[index]) temp -> children[index] = getNode();
+            temp = temp -> children[index];
+        }
+        
+        temp -> isEndOfWord = true;
+    }
+    
+    bool longSearch(string word){
+        struct TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            if(!temp -> children[index]) return false;
+            if(temp -> children[index] && !temp -> children[index] -> isEndOfWord) return false;
+            
+            temp = temp -> children[index];
+            
+        }
+        
+        return true;
+    }
+    
+    string longestWord(vector<string>& words) {
+        
+        root = getNode();
+        
+        sort(words.begin(), words.end());
+        
+        for(int i = 0; i < words.size(); i++) insert(words[i]);
+        
+        int maxLength = 0;
+        string maxString = "";
+        
+        for(int i = 0; i < words.size(); i++){
+             if(longSearch(words[i])){
+                 if(maxLength < words[i].length()) {
+                     maxLength = words[i].length();
+                     maxString = words[i]; 
+                 }
+             }   
+        }
+        
+        return maxString;
+        
+    }
+};
