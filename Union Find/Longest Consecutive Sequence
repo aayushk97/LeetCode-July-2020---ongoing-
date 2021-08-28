@@ -1,0 +1,43 @@
+//We insert the number in set. Then take a number from array and if present then we find numbers less than in and greater than it in set and erase it simultaneously
+//so we don't caclculate the size of sequence again and again. Return the max size of such a sequence.
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        
+        unordered_set<int> freq;
+        
+        for(int i = 0; i < nums.size(); i++){
+            freq.insert(nums[i]);
+        }
+        
+        int maxSize = 0;
+        for(int i = 0; i < nums.size(); i++){
+            
+            if(freq.find(nums[i]) == freq.end()) continue;
+            
+            int num = nums[i];
+            
+            int size = 1;
+            
+            int numLess = num-1;
+            int numMore = num+1;
+            
+            while(freq.find(numLess) != freq.end()){
+                freq.erase(numLess);
+                numLess--;
+                size++;  
+            } 
+            
+            while(freq.find(numMore) != freq.end()){
+                freq.erase(numMore);
+                numMore++;
+                size++;
+            }
+            
+            maxSize = max(maxSize, size);
+        }
+        
+        return maxSize;
+    }
+};
