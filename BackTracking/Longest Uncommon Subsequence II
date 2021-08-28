@@ -1,0 +1,40 @@
+//We generate all possible subsequences of a all the strings and then count its frequencies. Then we find out strings with occurances 1 and amoung them find the
+//max size.
+
+class Solution {
+public:
+    int findLUSlength(vector<string>& strs) {
+        unordered_map<string, int> freq;
+        
+        for(int i = 0; i < strs.size(); i++){
+            for(int j = 0; j < (1 << strs[i].length()); j++){
+                string t;
+                
+                for(int k = 0; k < strs[i].length(); k++){
+                    if((j >> k) & 1) t += strs[i][k];
+                }
+                
+                freq[t]++;
+            }
+        }
+        
+        
+        
+        int maxSize = -1;
+        
+        for(auto it = freq.begin(); it != freq.end(); it++){
+           // cout<<it -> first<<" "<<it -> second<<endl;
+            if(it -> second == 1){
+                //cout<<"Here"<<it-> first.length()<<endl;
+                int n = it -> first.length();
+                if(maxSize < n){
+                    maxSize = it -> first.length();
+                    
+                } 
+            }
+           // cout<<maxSize<<endl;
+        }
+        
+        return maxSize;
+    }
+};
