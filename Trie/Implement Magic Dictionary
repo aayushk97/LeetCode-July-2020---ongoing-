@@ -1,0 +1,86 @@
+//We can store the strings in Trie then change each char of input word and search if it is present in trie.
+//METHOD2: Another method will be to store all the words by removind one letter from it i.e, for string hello we store ello, 
+//hllo, helo, helo, hell and then to search for a string we remove a char from it one by one and check if it is
+//present in hash.
+
+//METHOD3: Store the input strings in hash table with length. Now, when we have an input string to search we can 
+//we get all the strings of same length and then compare with the input string how many chars are different. If it
+//differs by 1 we return true;
+
+class MagicDictionary {
+public:
+    struct TrieNode{
+        bool isEndOfWord;
+        struct TrieNode* children[26];
+    };
+    
+    struct TrieNode* root;
+    
+    struct TrieNode* getNode(){
+        struct TrieNode* newNode = new TrieNode();
+        newNode -> isEndOfWord = false;
+        
+        for(int i = 0; i < 26; i++) newNode -> children[i] = NULL;
+        
+        return newNode;
+    }
+    
+    /** Initialize your data structure here. */
+    MagicDictionary() {
+        root = getNode();    
+    }
+    
+    void insert(string word){
+        struct TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            if(!temp -> children[index]) temp -> children[index] = getNode();
+            temp = temp -> children[index];
+        }
+        
+        temp -> isEndOfWord = true;
+    }
+    
+    void buildDict(vector<string> dictionary) {
+        
+        for(int i = 0; i < dictionary.size(); i++){
+            insert(dictionary[i]);
+        }
+        cout<<"done"<<endl;
+        
+    }
+    
+    bool find(string word){
+        //cout<<word<<endl;
+        struct TrieNode* temp = root;
+        
+        for(int i = 0; i < word.length(); i++){
+            int index = word[i] - 'a';
+            if(!temp -> children[index]) return false;
+            temp = temp -> children[index];
+        }
+        
+        if(temp -> isEndOfWord) return true;
+        else return false;
+    }
+    
+    bool search(string searchWord) {
+        //cout<<searchWord<<endl;
+        for(int i = 0; i < searchWord.length(); i++){
+            char charAti = searchWord[i];
+            
+            for(int j = 0; j < 26; j++){
+                if('a'+j == charAti) continue;
+                
+                searchWord[i] = 'a'+j;
+                if(find(searchWord)) return true;
+            }
+            
+            searchWord[i] = charAti;
+        }
+        
+        return false;
+        
+    }
+};
