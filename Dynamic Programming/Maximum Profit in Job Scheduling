@@ -1,0 +1,43 @@
+//We sort the intervals according to start time, then we recursively either choose this interval and choose the next interval with start time greater than end time
+//found by lower_bound or skip this interval and go to the next interval. We store the maxProfit by taking interval [i] as there may be overlapping calls to select
+//interval i.
+
+class Solution {
+public:
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        
+        vector<vector<int>> time;
+        
+        for(int i = 0; i < startTime.size(); i++) time.push_back({startTime[i], endTime[i], profit[i], i});
+        
+        sort(time.begin(), time.end());
+        
+        for(int i = 0; i < startTime.size(); i++) startTime[i] = time[i][0];
+        for(int i = 0; i < startTime.size(); i++) endTime[i] = time[i][1];
+        for(int i = 0; i < startTime.size(); i++) profit[i] = time[i][2];
+        
+        vector<int> dp(startTime.size(), -1);
+        
+        return maxProfit(startTime, endTime, profit, dp, 0);
+        
+    }
+    
+    int maxProfit(vector<int>& startTime, vector<int>& endTime, vector<int>& profit, vector<int>& dp, int k){
+        
+        if(k >= startTime.size()) return 0;
+        
+        if(dp[k] != -1) return dp[k];
+        int profitMax = 0;
+        
+        int lowerBoundIndex = lower_bound(startTime.begin(), startTime.end(), endTime[k])-startTime.begin();
+        
+        profitMax = profit[k] + maxProfit(startTime, endTime, profit, dp, lowerBoundIndex);
+        
+        profitMax = max(profitMax, maxProfit(startTime, endTime, profit, dp, k+1));
+        
+        return dp[k] = profitMax;
+        
+    }
+    
+    
+};
