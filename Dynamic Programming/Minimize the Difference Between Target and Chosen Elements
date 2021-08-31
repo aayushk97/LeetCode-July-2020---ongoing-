@@ -1,0 +1,41 @@
+//We add the current element of each row and recursively find a sum using which the absolute difference is minimum. 
+//We store the current sum and the corresponding row in DP so it eleminates those subcalls in which an element with
+//same value on another call is added and calls the next row. 
+//Here, we had to use some techinuques to not get TLE. We break the recursive call when we get 0 as it's the minimum we can get and also we use set to store the
+//values as it automatically remove duplicates and sorts the rows, so if the val + currElem > target we break the loop as if we add next elemtns we will only
+//increase the absolute differnce.
+
+class Solution {
+public:
+    int minimizeTheDifference(vector<vector<int>>& mat, int target) {
+        
+        vector<vector<int>> dp(mat.size(), vector<int>(8000, -1));
+        
+        vector<set<int>> rows;
+        
+        for(int i = 0; i < mat.size(); i++) rows.push_back(set<int>(mat[i].begin(), mat[i].end()));
+        
+        return absoluteDiff(rows, 0, target, 0, dp);
+        
+    }
+    
+    int absoluteDiff(vector<set<int>>& rows, int row, int target, int val, vector<vector<int>>& dp){
+        
+        if(row >= rows.size()){
+            return abs(target - val);
+        }
+        
+        if(dp[row][val] != -1) return dp[row][val];
+        
+        int minDiff = INT_MAX; 
+        //cout<<"Here2"<<rows[row].size()<<endl;
+        for(auto it = rows[row].begin(); it != rows[row].end(); it++){
+            //cout<<"Here"<<endl;
+            //cout<<*it<<endl;
+            minDiff = min(minDiff, absoluteDiff(rows, row+1, target, val+*it, dp));
+            if(minDiff == 0 || val + *it > target) break; 
+        }
+        
+        return dp[row][val] = minDiff;
+    }
+};
