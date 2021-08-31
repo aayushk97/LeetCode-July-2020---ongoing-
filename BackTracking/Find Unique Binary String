@@ -1,0 +1,35 @@
+//We find all the possible strigs of length equal to length of 1st string in array and if one is not part of the array we return that string.
+
+class Solution {
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        
+        unordered_map<string, int> count;
+        
+        for(int i = 0; i < nums.size(); i++) count[nums[i]]++;
+        
+        string res = "";
+        return getBinary(nums[0].length(), res, count);
+        
+    }
+    
+    string getBinary(int n, string& s, unordered_map<string, int>& count){
+        
+        if(s.length() == n){
+            
+            if(count.find(s) == count.end()) return s;
+            else return "";
+        }
+        
+        s.push_back('1');
+        string left = getBinary(n, s, count);
+        s.pop_back();
+        
+        if(left != "") return left;
+        s.push_back('0');
+        string right = getBinary(n, s, count);
+        s.pop_back();
+        
+        return right;
+    }
+};
