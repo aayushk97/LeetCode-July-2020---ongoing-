@@ -1,0 +1,34 @@
+//we maintian a visited array, since the problem can be reduced to finding the largest size loop in array. We take an index then keep visiting indexes until we
+//return back to that index. We return the max size.
+
+class Solution {
+public:
+    int arrayNesting(vector<int>& nums) {
+        
+        vector<int> visited(nums.size(), 0);
+        
+        int maxSize = 0;
+        
+        for(int i = 0; i < nums.size(); i++){
+            
+            if(visited[i]) continue;
+            int size = 1;
+            visited[i] = 1;
+            int num = nums[i];
+            
+            while(visited[num] == 0){
+                size++;
+                visited[num] = 1;
+                num = nums[num];
+            }
+            
+            maxSize = max(maxSize, size);
+            
+            if(maxSize == nums.size()) break;
+            
+            
+        }
+        
+        return maxSize;
+    }
+};
