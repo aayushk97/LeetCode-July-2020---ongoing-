@@ -1,0 +1,29 @@
+//We find longest increasing subsequence using greedy and binary search. At every step we either insert a number at the end of lis , if the last num is less than 
+//curr number, increasing the size of lis. Otherwise, we find an index in which the number is strictly greater than num at i and then we insert this number there.
+// We store the size of lis, when we are increasing the size of lis. But we put the index(1-Indexed i.e, size upto that point) location of the found number or where
+//we put the current number.
+
+class Solution {
+public:
+    vector<int> longestObstacleCourseAtEachPosition(vector<int>& obstacles) {
+        
+        vector<int> lis;
+        vector<int> res;
+        for(int i = 0; i < obstacles.size(); i++){
+            if(lis.size() == 0 || lis[lis.size()-1] <= obstacles[i]){
+                lis.push_back(obstacles[i]);
+                res.push_back(lis.size());  
+            } 
+            else{
+                int index = upper_bound(lis.begin(), lis.end(), obstacles[i]) - lis.begin();
+                lis[index] = obstacles[i];
+                res.push_back(index+1);
+            }
+            
+            
+        }
+        
+        return res;
+        
+    }
+};
