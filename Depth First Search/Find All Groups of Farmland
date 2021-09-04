@@ -1,0 +1,48 @@
+//At every cell of matrix if it is 1 we dfs or bfs traverse to find the largest square of 1 and return coordinates of that last cell.
+//Now for each such square that we encounter we store it in result.
+
+class Solution {
+public:
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        
+        vector<vector<int>> res;
+        vector<vector<int>> visited(land.size(), vector<int>(land[0].size(), 0));
+        
+        int startr = -1, startc =-1;
+        int endr = -1, endc = -1;
+        
+        for(int i = 0; i < land.size(); i++){
+            for(int j = 0; j < land[0].size(); j++){
+                if(land[i][j] == 1 && !visited[i][j]){
+                         int startr = -1, startc =-1;
+                         int endr = -1, endc = -1;           
+                    
+                        startr = i;
+                        startc = j;
+                        endr = i, endc = j;
+                        
+                        traverse(land, i, j, &endr, &endc, visited);
+                    
+                        res.push_back({startr, startc, endr, endc});
+                        
+                }
+                
+            }
+        }
+        
+        return res;
+    }
+    
+    void traverse(vector<vector<int>>& land, int r, int c, int* endr, int* endc, vector<vector<int>>& visited){
+        
+        if(r >= land.size() || c >= land[0].size() || land[r][c] != 1 || visited[r][c] == 1) return;
+        //cout<<r<<" "<<c<<endl;
+        visited[r][c] = 1;
+        *endr = max(r, *endr), *endc = max(c, *endc);
+        traverse(land, r+1, c, endr, endc, visited);
+        traverse(land, r, c+1, endr, endc, visited);
+        
+        
+    }
+    
+};
