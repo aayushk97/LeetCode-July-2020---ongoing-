@@ -1,0 +1,23 @@
+//We sort the elements and then put small no in odd places and largest elements in even places. Since, the number between
+//smaller numbers is larger it can be median of both the elments.
+
+class Solution {
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        
+        vector<int> res;
+        
+        sort(nums.begin(), nums.end());
+        
+        int i = 0, j = nums.size()-1;
+        
+        for(; i < j; i++, j--){
+            res.push_back(nums[i]);
+            res.push_back(nums[j]);
+        }
+        
+        if(i == j) res.push_back(nums[i]);
+        
+        return res;
+    }
+};
