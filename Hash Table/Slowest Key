@@ -1,0 +1,30 @@
+//We first find the max time a letter key was pressed. Then we find which one is largest having highest lexographic order.
+
+class Solution {
+public:
+    char slowestKey(vector<int>& releaseTimes, string keysPressed) {
+        unordered_map<char, int> count;
+        int last = 0;
+        for(int i = 0; i < releaseTimes.size(); i++){
+            if(count.find(keysPressed[i]) == count.end()) count[keysPressed[i]] = releaseTimes[i] - last;
+            else count[keysPressed[i]] = max(releaseTimes[i] - last, count[keysPressed[i]]);
+            last = releaseTimes[i];
+        }
+        
+        int max = INT_MIN;
+        char c = 'a';
+        for(auto it = count.begin(); it != count.end(); it++){
+            if(max < it -> second){
+               
+                max = it -> second;
+                c = it -> first;
+            }else if(max == it -> second && c < it -> first){
+                max = it -> second;
+                c = it -> first;
+            }
+        }
+        
+        return c;
+        
+    }
+};
