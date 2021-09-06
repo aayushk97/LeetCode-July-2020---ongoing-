@@ -1,0 +1,69 @@
+//We use DFS to find if it is we can reach the bottom. We use binary search to locate the cells at which it is no
+//longer possible to reach the bottom and return the the index -1 to get the index from which it is still reachable.
+
+class Solution {
+public:
+    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
+        
+        
+        
+        int i = 0, j = cells.size()-1;
+        
+        while(i <= j){
+            int mid = i + (j-i)/2;
+            
+            vector<vector<int>> landCells(row, vector<int>(col, 0));
+        
+            fill(landCells, 0, mid, cells);
+            /*
+            for(int i = 0; i < landCells.size(); i++){
+                for(int j = 0; j < landCells[0].size(); j++) cout<<landCells[i][j]<<" ";
+                cout<<endl;
+            }
+            cout<<endl;*/
+            vector<vector<int>> visited(row, vector<int>(col, 0));
+            bool reached = false;
+            
+            for(int j = 0; j < landCells[0].size(); j++) {
+               
+                
+                if(!landCells[0][j]){
+                    reached = checkDFS(landCells, 0, j, visited);
+                    if(reached) break;
+                    
+                    
+                }
+                
+                
+            }
+            
+            if(reached) i = mid + 1;
+            else j = mid - 1;
+            cout<<i<< " "<< mid<<" "<<j<<endl;
+            
+            
+        }
+        
+        return i;
+    }
+    
+    bool checkDFS(vector<vector<int>>& landCells, int i, int j, vector<vector<int>>& visited){
+         
+        
+        if(i >= landCells.size() || j >= landCells[0].size() || i < 0 || j < 0 || visited[i][j]) return false;
+    
+         
+        if(landCells[i][j] == 1) return false;
+        //cout<<i<<" "<<j<<endl;
+        if(i == landCells.size()-1 && landCells[i][j] == 0) return true;
+        
+        visited[i][j] = 1;
+        
+        return checkDFS(landCells, i+1, j, visited) || checkDFS(landCells, i, j+1, visited) || checkDFS(landCells, i, j-1, visited) || checkDFS(landCells, i-1, j, visited);
+        
+    }
+    
+    void fill(vector<vector<int>>& landCells, int i, int j, vector<vector<int>>& cells){
+        for(int k = i; k <= j; k++) landCells[cells[k][0]-1][cells[k][1]-1] = 1;
+    }
+};
