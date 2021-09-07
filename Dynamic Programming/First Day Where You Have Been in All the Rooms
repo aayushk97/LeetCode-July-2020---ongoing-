@@ -1,0 +1,19 @@
+//Lets say to reach room i, we need dp[i] days. So, to reach i from i-1 we need no of days if A[i-1] = i-1 i.e, the index has same element as index then we will
+//have to visit it even number of times befoer we can move on to next one or if A[i-1] != i-1 then we will go to A[i-1] in 1 day then to return back to i-1 we 
+//will need dp[i-1] - dp[A[i-1]] days. So, we add this to number of days to reach i-1 and get number of days to reach i.
+
+class Solution {
+public:
+    int firstDayBeenInAllRooms(vector<int>& nextVisit) {
+        
+        vector<long long> dp(nextVisit.size(), 0);
+        dp[0] = 0;
+        
+        for(int i = 1; i < dp.size(); i++){
+            dp[i] = (dp[i-1] + 2 + dp[i-1]- dp[nextVisit[i-1]]+1000000007)%1000000007;
+        }
+        
+        return dp[nextVisit.size()-1];
+        
+    }
+};
