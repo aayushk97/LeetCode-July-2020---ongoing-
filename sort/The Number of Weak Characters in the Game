@@ -1,0 +1,33 @@
+//We can sort the array in such a way that it is increasing in attack and if attack is same it decreases in defense. Now, we start from end and if any property
+//right of it will always have greater value of attack but for defence we need to store it in a val. Now, if 2 index have same attack then since def is ordered in
+//decreasing order we compare def of this index with max. If not greater attack is present to right of it, then the value of max def will  always be lower than this.
+class Solution {
+public:
+    int numberOfWeakCharacters(vector<vector<int>>& properties) {
+        sort(properties.begin(), properties.end(), cmp);
+        
+        //for(int i = 0; i< properties.size(); i++) cout<<properties[i][0]<<" "<<properties[i][1]<<endl;
+        
+        int defVal = INT_MIN;
+        int count = 0;
+        for(int i = properties.size()-1; i >= 0; i--){
+            
+            if(properties[i][1] < defVal){
+                count++;
+                
+            }
+            defVal = max(defVal, properties[i][1]);
+            
+        }
+        
+        return count;
+    }
+    
+    static bool cmp(vector<int>& a, vector<int>& b){
+        if(a[0] < b[0]) return true;
+        
+        if(a[0] == b[0] && a[1] > b[1]) return true;
+        
+        return false;
+    }
+};
