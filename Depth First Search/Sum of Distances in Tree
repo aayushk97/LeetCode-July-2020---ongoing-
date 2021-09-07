@@ -1,0 +1,60 @@
+//Solution 1 is to use bfs at each node to find distances which will lead to O(n^2) solution.
+//Solution 2 is to find the distances taking each node as root using postOrder. 
+//dist[root] += dist[graph[root][i]] + count[graph[root][i]] since, root is shifted to prev node all the nodes in count have their distance increased by 1.
+//Now, we perfom preorder on the tree to get the distance of all nodes from prev calulated distance from node 0. 
+//dist[graph[root][i]] = dist[root] - count[graph[root][i]] + count.size() - count[graph[root][i]]; Here, since at each child dist is decreased by 1 so we decrease
+//count[grap[root][i]] and since rest of the nodes dist is increased by 1 so we add count.size() - count[graph[root][i]].
+
+class Solution {
+public:
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> graph(n);
+        
+        for(int i = 0; i < edges.size(); i++){
+            graph[edges[i][0]].push_back(edges[i][1]);
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+        
+        vector<int> dist(n, 0);
+        vector<int> count(n, 0);
+        
+        //cout<<"Here"<<endl;
+        dfs(graph, 0, -1, count, dist);
+        //for(int i = 0; i < count.size(); i++) cout<<count[i]<<" ";
+        //cout<<endl;
+        //for(int i = 0; i < count.size(); i++) cout<<dist[i]<<" ";
+       // cout<<"Here2"<<endl;
+        
+        dfs2(graph, 0, -1, count, dist);
+        
+        return dist;
+    }
+    
+    void dfs(vector<vector<int>>& graph, int root, int prev, vector<int>& count, vector<int>& dist){
+        
+        for(int i = 0; i < graph[root].size(); i++){
+            if(graph[root][i] == prev) continue;
+            
+            dfs(graph, graph[root][i], root, count, dist);
+            
+            count[root] += count[graph[root][i]];
+            
+            dist[root] += dist[graph[root][i]] + count[graph[root][i]];
+        }
+        
+        count[root]++;
+    }
+    
+    void dfs2(vector<vector<int>>& graph, int root, int prev, vector<int>& count, vector<int>& dist){
+        
+        for(int i = 0; i < graph[root].size(); i++){
+            if( graph[root][i] == prev) continue;
+            
+            dist[graph[root][i]] = dist[root] - count[graph[root][i]] + count.size() - count[graph[root][i]];
+            dfs2(graph, graph[root][i], root, count, dist);
+        }
+    }
+    
+    
+    
+};
