@@ -1,0 +1,58 @@
+//We use dijikstras to find the shortest distance. Here we also keek track of the number of ways to reach a node, so if there are k ways to reach node i, then
+// if i is used to reach j then there are atleast k ways to reach j as well. If the shortest path is changed we also change number of paths.
+
+#define ll long long
+#define pll pair<ll, ll>
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        
+        
+         vector<vector<pll>> graph(n);
+        for(auto& road: roads) {
+            ll u = road[0], v = road[1], time = road[2];
+            graph[u].push_back({v, time});
+            graph[v].push_back({u, time});
+        }
+        
+        
+        vector<ll> dist(n, LONG_MAX);
+        vector<ll> ways(n, 0);
+        
+        ways[0] = 1;
+        dist[0] = 0;
+        
+        priority_queue<pll, vector<pll>, greater<>> minHeap;
+        minHeap.push({0, 0});
+        
+        while(!minHeap.empty()){    
+            //cout<<"Here"<<endl;
+            auto[d, u] = minHeap.top();
+            minHeap.pop();
+            //cout<<"Here2"<<endl;
+            
+            if(d > dist[u]) continue;
+            
+            for(int j = 0; j < graph[u].size(); j++){
+                if(dist[graph[u][j].first] > d + graph[u][j].second){
+                    dist[graph[u][j].first] = d + graph[u][j].second;
+                    ways[graph[u][j].first] = ways[u];
+                    
+                    minHeap.push({dist[graph[u][j].first], graph[u][j].first});
+                }else if(dist[graph[u][j].first] == d + graph[u][j].second){
+                    ways[graph[u][j].first] = (ways[graph[u][j].first] + ways[u]) % 1000000007;
+                } 
+            }
+           // for(int i = 0; i < dist.size(); i++) cout<<numWays[i]<<" ";
+        }
+        
+        //for(int i = 0; i < dist.size(); i++) cout<<dist[i]<<" ";
+        //cout<<endl;
+        
+        
+        
+        return ways[n-1] ;
+    }
+    
+    
+};
