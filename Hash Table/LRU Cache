@@ -1,0 +1,46 @@
+//We create a linked list to keep track of recently queried keys. Then we keep track of keys and their pointers in lru and then we define a key value cache.
+//Now, when we want to query a key we check if it is in cache, if not we return -1 else we update LRU so it is in front of lru list and then get the value.
+//When we want to put we check if size of cache is full and we don't prev have that value in cache, if yes we evict the least recently used from the back of lru
+//cache and then inserting the new value to the front of cache and updating the map and cache respectively.
+
+class LRUCache {
+    private:
+        int size;
+        list<int> lru;
+        unordered_map<int, list<int>::iterator> mp;
+        unordered_map<int, int> cache;
+    public:
+    
+    LRUCache(int capacity) {
+        size = capacity;        
+    }
+    
+    int get(int key) {
+        if(cache.find(key) == cache.end()) return -1;
+        
+        updateLRU(key);
+        return cache[key];
+    }
+    
+    void put(int key, int value) {
+        if(lru.size() == size && cache.count(key) == 0) evict();
+        
+        updateLRU(key);
+        cache[key] = value;
+        
+    }
+    
+    void updateLRU(int key){
+        if(cache.count(key) != 0) lru.erase(mp[key]);
+        
+        lru.push_front(key);
+        mp[key] = lru.begin();
+    }
+    
+    void evict(){
+        
+        cache.erase(lru.back());
+        mp.erase(lru.back());
+        lru.pop_back();
+    }
+};
