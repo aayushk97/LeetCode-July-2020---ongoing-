@@ -1,0 +1,20 @@
+//We find the first number if it is in range and then second number which will add up to multiple of 60. Then we store it in a map. and return the total count;
+
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        unordered_map<int, int> freq;
+        
+        int count = 0;
+        for(int i = 0; i < time.size(); i++){
+            int a = time[i] % 60;
+            int b = (60 - a) % 60;
+            
+            if(freq.find(b) != freq.end()) count += freq[b];
+            freq[a] += 1;
+            
+        }
+        
+        return count;
+    }
+};
