@@ -1,0 +1,50 @@
+//We first compute prefix sum of array i.e, element [2][2] is sum of elements from [0][0] to [2][2]. Now to clculate the sum of a square we use formula in line 34
+//and check if sum is less than threshold. If yes, then we compare it with side of maxSquare. we use binary search for the purpose of selecting a size at that
+//index and finding the theshold. If at a particular size sum is more we decrease bianry search else we increase size to check if more size edge is possible.
+
+class Solution {
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        
+        vector<vector<int>> prefixSum(mat.size()+1, vector<int>(mat[0].size()+1, 0));
+        int m = mat.size(), n = mat[0].size();
+        
+        for(int i = 1; i <= m; i++){
+            for(int j = 1; j <= n; j++){
+                prefixSum[i][j] += prefixSum[i][j-1] + mat[i-1][j-1];
+            }
+        }
+        
+        for(int i = 1; i <=m; i++){
+            for(int j = 1; j <=n; j++){
+                prefixSum[i][j] += prefixSum[i-1][j];
+            }
+        }
+        
+        int maxSizeSide = 0;
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                
+                int maxSize = min(m-i, n-j);
+                int minSize = 1;
+                
+                while(minSize <= maxSize){
+                    
+                    int currSize = (minSize + maxSize)/2;
+                    
+                    int squareSum = prefixSum[i+currSize][j+currSize] - prefixSum[i][j+currSize] - prefixSum[i+currSize][j] + prefixSum[i][j];
+                    if(squareSum <= threshold){
+                        maxSizeSide = max(maxSizeSide, currSize); 
+                        minSize = currSize;
+                    }else{
+                        maxSize = currSize -1;
+                    }
+                    
+                }
+            }
+        }
+       
+        return maxSizeSide;
+        
+    }
+};
