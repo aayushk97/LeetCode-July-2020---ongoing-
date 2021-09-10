@@ -1,0 +1,74 @@
+//We use merge sort to solve this. First, we copy the elements and their indexes in an vector of num and index. Then we apply merge sort on this new Vector.
+//Whenever there are elemnts smaller than element at left subarray in right subarray we increment count and push this element to newMerged vector and then 
+//this is done till we encouter a number larger than this in then for element in left subarray we assign the count and push the element in new vector.
+
+//Theory is if there is an element in right subarray that is smaller than element in left subarray then it will be smaller than all elements in left subarray 
+//after this point. So this count should be added to all the elments in left subrray after index. So, instead of finding a smaller number and incrementing count
+//of left subarray elements one by one, we keep track and add the number of elements smaller when its time for element in left subarray to be joined in merged array.
+
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        
+        vector<int> result(nums.size());
+        
+        vector<pair<int, int>> newNums;
+       
+        for(int i = 0; i < nums.size(); i++) newNums.push_back({nums[i], i});
+        
+        mergeSort(newNums, result, 0, nums.size()-1);
+        
+       
+        
+        return result;
+        
+    }
+    
+    void mergeSort(vector<pair<int, int>>& newNums, vector<int>& result, int i, int j){
+        if(i >= j) return ;
+        //cout<<"Here"<<endl;
+        int mid = i + (j - i)/2;
+       
+        mergeSort(newNums, result, i, mid);
+        mergeSort(newNums, result, mid+1, j);
+        merge(newNums, result, i, mid+1, j); 
+        
+    }
+    
+     void merge(vector<pair<int, int>>& newNums, vector<int>& result, int left, int mid, int right){
+        
+        
+        vector<pair<int, int>> merged(right-left+1);
+        int i = left, j = mid, k = 0;
+        
+        int numsInRightLessThanLeft = 0;
+        while(i <= mid-1 && j <= right){
+            if(newNums[i].first > newNums[j].first){
+                numsInRightLessThanLeft++;
+                merged[k++] = newNums[j++];
+                
+            }else{
+                result[newNums[i].second] += numsInRightLessThanLeft;
+                
+                merged[k++] = newNums[i++];
+                
+            }
+        }
+        
+        
+        while(i <= mid-1){
+            result[newNums[i].second] += numsInRightLessThanLeft;
+            merged[k++] = newNums[i++];
+        }
+        
+        while(j <= right){
+            merged[k++] = newNums[j++];
+        }
+       
+        for(int k = left, t = 0; k <= right; k++, t++){
+            newNums[k] = merged[t];
+        } 
+    }
+    
+    
+};
