@@ -1,0 +1,28 @@
+//At every index i we find the number of elements in arithmetic series starting at this point. Since, we need to find all such sequences we add the size-1 to the
+//final count as size-1 sequences are possible. Here, size is lenght of the sequence but in program size is size-1 as we are counting from 1 index from after
+//current index.
+
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        
+        if(nums.size() < 3) return 0;
+        
+        int count = 0;
+        
+        for(int i = 0; i + 2 < nums.size(); i++){
+            int j = i + 1;
+            int diff = nums[j] - nums[i];
+            int size = 0;
+            for(j = i+2; j < nums.size(); j++){
+                if(nums[j] - nums[j-1] == diff) size++;
+                else break;
+            }
+            
+            count += size;
+        }
+        
+        return count;
+        
+    }
+};
