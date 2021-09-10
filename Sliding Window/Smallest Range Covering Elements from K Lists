@@ -1,0 +1,53 @@
+//We first store the index of array a numeber belongs to and the number in an array then sort it. Now we use sliding window protocol to get the smallest number
+//range range that accomates all the indexes of arrays in num.
+
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        
+        vector<pair<int, int>> newNums;
+        
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = 0; j < nums[i].size(); j++){
+                newNums.push_back({nums[i][j], i});
+            }
+        }
+        
+        sort(newNums.begin(), newNums.end());
+        
+        int rangeSize = INT_MAX;
+        
+        unordered_map<int, int> freq;
+        
+        for(int i = 0; i < nums.size(); i++) freq[i]++;
+        int counter = nums.size();
+        int left = -1, right = -1;
+        for(int i = 0, j = 0; j < newNums.size(); j++){
+            
+            if(freq[newNums[j].second] > 0) counter--;
+            freq[newNums[j].second]--;
+            
+            while(counter == 0){
+                
+                if(rangeSize > newNums[j].first-newNums[i].first+1){
+                    rangeSize = newNums[j].first-newNums[i].first+1;
+                    left = i;
+                    right = j;
+                }
+                
+                freq[newNums[i].second]++;
+                if(freq[newNums[i].second] > 0) counter++;
+                
+                i++;
+            }
+            
+            
+            
+            
+        }
+        
+        
+        return {newNums[left].first, newNums[right].first};
+        
+    }
+};
