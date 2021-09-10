@@ -1,0 +1,36 @@
+//At every index we keep track of sequences at a particular differnce with a map. Now, wheneven a diff is encounted for an i we increment it's count as we
+//found a pair of sequence with diff d. Now, if the prev element has the same distance we add the number of sequences with that diff to this number and 
+//also add to count. 
+//Try to trace the program of [7, 7, 7 ,7, 7] to get the idea.
+
+class Solution {
+public:
+    int numberOfArithmeticSlices(vector<int>& nums) {
+        vector<unordered_map<long, long>> dp(nums.size());
+        
+        int count = 0;
+        for(int i = 0; i < nums.size(); i++){
+            unordered_map<long, long>& temp2 = dp[i];
+            for(int j = i-1; j >= 0; j--){
+                
+                long diff = (long)nums[i] - (long)nums[j];
+                
+                unordered_map<long, long>& temp = dp[j];
+                
+                
+                temp2[diff] += 1;
+                
+                if(temp.find(diff) != temp.end()){
+                    temp2[diff] += temp[diff];
+                    count += temp[diff];
+                }
+                    
+                
+                
+            }
+            
+        }
+     
+        return count;
+    }
+};
