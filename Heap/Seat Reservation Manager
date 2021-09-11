@@ -1,0 +1,29 @@
+//We use heap with negative integers i.e, min heap to keep track of elements in pq. If an element is not reserved and no elements in pq we return the smallest index.
+//Otherwise we return the index which is present in pq. When a seat is dereserved it is pushed back into pq.
+class SeatManager {
+public:
+    
+    priority_queue<int> pq;
+    int count = 0;
+    SeatManager(int n) {
+        
+        count = 1;
+        
+    }
+    
+    int reserve() {
+        
+        if(pq.size() == 0) return count++;
+        
+        int curr = -pq.top();
+        pq.pop();
+        return curr;
+        
+    }
+    
+    void unreserve(int seatNumber) {
+        
+        pq.push(-seatNumber);
+        
+    }
+};
