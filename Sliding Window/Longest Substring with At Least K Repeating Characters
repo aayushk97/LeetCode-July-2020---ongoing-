@@ -1,0 +1,75 @@
+//Method below swp is divide and conquer;
+//Sliding Window Protocol: In this we loop through the max number of unqiue chars that can be present. So, we find the max lenght with 1 unique char with count k
+// and so on. and then keep track of max length in line 26.
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        
+        vector<int> freq(26, 0);
+        
+        int length = 0;
+        for(int h = 1; h <= 26; h++){
+            vector<int> freq(26, 0);
+            int unique = 0;
+            int i = 0, j = 0;
+            int numsCountk = 0;
+            while( j < s.length()){
+                
+                if(unique <= h){
+                    
+                    if(freq[s[j]-'a'] == 0) unique++;
+                    freq[s[j]-'a']++;
+                    
+                    
+                    if(freq[s[j] - 'a'] == k) numsCountk++;
+                    
+                    if(unique == h && unique == numsCountk) length = max(length, j-i+1);
+                    
+                    j++;
+                }else{
+                    
+                    if(freq[s[i]-'a'] == k) numsCountk--;
+                    freq[s[i]-'a']--;
+                    
+                    if(freq[s[i]-'a'] == 0) unique--;
+                    i++;
+                }
+                
+                
+            }
+            
+        }
+        return length;
+    }
+};
+
+
+//We find the count of each character and then divide the string into 2 parts depending on the index at which a char is present having count less than k. 
+//The we recursively send the left half and right half to again count the freq as freq in this substring is not same as prev string.
+//If there are no such chars with count less than k then we return length of string.
+
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        if(s.length() == 0) return 0;
+        if(k == 0) return s.length();
+        
+        unordered_map<char, int> freq;
+        
+        for(int i = 0; i < s.length(); i++){
+            freq[s[i]]++;
+        }
+        
+        int i = 0;
+        while(i < s.length() && freq[s[i]] >= k) i++;
+        if(i == s.length()) return s.length();
+        
+        int left = longestSubstring(s.substr(0, i), k);
+        int right = longestSubstring(s.substr(i+1), k);
+        
+        return max(left, right);
+        
+    }
+};
+
+
