@@ -1,0 +1,54 @@
+//We first create a tree using the parents array. Now, the trick is if there is no 1 in nums then for every node we return 1 as min num not present.
+//Else we find the node with value of 1 and only the nodes that are in path from this node to root will not have 1 as it's min missing value. So, we 
+//find what could be the min value by dfs traversing the tree of node with val 1 and finding which num is not present in its substree, then we go to its 
+//parent and traverse other substrees to know which number could be missing and so on.. untill we reach the root.
+
+class Solution {
+public:
+    vector<int> smallestMissingValueSubtree(vector<int>& parents, vector<int>& nums) {
+        vector<vector<int>> tree(nums.size());
+        vector<int> res(nums.size(), 1);
+        //Create tree
+        for(int i = 1; i < parents.size(); i++){
+            tree[parents[i]].push_back(i); 
+            
+        }
+        int maxVal = INT_MIN, minVal = INT_MAX;
+        int indexOne = -1;
+        for(int i = 0; i < nums.size(); i++){
+            maxVal = max(maxVal, nums[i]);
+            minVal = min(minVal, nums[i]);
+            if(nums[i] == 1) indexOne = i;
+        } 
+        
+        if(minVal > 1) return res;
+        
+        vector<int> seen(maxVal+2, 0);
+        
+        int val = 1;
+        //Now find all the nodes reachable from node of val 1 untill we reach root;
+        while( indexOne >= 0){
+            dfs(tree, indexOne, seen ,nums);
+            
+            while(seen[val]) val++;
+            
+            res[indexOne] = val;
+            //cout<<"Here: "<<val<<endl;
+            indexOne = parents[indexOne];
+        }
+        
+        return res;
+    
+    }
+    
+    void dfs(vector<vector<int>>& tree, int idx, vector<int>& seen, vector<int>& nums){
+        
+        if(!seen[nums[idx]]) {
+            for(int i = 0; i < tree[idx].size(); i++){
+                dfs(tree, tree[idx][i], seen, nums);
+            }
+            seen[nums[idx]] = 1;
+        }
+        
+    }
+};
