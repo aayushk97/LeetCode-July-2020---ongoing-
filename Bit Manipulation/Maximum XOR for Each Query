@@ -1,0 +1,31 @@
+//We first find XOR of entire array then find the max element to which it can be xored with by complementing the XORed val upto only 2^maxBits-1. 
+//Now for one element less we remove the element by XORing the final value with that number as a^b^b = a. Then we find val2 and put it in result.
+
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        vector<int> result;
+        
+        int n = nums.size();
+        int XORval = 0;
+        for(int i = 0; i < n; i++) XORval = XORval ^ nums[i];
+        
+        int val = XORval;
+            
+        int val2 = ~val;
+        int mask = (1<<maximumBit) -1;
+        val2 = mask & val2;
+        result.push_back(val2);
+            
+        for(int i = n-1; i > 0; i--){
+            XORval = XORval ^ nums[i];
+            
+            val2 = ~XORval;
+            val2 = mask & val2;
+            result.push_back(val2);
+            
+        }
+        
+        return result;
+    }
+};
