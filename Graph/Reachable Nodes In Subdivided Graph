@@ -1,0 +1,77 @@
+//We first use dijiskstra to find the reachable nodes, and their hops. Initially, while creating the graph we put distances+1 as we are counting number of hops
+//So, if no of nodes inserted is 10 then we need 11 hops to reach node j, so hops is used as distance in algo.
+//Then we count all the reachable nodes which are less than dist of maxMoves. Then, finally we loop through the edges, to find all the nodes added that are reach
+//able. We do this by first seeing the dist at node i is less than maxMove, if yes then we can use this current edge. But here, it might be possible that 
+// we may be able to reach the other node j so we take min of both cases. Similarly, for other node of this edge.
+//Now left and right node may have dist < maxMoves from 0 so we take min of both sum or edge size. As if one side we can reach 5 nodes and other side we can 
+//reach 5 maxMoves is 7 then we have traversed same node twice.
+
+class Solution {
+public:
+    int reachableNodes(vector<vector<int>>& edges, int maxMoves, int n) {
+        
+        vector<vector<pair<int, int>>> graph(n);
+        
+        for(int i = 0; i < edges.size(); i++){
+            graph[edges[i][0]].push_back({edges[i][1], edges[i][2]+1});
+            graph[edges[i][1]].push_back({edges[i][0], edges[i][2]+1});
+        }
+        
+        priority_queue<pair<int, int>> pq;
+        pq.push({0, 0});
+        
+        vector<int> dist(n, INT_MAX);
+        dist[0] = 0;
+        
+        vector<int> visited(n, 0);
+        
+        while(!pq.empty()){
+            
+            pair<int, int> curr = pq.top(); pq.pop();
+            int v = curr.second;
+            
+            int currDist = -curr.first;
+            visited[v] = 1;
+            
+            for(int j = 0; j < graph[curr.second].size(); j++){
+                int u = graph[v][j].first;
+                int nextDist = graph[v][j].second;
+                
+                if(!visited[u] && dist[v] + nextDist < dist[u] && dist[v] + nextDist <= maxMoves){
+                    dist[u] = dist[v] + nextDist;
+                    pq.push({-dist[u], u});
+                    
+                }
+            }
+            
+        }
+        
+        int count = 0;
+        
+        for(int i = 0; i < n; i++){
+            
+            if(dist[i] != INT_MAX) count++; 
+        }
+        
+        for(auto &edge:edges){
+            
+            int a = 0,b = 0;
+            
+            if(dist[edge[0]] < maxMoves){
+                a=min(maxMoves-dist[edge[0]], edge[2]);
+            }
+            if(dist[edge[1]] < maxMoves){
+                
+                b=min(maxMoves-dist[edge[1]], edge[2]);
+                
+            }
+            count+=min(a+b,edge[2]);            
+        }
+        
+       
+        
+        
+        return count;
+        
+    }
+};
