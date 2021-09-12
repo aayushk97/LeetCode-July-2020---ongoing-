@@ -1,0 +1,24 @@
+//We store the count of each ratio and corresponding count in the hashmap. Then before incrementing count we add the count of ratio present in map as this 
+//current element will form pairs with k-1 elements where k is count of number of elements with that ratio.
+
+class Solution {
+public:
+    long long interchangeableRectangles(vector<vector<int>>& rectangles) {
+        
+        
+        unordered_map<double, int> freq;
+        
+        long long count = 0;
+        
+        for(int i = 0; i < rectangles.size(); i++){
+            double ratio1 = (double)rectangles[i][0]/(double)rectangles[i][1];
+            count += freq[ratio1];    
+            freq[ratio1]++;
+            
+        }
+        
+        
+        
+        return count;
+    }
+};
