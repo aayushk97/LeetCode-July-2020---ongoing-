@@ -1,0 +1,39 @@
+//We find disjoint sequences by first adding a char in string 1 and/or adding in string 2 and then recursing. In third call we ignore both the cases.
+//Then when we reach end of string we check if both are palindrome. If yes, then we multiply the size and keep the max.
+class Solution {
+public:
+    int maxProduct(string s) {
+        
+        int result = 0;
+        string s1 = "", s2 = "";
+        generateSubsequences(s, 0, s1, s2, &result);
+        
+        return result;
+    }
+    
+    void generateSubsequences(string& s, int idx, string& s1, string& s2, int* result){
+        
+        if(idx == s.length()){
+            if(palindrome(s1) && palindrome(s2)) *result = max(*result, (int)s1.length()* (int)s2.length());
+            return ;
+        }
+        
+        s1.push_back(s[idx]);
+        generateSubsequences(s, idx+1, s1, s2, result);
+        s1.pop_back();
+        
+        s2.push_back(s[idx]);
+        generateSubsequences(s, idx+1, s1, s2, result);
+        s2.pop_back();
+        
+        generateSubsequences(s, idx+1, s1, s2, result);
+        
+    }
+    
+    bool palindrome(string& s){
+        for(int i = 0, j = s.length()-1; i < j; i++, j--){
+            if(s[i] != s[j]) return false;
+        }
+        return true;
+    }
+};
