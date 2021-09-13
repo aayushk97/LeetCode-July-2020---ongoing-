@@ -1,0 +1,24 @@
+//We first sort by time taken to reach and if time taken to reach is less than i we cannot kill it and we return whatever we could kill.
+
+class Solution {
+public:
+    int eliminateMaximum(vector<int>& dist, vector<int>& speed) {
+        
+        int killCount = 0;
+        float time = 0;
+        
+        vector<float> stat;
+        
+        for(int i = 0; i < dist.size(); i++) stat.push_back((float)dist[i]/(float)speed[i]);
+        sort(stat.begin(), stat.end());
+        
+        for(int i = 0; i < dist.size(); i++){
+            if(stat[i] > i){
+                killCount++;
+                
+            }else break; 
+        }
+        
+        return killCount;
+    }
+};
