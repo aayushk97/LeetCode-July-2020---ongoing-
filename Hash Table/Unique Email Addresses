@@ -1,0 +1,17 @@
+//Find all the unqiue email by removing all the '.' chars and ending the string after we enounter a '+' or '@' then we append remiaing string after '@' to it and
+//insert in a set. Return the size of set.
+
+int numUniqueEmails(vector<string>& emails) {
+    unordered_set<string> st;
+    for(string &email : emails) {
+        string cleanEmail;
+        for(char c : email) {
+            if(c == '+' || c == '@') break;
+            if(c == '.') continue;
+            cleanEmail += c;
+        }
+        cleanEmail += email.substr(email.find('@'));
+        st.insert(cleanEmail);
+    }
+    return st.size();
+}
