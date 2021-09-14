@@ -1,0 +1,55 @@
+//We go from right to left since we want the closest index to current index that has has element <= or >= from our curr index. 
+//Ordered map is used to store the elements at index in order and find the closest element to current element. 
+//My method was to check for each element if it is reachable to end by taking even and odd jumps and use 
+//Dp to store the values if possible. Passed 61/65 casses but this passes all and is efficient.
+
+class Solution {
+public:
+    int oddEvenJumps(vector<int>& arr) {
+        int n = arr.size();
+        map<int, int> pos;
+        
+        vector<vector<int>> dp(2, vector<int>(n, 0));
+        dp[0][n-1] = 1;
+        dp[1][n-1] = 1;
+        
+        pos[arr[n-1]] = n-1;
+        
+        int count = 1;
+        
+        for(int i = n-2; i >= 0; i--){
+            //same element is present on right of array,
+            //then if that element can reach end then this can also reach
+            //end. We check for both even and odd number of steps
+            if(pos.find(arr[i]) != pos.end()){
+                dp[1][i] = dp[0][pos[arr[i]]];
+                dp[0][i] = dp[1][pos[arr[i]]];
+            }else{
+                //If the number is greater in case of odd or smaller in case
+                //of even in next steps
+                //lower returns the first value that is same or greater
+                auto lower = pos.lower_bound(arr[i]);
+                if(lower != pos.end()){
+                    dp[1][i] = dp[0][lower -> second];
+                }
+                
+                if(lower != pos.begin()){
+                    lower--; // we decrement it as we want same or less
+                    dp[0][i] = dp[1][lower -> second];
+                    
+                }
+                
+                
+            }
+            pos[arr[i]] = i;
+            //since we want to know if it is possible with this starting index, ans this is odd jump so we look at index 1.
+            if(dp[1][i]) count++;
+            
+           
+        }
+        
+        
+        return count;
+    }
+    
+};
