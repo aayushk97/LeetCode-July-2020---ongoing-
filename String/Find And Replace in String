@@ -1,0 +1,26 @@
+//We sort the indexes so that we can start from end. Then we take the index one by one and then get the corresponding substring and check if it is equal to one 
+//provided in source, if yes, then we replace the string. Similarly we do for all indexes as we go left.
+
+class Solution {
+public:
+    string findReplaceString(string s, vector<int>& indices, vector<string>& sources, vector<string>& targets) {
+        vector<pair<int, int>> arr;
+        for(int i = 0; i < indices.size(); i++) arr.push_back({indices[i], i});
+        
+        sort(arr.begin(), arr.end());
+        
+        int n = indices.size();
+        for(int i = n-1; i >= 0; i--){
+            
+            string src = sources[arr[i].second]; string dest = targets[arr[i].second];
+            
+            if(s.substr(arr[i].first, src.length()) == src){
+                s = s.substr(0, arr[i].first) + dest + s.substr(arr[i].first+src.length());
+            }
+            
+            
+        }
+        
+        return s;
+    }
+};
