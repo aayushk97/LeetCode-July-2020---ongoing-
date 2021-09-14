@@ -1,0 +1,46 @@
+//Whenever we encouter an operator we divide the string and recursively solve for the substring. Base case: When substring doesn;t have any operator then we return
+//the number. Now, the different values of a subrecusrion call is returned we perform the operation with all possible values returned of sub tree and store it 
+//in a array and return. Here, we use DP to store the values of already calculated string as a substring may be repeateadly called.
+
+class Solution {
+public:
+    vector<int> diffWaysToCompute(string expression) {
+        
+        unordered_map<string, vector<int>> dp;
+        
+        return computeVal(expression, 0, expression.size()-1, dp);
+        
+    }
+    
+    //Add DP as we have already claculated 0, i if it is again needed we can just return the sum.
+    vector<int> computeVal(string& expression, int idx, int n, unordered_map<string, vector<int>>& dp){
+        
+        string str = expression.substr(idx, n - idx +1);
+        
+        if(dp.find(str) != dp.end()) return dp[str];
+        
+        vector<int> res;
+        
+        for(int i = idx; i <= n; i++){
+            if(expression[i] == '-' || expression[i] == '*' || expression[i] == '+'){
+                vector<int> right = computeVal(expression, i+1, n, dp);
+                vector<int> left = computeVal(expression, idx, i-1, dp);
+                
+                for(int j = 0; j < left.size(); j++){
+                    for(int k = 0; k < right.size(); k++){
+                        //cout<<i<<" left: "<<left[j]<<" right: "<<right[j]<<endl;
+                        if(expression[i] == '-') res.push_back(left[j] - right[k]);
+                        else if(expression[i] == '*') res.push_back(left[j] * right[k]);
+                        else if(expression[i] == '+') res.push_back(left[j] + right[k]);
+                    }
+                }
+            }
+        }
+        
+        if(res.size() == 0) {
+            res.push_back({stoi(expression.substr(idx, n-idx+1))});
+        }
+        
+        return dp[str] = res;
+    }
+};
