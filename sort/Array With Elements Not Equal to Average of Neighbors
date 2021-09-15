@@ -1,3 +1,19 @@
+Method: O(n) From 3 element set we find the biggest element and swap it with middle as middle is largest it cannot be the avg of other 2.
+vector<int> rearrangeArray(vector<int>& nums) {
+        
+        for(int i = 1; i < nums.size(); i+=2){
+            //Here find Index find the index of max element.
+            int biggestIndex = findIndex(nums, i-1, i, i+1);
+            
+            if(biggestIndex != i){
+                swap(nums[i], nums[biggestIndex]);
+            }
+        }
+        
+        return nums;
+}
+
+
 //We sort the elements and then put small no in odd places and largest elements in even places. Since, the number between
 //smaller numbers is larger it can be median of both the elments.
 
