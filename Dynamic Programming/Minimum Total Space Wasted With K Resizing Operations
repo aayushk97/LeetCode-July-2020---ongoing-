@@ -1,0 +1,45 @@
+//We store the solution obtained in 2D table as the value obtained at index i and num changes k can be reached by taking many possible ways from i + 1 to i + 3 k-2
+//or by i+2 to i+1 k-2.
+//Trace this on []
+
+class Solution {
+public:
+    int minSpaceWastedKResizing(vector<int>& nums, int k) {
+        
+        vector<vector<int>> dp(nums.size(), vector<int>(k+2, -1));
+        //we call from k+1 as the inital val is also to be decided
+        return minWaste(nums, 0, k+1, dp);
+    }
+    
+    int minWaste(vector<int>& nums, int i, int k, vector<vector<int>>& dp){
+        int n = nums.size();
+        //If the number of elements from current index is less than or equal to k then we return 0 as for each of them the space can be resized to make 
+        //difference 0.
+        if(n - i <= k ) return 0;
+        
+        //If k is less than 0 then this path is not possible.
+        if(k < 0) return INT_MAX;
+        
+        if(dp[i][k] != -1) return dp[i][k];
+        //We change the space to val at index i and then go forward
+        int wastage = minWaste(nums, i+1, k-1, dp);
+        
+        int maxVal = nums[i], sum = nums[i];
+        
+        //We find the max val for the window i to j and then find the wastage and then find recursive for j + 1 and see which is minium.
+        for(int j = i+1; j < nums.size(); j++){
+            maxVal = max(maxVal, nums[j]);
+            
+            sum += nums[j];
+            
+            int waste = maxVal * (j - i + 1) - sum;
+            
+            int val = minWaste(nums, j+1, k-1, dp);
+            if(val == INT_MAX) continue;
+            wastage = min(wastage, waste + val);
+            
+        }
+        
+        return dp[i][k] = wastage;
+    }
+};
