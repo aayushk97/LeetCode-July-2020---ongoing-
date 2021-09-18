@@ -1,7 +1,7 @@
 //Since we have to return back the trick is to follow two paths from start only that would catch max number of cherries. So, we start 2  paths from 0,0 and 
 //at every stage both will traverse same amount of distance, and distance traversed by both to reach the end is same. There are four possibilities we can move from
 //a point we can either go right for 1 and down for 2; right for both; down for both; or right for 2 and down for 1. If ever both are on same tile we only count 
-//cherries as 1. 
+//cherries as 1. We can remove one of the statements where a person reaches the end as both of them will reach the end at same time.
 
 class Solution {
 public:
