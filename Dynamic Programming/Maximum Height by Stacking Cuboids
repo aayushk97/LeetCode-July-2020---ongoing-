@@ -1,0 +1,31 @@
+//We first sort the array elements by side length and then the whole array in decreasing order then apply LIS to get maxHeight.
+
+class Solution {
+public:
+    int maxHeight(vector<vector<int>>& cuboids) {
+        for(int i = 0; i < cuboids.size(); i++) sort(cuboids[i].rbegin(), cuboids[i].rend());
+        sort(cuboids.rbegin(), cuboids.rend());
+        
+        vector<int> lis(cuboids.size(), 0);
+        int maxHeight = 0;
+        for(int i = 0; i < lis.size(); i++){
+            lis[i] = cuboids[i][0];
+            maxHeight = max(maxHeight, cuboids[i][0]);
+        } 
+        
+        
+        for(int i = 0; i < cuboids.size(); i++){
+            for(int j = i-1; j >= 0; j--){
+                //cout<<cuboids[i][0]<<" "<<cuboids[i][1]<<" "<<cuboids[i][2]<<" "<<cuboids[j][0]<<" "<<cuboids[j][1]<<" "<<cuboids[j][2]<<endl;
+                if(cuboids[i][1] <= cuboids[j][1] && cuboids[i][2] <= cuboids[j][2]) {
+                    lis[i] = max(lis[i], lis[j] + cuboids[i][0]);
+                    maxHeight = max(maxHeight, lis[i]);
+                }
+            }
+        }
+        
+        
+        
+        return maxHeight;
+    }
+};
