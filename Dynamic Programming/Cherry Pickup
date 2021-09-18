@@ -1,0 +1,38 @@
+//Since we have to return back the trick is to follow two paths from start only that would catch max number of cherries. So, we start 2  paths from 0,0 and 
+//at every stage both will traverse same amount of distance, and distance traversed by both to reach the end is same. There are four possibilities we can move from
+//a point we can either go right for 1 and down for 2; right for both; down for both; or right for 2 and down for 1. If ever both are on same tile we only count 
+//cherries as 1. 
+
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m = grid.size();
+        
+        vector<vector<vector<vector<int>>>> dp(m, vector<vector<vector<int>>>(m, vector<vector<int>>(m, vector<int>(m, INT_MIN))));
+        
+        int val = maxCherry(grid, 0, 0, 0, 0, dp);
+        
+        return max(0, val);
+    }
+    
+    int maxCherry(vector<vector<int>>& grid, int r1, int c1, int r2, int c2, vector<vector<vector<vector<int>>>>& dp){
+        if(r1 >= grid.size() || c1 >= grid[0].size() || r2 >= grid.size() || c2 >= grid[0].size() || grid[r1][c1] == -1 || grid[r2][c2] == -1) return INT_MIN;
+        
+        if(dp[r1][c1][r2][c2] != INT_MIN) return dp[r1][c1][r2][c2];
+        
+        if(r1 == grid.size()-1 && c1 == grid[0].size()-1) return grid[r1][c1];
+        if(r2 == grid.size()-1 && c2 == grid[0].size()-1) return grid[r2][c2];
+        
+        int cherries = 0;
+        if(r1 == r2 && c1 == c2) cherries += grid[r1][c1];
+        else cherries += grid[r1][c1] + grid[r2][c2];
+        
+        int rightDown = maxCherry(grid, r1, c1+1, r2+1, c2, dp);
+        int downDown = maxCherry(grid, r1+1, c1, r2+1, c2, dp);
+        int rightRight = maxCherry(grid, r1, c1+1, r2, c2+1, dp);
+        int downRight = maxCherry(grid, r1+1, c1, r2, c2+1, dp);
+        
+        return dp[r1][c1][r2][c2] = cherries + max(max(rightDown, downDown), max(rightRight, downRight));
+        
+    }
+};
