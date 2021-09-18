@@ -1,0 +1,47 @@
+//Same as cherry pickup I but the ending condition is we reach the last row, if both are different we return the sum else return one.
+
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<vector<vector<int>>>> dp(m, vector<vector<vector<int>>>(n, vector<vector<int>>(m, vector<int>(n, INT_MIN))));
+        
+        int val = maxCherry(grid, m, n, 0, 0, 0, n-1, dp);
+        return max(val, 0);
+    }
+    
+    int maxCherry(vector<vector<int>>& grid, int m , int n, int r1, int c1, int r2, int c2, vector<vector<vector<vector<int>>>>& dp){
+        if(c1 < 0 || c2 < 0 || r1 >= m || r2 >= m || c1 >= n || c2 >= n) return INT_MIN;
+        
+        if(dp[r1][c1][r2][c2] != INT_MIN) return dp[r1][c1][r2][c2];
+        
+        if(r1 == m - 1 && c1 == c2) return grid[r1][c1];
+        if(r1 == m - 1 && c1 != c2) return grid[r1][c1] + grid[r2][c2];
+        
+        int cherries = 0;
+        if(r1 == r2 && c1 == c2) cherries += grid[r1][c1];
+        else cherries += grid[r1][c1] + grid[r2][c2];
+        
+        int rest = 0;
+        int OneOne = maxCherry(grid, m, n, r1+1, c1-1, r2+1, c2-1, dp);
+        int OneTwo = maxCherry(grid, m, n, r1+1, c1-1, r2+1, c2, dp);
+        int OneThree = maxCherry(grid, m, n, r1+1, c1-1, r2+1, c2+1, dp);
+        
+        rest = max(OneOne, max(OneTwo, OneThree));
+        
+        int TwoOne = maxCherry(grid, m, n, r1+1, c1, r2+1, c2-1, dp);
+        int TwoTwo = maxCherry(grid, m, n, r1+1, c1, r2+1, c2, dp);
+        int TwoThree = maxCherry(grid, m, n, r1+1, c1, r2+1, c2+1, dp);
+        
+        rest = max(rest, max(TwoOne, max(TwoTwo, TwoThree)));
+        
+        int ThreeOne = maxCherry(grid, m, n, r1+1, c1+1, r2+1, c2-1, dp);
+        int ThreeTwo = maxCherry(grid, m, n, r1+1, c1+1, r2+1, c2, dp);
+        int ThreeThree = maxCherry(grid, m, n, r1+1, c1+1, r2+1, c2+1, dp);
+        
+        rest = max(rest, max(ThreeOne, max(ThreeTwo, ThreeThree)));
+        
+        return dp[r1][c1][r2][c2] = cherries + rest;
+    }
+    
+};
