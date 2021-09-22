@@ -1,0 +1,54 @@
+//What I did was to first remove all the strings that have repeating chars inside it (ex: "ee") and for all remaining string store the chars which are
+//present in the string in an integer, as it makes it easier to find if 2 strings have different chars but using AND operator.
+//Then, we can use recursion to find which string can be appended to current string and find the maximum length. But this will lead to TLE
+//as for same type chars already encountered, we may calling the function at an index so an unordered_map to store the previously computed maximum size at this index. (ex: If we have "ab", "cd", "ac", "bd", "fgh" then we might be at index 4 by considering string at 0,1 or 2,3 the chars encountered is same.)
+
+class Solution {
+public:
+    int maxLength(vector<string>& arr) {
+        
+        vector<pair<string, int>> lis;
+        
+        for(int i = 0; i < arr.size(); i++){
+            int count = 0;
+            pair<string, int> curr;
+            bool alreadyMatched = false;
+            
+            for(int j = 0; j < arr[i].length(); j++) {
+               if(!(count & (1 << (arr[i][j]-'a')) )){
+                    
+                    count = count | (1 << (arr[i][j]-'a'));  
+                } else{
+                    alreadyMatched = true;
+                    break;  
+                } 
+                
+            }
+            if(!alreadyMatched) {
+                curr.first = arr[i];
+                curr.second = count;
+                lis.push_back(curr);
+            }
+            
+        } 
+        
+        map<pair<int, int>, int> dp;
+        
+        if(lis.size() == 0) return lis.size();
+        return maxLengthSub(lis, 0, 0, dp);
+    }
+    
+    int maxLengthSub(vector<pair<string, int>>& lis, int idx, int count, map<pair<int, int>, int>& dp){
+        if(idx == lis.size()) return 0;
+        
+        if(dp.find({idx, count}) != dp.end()) return dp[{idx, count}];
+        int size = 0;
+        for(int i = idx; i < lis.size(); i++){
+            if((count & lis[i].second) == 0) size = max((int)lis[i].first.length() + maxLengthSub(lis, i + 1, count | lis[i].second, dp), size); 
+        }
+        
+        return dp[{idx, count}] = size;
+    }
+    
+    
+};
