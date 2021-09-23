@@ -1,0 +1,28 @@
+//We first see if the char is just one letter. If yes, then we return "" as no way we can convert it to non palindrome. Now, we replace the first non a to a if
+//the length is even otherwise we skip the middle char as string of odd length we can have any char as middle and it would still be a plandrome.
+//We change the last char to b if all the chars is 'a'.
+
+class Solution {
+public:
+    string breakPalindrome(string palindrome) {
+        if(palindrome.length() == 1) return "";
+        
+        bool changed = false;
+        int n = palindrome.length();
+        for(int i = 0; i < n; i++){
+            if(n % 2 == 1 && i == n/2) continue;
+            if(palindrome[i] != 'a'){
+                palindrome[i] = 'a';
+                changed = true;
+                break;
+            } 
+        }
+        
+        if(changed) return palindrome;
+        
+        palindrome[n-1] = 'b';
+        
+        return palindrome;
+        
+    }
+};
