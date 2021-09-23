@@ -4,25 +4,16 @@
 
 class Solution {
 public:
-    string breakPalindrome(string palindrome) {
-        if(palindrome.length() == 1) return "";
-        
-        bool changed = false;
-        int n = palindrome.length();
-        for(int i = 0; i < n; i++){
-            if(n % 2 == 1 && i == n/2) continue;
-            if(palindrome[i] != 'a'){
-                palindrome[i] = 'a';
-                changed = true;
-                break;
-            } 
+    string breakPalindrome(string pal) {
+        int n = pal.length();
+        for (int i = 0; i < n / 2; i++) {
+            if (pal[i] != 'a') 
+            {
+                pal[i] = 'a';
+                return pal ;
+            }
         }
-        
-        if(changed) return palindrome;
-        
-        palindrome[n-1] = 'b';
-        
-        return palindrome;
-        
+        pal[n - 1] = 'b' ;
+        return n < 2 ? "" : pal ;
     }
 };
