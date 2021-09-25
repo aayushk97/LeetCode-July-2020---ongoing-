@@ -1,0 +1,70 @@
+//We BFS traverse and then find the path which is reachable from the start by k removals of obstacles. Since, a path may reachable from 2 points we also store the
+//number of obstacles we had to remove in order to reach there as these 2 paths may be different. 
+//So we store i, j and currK value.
+
+class Solution {
+public:
+    int shortestPath(vector<vector<int>>& grid, int k) {
+        
+        queue<pair<pair<int, int>, int>> q;
+        q.push({{0, 0},k});
+        
+        int dist = 0, maxDist = INT_MAX;
+        
+        vector<vector<vector<int>>> visited(grid.size(), vector<vector<int>>(grid[0].size(), vector<int>(k+1, 0)));
+        
+        while(q.size() > 0){
+            
+            int n = q.size();
+            dist++;
+            
+            for(int i = 0; i < n; i++){
+                
+                pair<int, int> curr = q.front().first;
+                int currK = q.front().second;
+                q.pop();
+                
+                
+                
+                int r = curr.first;
+                int c = curr.second;
+                
+                if(visited[r][c][currK]) continue;
+                if(grid[r][c] == 1 && currK == 0) continue;
+                
+                
+                if(r == grid.size()-1 && c == grid[0].size()-1 && grid[r][c] == 0){
+                    maxDist = min(maxDist, dist);
+                    continue;
+                } 
+                
+                
+                visited[r][c][currK] = 1;
+                if(grid[r][c] == 1) currK--;
+                
+                if(r + 1 < grid.size() && !visited[r+1][c][currK]){
+                    //cout<<r+1<<" "<<c<<endl;
+                    q.push({{r+1, c}, currK});  
+                } 
+                if(c + 1 < grid[0].size() && !visited[r][c+1][currK]){
+                    //cout<<r<<" "<<c+1<<endl;
+                    q.push({{r, c+1}, currK});  
+                } 
+                if(r - 1 >= 0 && !visited[r-1][c][currK]){
+                    //cout<<r-1<<" "<<c<<endl;
+                    q.push({{r-1, c}, currK});  
+                } 
+                if(c - 1 >= 0 && !visited[r][c-1][currK]){
+                    //cout<<r<<" "<<c-1<<endl;
+                    q.push({{r, c-1}, currK});  
+                } 
+               
+            }
+            //cout<<endl;
+        }
+        
+        if(maxDist == INT_MAX) return -1;
+        return maxDist-1;
+        
+    }
+};
