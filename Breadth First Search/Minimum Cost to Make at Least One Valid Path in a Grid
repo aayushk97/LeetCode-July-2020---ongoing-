@@ -1,0 +1,61 @@
+//Concept of 0-1 BFS is used in which weights are 0 and 1. 1 if the squares we are moving to is not pointed by our current square. Now, in 0/1 BFS, we 
+// push the edge to start of queue if it has 0 edge weight and 1 in the back if it has 1 as we want to evaluate all the least weight edge first. Then in increasing
+//order. For each position we store what the minimum weight is and then return the min weight to reach last square.
+
+class Solution {
+public:
+    int minCost(vector<vector<int>>& grid) {
+        deque<pair<int, int>> q;
+        
+        q.push_back({0, 0});
+        
+        vector<vector<int>> dist(grid.size(), vector<int>(grid[0].size(), INT_MAX));
+        
+        dist[0][0] = 0;
+        
+        while(q.size() > 0){
+            
+            pair<int, int> curr = q.front();
+            
+            q.pop_front();
+            
+            int r = curr.first;
+            int c = curr.second;
+            
+            //cout<<r<<" "<<c<<" "<<dist[r][c]<<endl;
+            
+            if(r + 1 < grid.size() && dist[r+1][c] > dist[r][c] + (grid[r][c] != 3)){
+                dist[r+1][c] = dist[r][c] + (grid[r][c] != 3);
+                
+                if(grid[r][c] == 3) q.push_front({r+1, c});
+                else q.push_back({r+1, c});
+                
+            }
+            
+            if( c + 1 < grid[0].size() && dist[r][c+1] > dist[r][c] + (grid[r][c] != 1)){
+                dist[r][c+1] = dist[r][c] + (grid[r][c] != 1);
+                
+                if(grid[r][c] == 1) q.push_front({r, c+1});
+                else q.push_back({r, c+1});
+                
+            }
+            
+            if( c - 1 >= 0 && dist[r][c-1] > dist[r][c] + (grid[r][c] != 2)){
+                dist[r][c-1] = dist[r][c] + (grid[r][c] != 2);
+                
+                if(grid[r][c] == 2) q.push_front({r, c-1});
+                else q.push_back({r, c-1}); 
+            }
+            
+            if( r - 1 >= 0 && dist[r-1][c] > dist[r][c] + (grid[r][c] != 4)){
+                dist[r-1][c] = dist[r][c] + (grid[r][c] != 4);
+                
+                if(grid[r][c] == 4) q.push_front({r-1, c});
+                else q.push_back({r-1, c}); 
+            }
+            
+        }
+        
+        return dist[grid.size()-1][grid[0].size()-1];
+    }
+};
