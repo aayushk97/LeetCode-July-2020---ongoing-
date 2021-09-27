@@ -1,0 +1,37 @@
+//We need to store the values which are lesser than an element in the right and left. So, we first store the index of elemnets in increasing order and if an 
+//element on top of stack has more value than this element then we pop the element and whatever the height of this is, in stack we have prev element which is smaller
+//and the current element at i which is smaller. So, the size of rectangle at this point is height[tp] * ( st.top() - i -1) // where st.top is previous top element.
+//and i is current elemnent which is smaller than element at tp.
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        
+        stack<int> st;
+        
+        int i = 0, maxSize = 0;
+        
+        for(; i < heights.size(); i++){
+            while(st.size() > 0 && heights[st.top()] > heights[i]){
+                int topEl = st.top();
+                st.pop();
+                //cout<<heights[topEl]<<" "<<heights[i]<<" "<<(i-topEl)<<endl;
+                if(st.size() > 0) maxSize = max(maxSize, heights[topEl]*(i-st.top()-1));
+                else maxSize = max(maxSize, heights[topEl]*(i)); // every other block before this was bigger so we include them (0, i)
+            }
+            st.push(i);
+        }
+        
+        //cout<<maxSize<<endl;
+        
+        int n = heights.size();
+        while(st.size() > 0){
+            int topEl = st.top();
+            st.pop();
+            if(st.size() > 0) maxSize = max(maxSize, heights[topEl]*(i-st.top()-1));
+            else maxSize = max(maxSize, heights[topEl]*(i)); // every other block before this was bigger so we include them (0, i)
+        }
+        
+        return maxSize;
+    }
+};
