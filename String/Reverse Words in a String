@@ -1,0 +1,67 @@
+//We reverse the string then reverse each word, then remove spaces.
+
+class Solution {
+public:
+    string reverseWords(string s) {
+        
+        reverse(s.begin(), s.end());
+        reverseEachWord(s);
+        removeExtraSpc(s);
+        
+        return s;
+        
+    }
+    
+    void reverseEachWord(string& s){
+        
+        int start = -1;
+        int end = -1;
+        
+        int i = 0;
+        while(s[i] == ' ') i++;
+        
+        start = i;
+        
+        for(; i < s.length(); i++){
+            if(start == -1 && s[i] == ' ') continue;
+            if(start == -1 && s[i] != ' ') start = i;
+            else if(start != -1 && s[i] == ' ') {
+                end = i-1;
+                //cout<<start<<" "<<end<<" "<<i<<endl;
+            
+                reverseStr(s, start, end);
+                start = -1;
+                
+            }
+        }
+        
+        int j = s.length()-1;
+        //cout<<s<<endl;
+        while(s[j] == ' ') j--;
+        
+        if(start != -1) reverseStr(s, start, j);
+        
+        //cout<<s<<endl;
+    }
+    
+    void reverseStr(string& s, int st, int end){
+        
+        for(int i = st, j = end; i <= j; i++, j--) swap(s[i], s[j]);
+        
+    }
+    
+    void removeExtraSpc(string &s){
+        
+        int i = 0, j = 0;
+        int n = s.length();
+        while(j < n){
+            while(j < n && s[j] == ' ') j++;
+            while(j < n && s[j] != ' ') s[i++] = s[j++];
+            while(j < n && s[j] == ' ') j++;
+            
+            if(j < n ) s[i++] = ' ';
+        }
+        
+        s = s.substr(0, i);
+    }
+};
