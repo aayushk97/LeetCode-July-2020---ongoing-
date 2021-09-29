@@ -1,0 +1,27 @@
+//Since, the array is sorted it will have same elements next to each other. Now, at every index 0, 1 and 1,2 will have same elements if the element that is individual is not present.
+//Now, we can then see if a curr index is even, if yes then check the right element it should be the same. Else if index is odd then left element should be the same.
+//If they are not then the individual element is present to left of it or at this index. Else, it is present to right of it.
+
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        
+        int left = 0, right = nums.size()-1;
+        
+        while(left < right){
+            
+            int mid = left + (right - left)/2;
+            
+            int temp;
+            if(mid % 2 == 0) temp = mid+1;
+            else temp = mid - 1;
+            
+            if(nums[mid] == nums[temp]) left = mid + 1;
+            else right = mid;
+            
+        }
+        
+        return nums[left];
+        
+    }
+};
