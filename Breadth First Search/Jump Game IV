@@ -1,0 +1,55 @@
+//Use hash map for 3rd condition. And wheneever we have used the 3rd condition for a node we empty the map for that element so we don't again insert all the elements
+//again at another same point as all the points are already inserted. Would get rid of TLE.
+
+class Solution {
+public:
+    int minJumps(vector<int>& arr) {
+        unordered_map<int, vector<int>> indexes;
+        
+        for(int i = 0; i < arr.size(); i++){
+            indexes[arr[i]].push_back(i);
+        }
+        
+        vector<int> visited(arr.size());
+        
+     
+        return minDist(arr, indexes, 0, visited);
+    }
+    
+    int minDist(vector<int>& arr, unordered_map<int, vector<int>>& indexes, int idx, vector<int>& visited){
+       queue<int> q;
+        q.push(idx);
+        
+        int dist = 0;
+        while(q.size() > 0){
+            
+            int n = q.size();
+            dist++;
+            
+            for(int i = 0; i < n; i++){
+                int curr = q.front();
+                q.pop();
+                
+                if(curr == arr.size()-1) return dist-1;
+                if(visited[curr]) continue;
+                
+                visited[curr] = 1;
+                
+                vector<int>& index = indexes[arr[curr]];
+                
+                for(int j = index.size()-1; j >= 0; j--){
+                    if(index[j] != curr) q.push(index[j]);
+                }
+                
+                if(curr + 1 < arr.size()) q.push(curr+1);
+                if(curr - 1 >= 0) q.push(curr-1);
+                
+                index.clear();
+            }
+            
+            
+        }
+        
+        return -1;
+    }
+};
