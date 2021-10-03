@@ -1,0 +1,29 @@
+//Just BFS to that point.
+
+class Solution {
+public:
+    bool canReach(vector<int>& arr, int start) {
+        
+        queue<pair<int, int>> q;
+        q.push({arr[start], start});
+        vector<int> visited(arr.size(), 0);
+        
+        while(q.size() > 0){
+            pair<int, int> curr = q.front();
+            q.pop();
+            
+            //cout<<curr.second<<endl;
+            
+            if(curr.first == 0) return true;
+            if(visited[curr.second]) continue;
+            
+            visited[curr.second] = 1;
+            
+            if(curr.second + curr.first < arr.size()) q.push({arr[curr.second + curr.first], curr.second + curr.first});
+            if(curr.second - curr.first >= 0) q.push({arr[curr.second - curr.first], curr.second - curr.first});
+        }
+        
+        return false;
+        
+    }
+};
