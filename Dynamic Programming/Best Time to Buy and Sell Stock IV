@@ -1,0 +1,39 @@
+//We save the state of buy and sell using 0 and 1 and then when a person buys we set its state to 0 as next we need to sell. Now, to get the profit when selling
+//we negate the price and buying we add the positive one and return. Here, we can set k to anything to get that many at most transactions.
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        vector<vector<vector<int>>> dp(prices.size(), vector<vector<int>>(2, vector<int>(3, INT_MIN)));
+        return maxProfitR(prices, 0, 1, 2, dp);
+    }
+    
+    int maxProfitR(vector<int>& prices, int idx, int buy, int k, vector<vector<vector<int>>>& dp){
+        
+        
+        if(buy == 1 && idx >= prices.size()) return 0;
+        if(idx >= prices.size()) return INT_MIN;
+        if(k <= 0) return 0;
+        
+        int profit = INT_MIN;
+        //cout<<idx<<" "<<buy<<" "<<k<<endl;
+        if(dp[idx][buy][k] != INT_MIN) return dp[idx][buy][k];
+        
+        if(buy){
+            int val = maxProfitR(prices, idx+1, 0, k, dp);
+            if(val != INT_MIN) profit = -prices[idx] + val;
+            
+            profit = max(profit, maxProfitR(prices, idx+1, 1, k, dp));
+            
+        }else{
+            int val = maxProfitR(prices, idx+1, 1, k-1, dp);
+            if(val != INT_MIN) profit = prices[idx] + val;
+            
+            profit = max(profit, maxProfitR(prices, idx+1, 0, k, dp));
+            
+        }
+        //cout<<idx<<" "<<buy<<" "<<k-1<<endl;
+        
+        return dp[idx][buy][k] = profit;
+    }
+};
