@@ -1,0 +1,16 @@
+//We find the indexs which are similar in both left and right by shifting the left and right to right. Then we shift the result to left count times. 
+
+class Solution {
+public:
+    int rangeBitwiseAnd(int left, int right) {
+        
+        int count = 0;
+        while(left != right){
+            left = left >> 1;
+            right = right >> 1;
+            count++;
+        }
+        
+        return left<<count;
+    }
+};
