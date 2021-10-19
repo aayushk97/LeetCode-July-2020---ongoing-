@@ -1,0 +1,21 @@
+//use two pointers from start of both array, then increment pointer of i if nums[i] > nums[j] to get to lower number else we find the size of window and increment j.
+//There might be a case when the i pointer is ahead of j but it will not be of any effect as max is 0. 
+
+class Solution {
+public:
+    int maxDistance(vector<int>& nums1, vector<int>& nums2) {
+        int i = 0, j = 0;
+        int maxDist = 0;
+        
+        while(i < nums1.size() && j < nums2.size()){
+            if(nums1[i] <= nums2[j]){
+                maxDist = max(maxDist, j - i);
+                j++;
+            }else{
+                i++;
+            }
+        }
+        
+        return maxDist;
+    }
+};
