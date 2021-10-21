@@ -1,0 +1,28 @@
+//We have to find the number of moves from a floor such that in worst case number of drops is minimum.
+//So for every floor, we can either follow two paths, either the egg breaks and we test egg from 0 to i-1 or if egg
+//doesn't break and we test from n-i with 2 eggs. We do this for every floor.
+
+class Solution {
+public:
+    int twoEggDrop(int n) {
+       vector<vector<int>> dp(n+1, vector<int>(3, INT_MAX));
+       return minMoves(n, 2, dp);
+        
+    }
+    
+    int minMoves(int n, int k, vector<vector<int>>& dp){
+        if(n <= 1 || k == 1) return n;
+        //cout<<n<<" "<<k<<endl;
+        if(dp[n][k] != INT_MAX) return dp[n][k];
+        
+        int moves = INT_MAX;
+        for(int i = 1; i <= n; i++){
+            moves = min(moves, 1 + max(minMoves(i-1, k-1, dp), minMoves(n-i, k, dp)));
+        }
+        
+        return dp[n][k] = moves;
+    }
+    
+   
+    
+};
