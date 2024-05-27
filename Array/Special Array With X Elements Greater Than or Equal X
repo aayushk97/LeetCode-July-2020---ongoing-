@@ -1,0 +1,22 @@
+//we first find the count of all the elements in the array. 
+//Now using counting sort, we first initialize for 0 the number of elements greater than it would be size of array, but when we
+//traverse the array we can check if the number of elements greater is equal to i, if there are elements less than it it will decrement the 
+//number by count and the rest will be greater than that.
+
+class Solution {
+    public int specialArray(int[] nums) {
+        int[] count = new int[1001];
+        for (int num : nums) {
+            count[num]++;
+        }
+        int number = nums.length;
+		// the size of nums array is 100 at most
+        for (int i = 0; i <= 100; i++) {
+            if (number == i) {
+                return i;
+            }
+            number -= count[i];
+        }
+        return -1;
+    }
+}
