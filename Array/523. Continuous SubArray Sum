@@ -1,0 +1,30 @@
+//If the remainder is calculated and checked if the prev remainer was previously encountered that means a sum divisible 
+//by k has been read and we can return true;
+
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        
+        int n = nums.size();
+        int sum = 0;
+        unordered_map<int,int> m;
+        m[0] = -1;
+        for(int i = 0; i < n; i++)
+        {
+            sum += nums[i];
+            int rem = sum % k;
+            //cout<<rem<<" "<<i<<endl;
+            if(m.find(rem) != m.end())
+            {
+                int len = i - m[rem];
+                if(len == 1) continue;
+                if(len > 1) return true;
+            }
+            m[rem] = i;
+        }
+
+        return false;
+        
+
+    }
+};
